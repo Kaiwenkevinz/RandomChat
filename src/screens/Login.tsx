@@ -6,10 +6,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {useAppSelector, useAppDispatch} from '../hooks/hooks';
+import {increment, selectCount} from '../features/counterSlice';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // The `state` arg is correctly typed as `RootState` already
+  const count = useAppSelector(selectCount);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     console.log('Login screen mounted');
@@ -25,6 +31,7 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
+      <Text onPress={() => dispatch(increment())}>{count}</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
