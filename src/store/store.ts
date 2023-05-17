@@ -1,5 +1,5 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
-import counterReducer from '../features/counterSlice';
+import counterReducer from './counterSlice';
 
 export const store = configureStore({
   // 所有的 reducer 都要在这里注册

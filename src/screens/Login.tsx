@@ -6,15 +6,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {useAppSelector, useAppDispatch} from '../hooks/hooks';
-import {increment, selectCount} from '../features/counterSlice';
+import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
+import {increment, selectCount} from '../store/counterSlice';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // The `state` arg is correctly typed as `RootState` already
+  // useSelector 用于获取 redux store 中的数据
   const count = useAppSelector(selectCount);
+  // dispatch 用于触发 redux action
   const dispatch = useAppDispatch();
 
   useEffect(() => {

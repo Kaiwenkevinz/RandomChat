@@ -1,6 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from '../store/store';
-import {fetchCount} from './counterAPI';
+import {RootState} from './store';
+import {fetchCount} from '../APIs/counterAPI';
+
+/**
+ * slice 是一个 reducer 的集合，它可以包含多个 reducer 函数 + action creator
+ */
 
 interface CounterState {
   value: number;
@@ -12,10 +16,7 @@ const initialState: CounterState = {
   status: 'idle',
 };
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
+// createAsyncThunk 用于创建异步 action creator
 export const incrementAsync = createAsyncThunk<
   number,
   number,
@@ -26,15 +27,12 @@ export const incrementAsync = createAsyncThunk<
   return response.data;
 });
 
+// 是 reducers 和 action creator 的集合
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
     increment: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
       state.value += 1;
     },
     decrement: state => {
@@ -59,9 +57,7 @@ export const counterSlice = createSlice({
 
 export const {increment, decrement, incrementByAmount} = counterSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
+// selector回调函数，提供 state，选择需要的值
 export const selectCount = (state: RootState) => state.counter.value;
 
 export default counterSlice.reducer;
