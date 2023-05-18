@@ -8,6 +8,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
 import {increment, selectCount} from '../store/counterSlice';
+import {getUser} from '../network/lib/user';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -25,9 +26,12 @@ export default function Login() {
     };
   }, []);
 
-  const onHandleLogin = () => {
+  const onHandleLogin = async () => {
     // 处理登录逻辑
     console.log(`username: ${username}, password: ${password}`);
+
+    const res = await getUser();
+    console.log('🚀 ~ file: Login.tsx:34 ~ onHandleLogin ~ res:', res);
   };
 
   return (

@@ -9,6 +9,9 @@ import {store} from './src/store/store';
 
 const Stack = createNativeStackNavigator();
 
+// TODO: 只在 development 环境下使用 mock API
+require('./src/network/mocks/mockAPI');
+
 function App(): JSX.Element {
   return (
     <Provider store={store}>

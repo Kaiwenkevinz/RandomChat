@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from './store';
-import {fetchCount} from '../APIs/counterAPI';
+import {fetchCount} from '../network/counterAPI';
 
 /**
  * slice 是一个 reducer 的集合，它可以包含多个 reducer 函数 + action creator
