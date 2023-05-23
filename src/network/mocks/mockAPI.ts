@@ -15,5 +15,5 @@ mock.onGet('/users').reply(200, {
 });
 
 // Register
-// mock.onPost('/register').reply(200);
-mock.onPost('/register').reply(-1);
+mock.onPost('/register').reply(200);
+// mock.onPost('/register').reply(-1);

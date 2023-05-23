@@ -6,6 +6,7 @@ import Register from './src/screens/Register';
 import Login from './src/screens/Login';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ function App(): JSX.Element {
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Login" component={Login} />
         </Stack.Navigator>
+        <Toast />
       </NavigationContainer>
     </Provider>
   );

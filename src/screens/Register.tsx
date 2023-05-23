@@ -8,6 +8,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {NavigationScreenProp} from 'react-navigation';
 import {authService} from '../network/lib/auth';
+import {showToast, toastType} from '../util/toastUtil';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;
@@ -17,8 +18,6 @@ export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [reEnteredPassword, setPasswordAgain] = useState('');
-  const [errorShown, setErrorShown] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     console.log('Register screen mounted');
@@ -28,20 +27,28 @@ export default function Register(props: Props) {
     };
   }, []);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     console.log(
       `username: ${username}, password: ${password}, confirmPassword: ${reEnteredPassword}`,
     );
 
     // validate password and re-entered password
     const isPasswordValid = password === reEnteredPassword;
-    setErrorShown(isPasswordValid);
-    setErrorMsg('Password and re-entered password are not the same');
     if (!isPasswordValid) {
+      setPassword('');
+      setPasswordAgain('');
+      showToast(toastType.ERROR, 'Error', 'Password does not match');
+
       return;
     }
 
-    authService.register(username, password);
+    try {
+      await authService.register(username, password);
+    } catch (error) {
+      return;
+    }
+
+    showToast(toastType.SUCCESS, 'Success', 'Register successfully');
 
     // go back to home screen
     props.navigation.goBack();
@@ -69,7 +76,6 @@ export default function Register(props: Props) {
         value={reEnteredPassword}
         onChangeText={setPasswordAgain}
       />
-      {errorShown && <Text>{errorMsg}</Text>}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
