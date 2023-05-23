@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {NavigationScreenProp} from 'react-navigation';
+import {authService} from '../network/lib/auth';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;
@@ -15,7 +16,9 @@ type Props = {
 export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
+  const [reEnteredPassword, setPasswordAgain] = useState('');
+  const [errorShown, setErrorShown] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     console.log('Register screen mounted');
@@ -26,10 +29,22 @@ export default function Register(props: Props) {
   }, []);
 
   const handleRegister = () => {
-    // 处理注册逻辑
     console.log(
-      `username: ${username}, password: ${password}, confirmPassword: ${passwordAgain}`,
+      `username: ${username}, password: ${password}, confirmPassword: ${reEnteredPassword}`,
     );
+
+    // validate password and re-entered password
+    const isPasswordValid = password === reEnteredPassword;
+    setErrorShown(isPasswordValid);
+    setErrorMsg('Password and re-entered password are not the same');
+    if (!isPasswordValid) {
+      return;
+    }
+
+    authService.register(username, password);
+
+    // go back to home screen
+    props.navigation.goBack();
   };
 
   return (
@@ -51,9 +66,10 @@ export default function Register(props: Props) {
         style={styles.input}
         placeholder="Confirm Password"
         secureTextEntry={true}
-        value={passwordAgain}
+        value={reEnteredPassword}
         onChangeText={setPasswordAgain}
       />
+      {errorShown && <Text>{errorMsg}</Text>}
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
