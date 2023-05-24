@@ -5,12 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {NavigationScreenProp} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
 import {increment, selectCount} from '../store/counterSlice';
 import {getUser} from '../network/lib/user';
+import {showToast, toastType} from '../util/toastUtil';
+import {authService} from '../network/lib/auth';
 
-export default function Login() {
+type Props = {
+  navigation: NavigationScreenProp<any, any>;
+};
+
+export default function Login(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,8 +37,23 @@ export default function Login() {
     // 处理登录逻辑
     console.log(`username: ${username}, password: ${password}`);
 
-    const res = await getUser();
-    console.log('🚀 ~ file: Login.tsx:34 ~ onHandleLogin ~ res:', res);
+    if (!username || !password) {
+      showToast(
+        toastType.ERROR,
+        'Error',
+        'Username or password cannot be empty',
+      );
+
+      return;
+    }
+
+    try {
+      await authService.login(username, password);
+      props.navigation.navigate('Home');
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   };
 
   return (
@@ -53,6 +75,13 @@ export default function Login() {
       <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          props.navigation.navigate('Register');
+        }}>
+        <Text style={styles.buttonText}>Go to Register</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -73,6 +102,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#007aff',
     padding: 10,
+    marginTop: 10,
     borderRadius: 5,
   },
   buttonText: {

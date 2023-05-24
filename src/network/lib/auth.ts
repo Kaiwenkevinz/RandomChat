@@ -1,4 +1,5 @@
 import {axiosClient} from '../axios.config';
+
 function register(username: String, password: String) {
   return axiosClient.post('/register', {
     username,
@@ -6,6 +7,14 @@ function register(username: String, password: String) {
   });
 }
 
+function login(username: String, password: String) {
+  return axiosClient.post('/login', {
+    username,
+    password, // TODO: encrypt password
+  });
+}
+
 export const authService = {
   register,
+  login,
 };

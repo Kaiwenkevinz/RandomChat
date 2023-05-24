@@ -1,7 +1,7 @@
 import {axiosClient} from '../axios.config';
 import MockAdapter from 'axios-mock-adapter';
 
-console.log('mock API 开启');
+console.log('API mocking is turned on.');
 
 const mock = new MockAdapter(axiosClient);
 
@@ -17,3 +17,6 @@ mock.onGet('/users').reply(200, {
 // Register
 mock.onPost('/register').reply(200);
 // mock.onPost('/register').reply(-1);
+
+// Login
+mock.onPost('/login').reply(200);

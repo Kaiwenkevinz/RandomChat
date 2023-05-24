@@ -44,14 +44,13 @@ export default function Register(props: Props) {
 
     try {
       await authService.register(username, password);
+      showToast(toastType.SUCCESS, 'Success', 'Register successfully');
+      // go back to home screen
+      props.navigation.goBack();
     } catch (error) {
+      console.log(error);
       return;
     }
-
-    showToast(toastType.SUCCESS, 'Success', 'Register successfully');
-
-    // go back to home screen
-    props.navigation.goBack();
   };
 
   return (
