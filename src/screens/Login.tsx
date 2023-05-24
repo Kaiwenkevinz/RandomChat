@@ -5,13 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {NavigationScreenProp} from 'react-navigation';
+import {NavigationScreenProp, NavigationStackAction} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
 import {increment, selectCount} from '../store/counterSlice';
-import {getUser} from '../network/lib/user';
 import {showToast, toastType} from '../util/toastUtil';
 import {authService} from '../network/lib/auth';
+import {StackActions} from '@react-navigation/native';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;
@@ -49,7 +49,7 @@ export default function Login(props: Props) {
 
     try {
       await authService.login(username, password);
-      props.navigation.navigate('Home');
+      props.navigation.dispatch(StackActions.replace('Home'));
     } catch (error) {
       console.log(error);
       return;

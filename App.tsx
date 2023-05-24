@@ -6,6 +6,7 @@ import Login from './src/screens/Login';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
 import Toast from 'react-native-toast-message';
+import Home from './src/screens/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,11 @@ function App(): JSX.Element {
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
         <Toast />
       </NavigationContainer>
