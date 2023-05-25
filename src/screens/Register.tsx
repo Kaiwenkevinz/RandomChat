@@ -8,7 +8,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import {NavigationScreenProp} from 'react-navigation';
 import {authService} from '../network/lib/auth';
-import {showToast, toastType} from '../util/toastUtil';
+import {showToast, toastType} from '../utils/toastUtil';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;

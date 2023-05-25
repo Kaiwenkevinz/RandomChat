@@ -9,7 +9,7 @@ import {NavigationScreenProp, NavigationStackAction} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
 import {increment, selectCount} from '../store/counterSlice';
-import {showToast, toastType} from '../util/toastUtil';
+import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
 import {StackActions} from '@react-navigation/native';
 

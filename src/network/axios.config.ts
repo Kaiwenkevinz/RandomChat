@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {showToast, toastType} from '../util/toastUtil';
+import {showToast, toastType} from '../utils/toastUtil';
 
 const axiosClient = axios.create({
   baseURL: 'http://localhost:8080', // TODO: hard code
