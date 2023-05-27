@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {NavigationScreenProp, NavigationStackAction} from 'react-navigation';
+import {NavigationScreenProp} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
 import {increment, selectCount} from '../store/counterSlice';

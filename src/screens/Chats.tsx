@@ -1,58 +1,32 @@
-import {View, Text, FlatList, Pressable} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {View, Text, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
-import {ChatComponent} from '../network/components/ChatComponent';
+import {ChatListComponent} from '../network/components/ChatListComponent';
+import {ChatService} from '../network/lib/message';
+import {ChatComponentProps} from '../types/network/types';
 
 const Chats = () => {
-  //👇🏻 Dummy list of rooms
-  const rooms = [
-    {
-      id: '1',
-      user: 'Novu Hangouts',
-      messages: [
-        {
-          id: '1a',
-          text: 'Hello, my name is Novu',
-          time: 1684930783,
-          user: 'Novu Hangouts',
-        },
-        {
-          id: '1b',
-          text: 'Hi Novu, thank you! 😇',
-          time: 1684930951,
-          user: 'David',
-        },
-      ],
-    },
-    {
-      id: '2',
-      user: 'Jade',
-      messages: [
-        {
-          id: '2a',
-          text: "I am Jade, How's it going?",
-          time: 1684930951,
-          user: 'Jade',
-        },
-        {
-          id: '2b',
-          text: "What's up? 🧑🏻‍💻",
-          time: 1684930951,
-          user: 'David',
-        },
-      ],
-    },
-  ];
+  const [rooms, setRooms] = useState<ChatComponentProps[]>([]);
+
+  const fetchRooms = async () => {
+    const res = await ChatService.getRooms();
+    const fetchedRooms = res.data.rooms;
+    setRooms(fetchedRooms);
+  };
+
+  useEffect(() => {
+    fetchRooms().catch(console.error);
+  }, []);
 
   return (
     <SafeAreaView style={styles.chatscreen}>
       <View style={styles.chatlistContainer}>
-        {rooms.length > 0 ? (
+        {rooms && rooms.length > 0 ? (
           <FlatList
             data={rooms}
-            renderItem={({item}) => <ChatComponent item={item} />}
-            keyExtractor={item => item.id}
+            renderItem={({item}) => renderChatComponent(item)}
+            keyExtractor={item => item.roomId}
           />
         ) : (
           <View style={styles.chatemptyContainer}>
@@ -61,6 +35,19 @@ const Chats = () => {
         )}
       </View>
     </SafeAreaView>
+  );
+};
+
+const renderChatComponent = (item: ChatComponentProps) => {
+  const {roomId, messages, otherUser} = item;
+  const latestMsg = messages[0];
+
+  return (
+    <ChatListComponent
+      roomId={roomId}
+      otherUser={otherUser}
+      message={latestMsg}
+    />
   );
 };
 

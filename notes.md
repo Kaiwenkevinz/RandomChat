@@ -16,15 +16,12 @@
 - [x] Navigation bar should have tabs: Chats, Search, Contacts, Profile
 
 # Chats
-- [x] If user has no chat, the screen should display "You have no chat"
-- [] Chat list is fetched everytime from backend server 
-- [] When click on a chat item, it should redirect to a chat room
+- [x] When enter Chats page, a API is called to fetch the latest chat messages of all chat rooms
 
 # Chat room
-- [] When enter a chat room, a API is called to fetch all chat messages between the user and the other user
+- [x] When enter a chat room, a API is called to fetch all chat messages between the user and the other user
 - [] When enter a chat room, a websocket is opened to listen to new messages
-
-
+- [] When user send a message, the message is pushed to server through websocket
 
 # Search
 

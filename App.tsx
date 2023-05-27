@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/store/store';
 import Toast from 'react-native-toast-message';
 import Home from './src/screens/Home';
+import ChatRoom from './src/screens/ChatRoom';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ function App(): JSX.Element {
             component={Home}
             options={{headerShown: false}}
           />
+          <Stack.Screen name="ChatRoom" component={ChatRoom} />
         </Stack.Navigator>
         <Toast />
       </NavigationContainer>

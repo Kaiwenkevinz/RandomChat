@@ -31,8 +31,9 @@ axiosClient.interceptors.request.use(req => {
 
   const printable = `
 Request: ${method.toUpperCase() + ' ' + req.baseURL + req.url}
-Param: ${JSON.stringify(req.data, null, 2)}
 ${JSON.stringify(headers)}
+Param: ${JSON.stringify(req.params, null, 2)}
+Data: ${JSON.stringify(req.data, null, 2)}
 `;
   console.log(printable);
 
