@@ -9,7 +9,7 @@ import {MessageType} from '../types/network/types';
 
 const NEW_MESSAGE_EVENT = 'new_message_event';
 const MESSAGE_SENT_SUCCESS_EVENT = 'message_sent_success_event';
-const WEB_SOCKET_URL = 'ws://host.com/path';
+const WEB_SOCKET_URL = 'ws://localhost:8080';
 
 /**
  * readyState
@@ -67,11 +67,11 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
     ws.onopen = () => {
       // connection opened
-      ws.send(`${roomId} connection established.`); // send a message
     };
 
     ws.onmessage = e => {
       // a message was received
+      
       console.log(e.data);
     };
 
