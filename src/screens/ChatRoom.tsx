@@ -1,11 +1,27 @@
 import {View, FlatList, TextInput, Pressable, Text} from 'react-native';
-import React, {createContext, useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation/types';
 import {styles} from '../utils/styles';
 import {MessageComponent} from '../network/components/MessageComponent';
 import {ChatService} from '../network/lib/message';
 import {MessageType} from '../types/network/types';
+
+const NEW_MESSAGE_EVENT = 'new_message_event';
+const MESSAGE_SENT_SUCCESS_EVENT = 'message_sent_success_event';
+const WEB_SOCKET_URL = 'ws://host.com/path';
+
+/**
+ * readyState
+ * 0 (WebSocket.CONNECTING) 正在链接中
+ * 1 (WebSocket.OPEN) 已经链接并且可以通讯
+ * 2 (WebSocket.CLOSING) 连接正在关闭
+ * 3 (WebSocket.CLOSED) 连接已关闭或者没有链接成功
+ */
+const CONNECTING = 0;
+const OPEN = 1;
+const CLOSING = 2;
+const CLOSED = 3;
 
 type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -15,6 +31,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>('');
+
+  const webSocketRef = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL));
 
   const fetchMessages = async () => {
     const res = await ChatService.getMessages(roomId);
@@ -27,34 +45,50 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   }, []);
 
   const handleSendMessage = () => {
-    console.log('Send message: ' + currentMessage);
+    if (webSocketRef.current && webSocketRef.current.readyState === OPEN) {
+      const data = {
+        roomId,
+        text: currentMessage,
+      };
+      webSocketRef.current.send(JSON.stringify(data));
+
+      console.log('Send message: ' + JSON.stringify(data));
+    }
 
     return;
   };
 
-  // useEffect(() => {
-  //   const ws = new WebSocket('ws://host.com/path');
+  useEffect(() => {
+    if (!webSocketRef.current) {
+      return;
+    }
 
-  //   ws.onopen = () => {
-  //     // connection opened
-  //     ws.send('something'); // send a message
-  //   };
+    const ws = webSocketRef.current;
 
-  //   ws.onmessage = e => {
-  //     // a message was received
-  //     console.log(e.data);
-  //   };
+    ws.onopen = () => {
+      // connection opened
+      ws.send(`${roomId} connection established.`); // send a message
+    };
 
-  //   ws.onerror = e => {
-  //     // an error occurred
-  //     console.log(e.message);
-  //   };
+    ws.onmessage = e => {
+      // a message was received
+      console.log(e.data);
+    };
 
-  //   ws.onclose = e => {
-  //     // connection closed
-  //     console.log(e.code, e.reason);
-  //   };
-  // }, []);
+    ws.onerror = e => {
+      // an error occurred
+      console.log(e.message);
+    };
+
+    ws.onclose = e => {
+      // connection closed
+      console.log(e.code, e.reason);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   return (
     <View style={styles.messagingscreen}>
