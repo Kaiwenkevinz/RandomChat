@@ -1,3 +1,4 @@
+import {LoginResponse} from '../../types/network/types';
 import {axiosClient} from '../axios.config';
 
 function register(username: String, password: String) {
@@ -8,7 +9,7 @@ function register(username: String, password: String) {
 }
 
 function login(username: String, password: String) {
-  return axiosClient.post('/login', {
+  return axiosClient.post<LoginResponse>('/login', {
     username,
     password, // TODO: encrypt password
   });

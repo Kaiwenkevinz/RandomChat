@@ -9,6 +9,23 @@ const axiosClient = axios.create({
   },
 });
 
+// token interceptor
+const initTokenInceptor = (token: string) => {
+  console.log('initTokenInceptor, token: ', token);
+  axiosClient.interceptors.request.use(
+    config => {
+      if (!config.headers.Authorization) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      return config;
+    },
+    error => {
+      return Promise.reject(error);
+    },
+  );
+};
+
 // log request and response
 const printResponse = (res: any) => {
   const printable = `
@@ -87,4 +104,4 @@ axiosClient.interceptors.response.use(
   },
 );
 
-export {axiosClient};
+export {axiosClient, initTokenInceptor};

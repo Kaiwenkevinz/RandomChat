@@ -15,3 +15,13 @@ export type ChatComponentProps = {
 export type GetRoomsResponse = {
   rooms: ChatComponentProps[];
 };
+
+export type User = {
+  id: string;
+  username: string;
+};
+
+export type LoginResponse = {
+  jwt: string;
+  user: User;
+};

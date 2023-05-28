@@ -27,7 +27,8 @@ type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
   const params = route.params;
-  const {roomId} = params;
+  const {roomId, user} = params;
+  console.log('🚀 ~ file: ChatRoom.tsx:32 ~ ChatRoom ~ user:', user);
 
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>('');
@@ -71,7 +72,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
     ws.onmessage = e => {
       // a message was received
-      
+
       console.log(e.data);
     };
 
@@ -106,6 +107,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
                 text={item.text}
                 userSend={item.userSend}
                 userReceive={item.userReceive}
+                user={user}
                 time={item.time}
               />
             )}

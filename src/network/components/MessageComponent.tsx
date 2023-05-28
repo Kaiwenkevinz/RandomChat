@@ -1,19 +1,19 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {styles} from '../../utils/styles';
-import {MessageType} from '../../types/network/types';
+import {MessageType, User} from '../../types/network/types';
+
+type MessageComponentProps = MessageType & {user: User};
 
 export function MessageComponent({
-  id,
+  msgId,
   text,
   userSend,
   userReceive,
+  user,
   time,
-}: MessageType) {
-  // TODO: get the current user from local storage
-  const user = 'David';
-
-  const isReceive = user !== userSend;
+}: MessageComponentProps) {
+  const isReceive = user.username !== userSend;
 
   return (
     <View>

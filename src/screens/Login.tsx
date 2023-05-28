@@ -12,6 +12,8 @@ import {increment, selectCount} from '../store/counterSlice';
 import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
 import {StackActions} from '@react-navigation/native';
+import {loadStorageData, saveStorageData} from '../utils/storageUtil';
+import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;
@@ -28,6 +30,7 @@ export default function Login(props: Props) {
 
   useEffect(() => {
     console.log('Login screen mounted');
+
     return () => {
       console.log('Login screen unmounted');
     };
@@ -48,7 +51,12 @@ export default function Login(props: Props) {
     }
 
     try {
-      await authService.login(username, password);
+      // login and save jwt and user to AsyncStorage
+      const res = await authService.login(username, password);
+      const data = res.data;
+      await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
+
+      // go to home screen
       props.navigation.dispatch(StackActions.replace('Home'));
     } catch (error) {
       console.log(error);

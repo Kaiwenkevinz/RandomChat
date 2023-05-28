@@ -9,7 +9,8 @@
 - [x] When user entered an username and a valid password, hit Login button, API is called to login.
 - [x] When user entered an invalid username or an invalid password, an error message shows up.
 - [x] When user is logged in, user is redirected to Home page.
-- [] All the API calls after logged in is attached with a JWT token
+- [x] All the API calls after logged in is attached with a JWT token
+- [x] When user is logged in, API returns user information, it is then stored locally.
 
 # Navagation Bar
 - [x] Navigation bar should be at the bottom of the screen
@@ -20,8 +21,8 @@
 
 # Chat room
 - [x] When enter a chat room, a API is called to fetch all chat messages between the user and the other user
-- [] When enter a chat room, a websocket is opened to listen to new messages
-- [] When user send a message, the message is pushed to server through websocket
+- [x] When enter a chat room, a websocket is opened to listen to new messages
+- [x] When user send a message, the message is pushed to server through websocket
 
 # Search
 

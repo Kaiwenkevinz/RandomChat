@@ -10,7 +10,13 @@ mock.onPost('/register').reply(200);
 // mock.onPost('/register').reply(-1);
 
 // Login
-mock.onPost('/login').reply(200);
+mock.onPost('/login').reply(200, {
+  token: 'jwt112233',
+  user: {
+    id: 'user1',
+    username: 'Kevin',
+  },
+});
 
 // Get the lastest messages of all chat rooms
 mock.onGet('/allRooms').reply(200, {
@@ -24,7 +30,7 @@ mock.onGet('/allRooms').reply(200, {
           text: 'Hello, my name is Novu',
           time: 1684930783,
           userSend: 'Novu Hangouts',
-          userReceive: 'David',
+          userReceive: 'Kevin',
         },
       ],
     },
@@ -34,9 +40,9 @@ mock.onGet('/allRooms').reply(200, {
       messages: [
         {
           msgId: '2b',
-          text: "What's up? I am David 🧑🏻‍💻",
+          text: "What's up? I am Kevin 🧑🏻‍💻",
           time: 1684930951,
-          userSend: 'David',
+          userSend: 'Kevin',
           userReceive: 'Jade',
         },
       ],
@@ -54,13 +60,13 @@ mock.onGet('/getMessages?roomId=1').reply(200, {
       text: 'Hello, my name is Novu',
       time: 1684930783,
       userSend: 'Novu Hangouts',
-      userReceive: 'David',
+      userReceive: 'Kevin',
     },
     {
       msgId: '1b',
-      text: 'Hi Novu, my name is David! 😇',
+      text: 'Hi Novu, my name is Kevin! 😇',
       time: 1684930951,
-      userSend: 'David',
+      userSend: 'Kevin',
       userReceive: 'Novu Hangouts',
     },
     {
@@ -68,15 +74,14 @@ mock.onGet('/getMessages?roomId=1').reply(200, {
       text: 'Hello, my name is Novu',
       time: 1684930783,
       userSend: 'Novu Hangouts',
-      userReceive: 'David',
+      userReceive: 'Kevin',
     },
     {
       msgId: '1d',
-      text: 'Hi Novu, my name is David! 😇',
+      text: 'Hi Novu, my name is Kevin! 😇',
       time: 1684930951,
-      userSend: 'David',
+      userSend: 'Kevin',
       userReceive: 'Novu Hangouts',
     },
-    
   ],
 });

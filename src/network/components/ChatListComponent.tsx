@@ -2,12 +2,12 @@ import {View, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {styles} from '../../utils/styles';
-import {ChatComponentProps, MessageType} from '../../types/network/types';
+import {ChatComponentProps, MessageType, User} from '../../types/network/types';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,
   'roomId' | 'otherUser'
-> & {message: MessageType};
+> & {message: MessageType} & {user: User};
 
 /**
  * Item component for Chat list
@@ -15,12 +15,13 @@ type ChatListComponentProps = Pick<
 export const ChatListComponent = ({
   roomId,
   otherUser,
+  user,
   message,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate('ChatRoom', {roomId});
+    navigation.navigate('ChatRoom', {roomId, user});
   };
 
   return (
