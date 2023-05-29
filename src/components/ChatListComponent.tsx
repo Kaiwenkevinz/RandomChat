@@ -1,8 +1,8 @@
 import {View, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {styles} from '../../utils/styles';
-import {ChatComponentProps, MessageType, User} from '../../types/network/types';
+import {styles} from '../utils/styles';
+import {ChatComponentProps, MessageType, User} from '../types/network/types';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,

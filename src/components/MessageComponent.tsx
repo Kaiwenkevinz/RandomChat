@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {styles} from '../../utils/styles';
-import {MessageType, User} from '../../types/network/types';
+import {styles} from '../utils/styles';
+import {MessageType, User} from '../types/network/types';
 
 type MessageComponentProps = MessageType & {user: User};
 

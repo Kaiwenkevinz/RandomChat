@@ -3,13 +3,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation/types';
 import {styles} from '../utils/styles';
-import {MessageComponent} from '../network/components/MessageComponent';
+import {MessageComponent} from '../components/MessageComponent';
 import {ChatService} from '../network/lib/message';
 import {MessageType} from '../types/network/types';
 import {useNavigation} from '@react-navigation/native';
 
-const NEW_MESSAGE_EVENT = 'new_message_event';
-const MESSAGE_SENT_SUCCESS_EVENT = 'message_sent_success_event';
 const WEB_SOCKET_URL = 'ws://localhost:8080';
 
 /**
@@ -19,25 +17,19 @@ const WEB_SOCKET_URL = 'ws://localhost:8080';
  * 2 (WebSocket.CLOSING) 连接正在关闭
  * 3 (WebSocket.CLOSED) 连接已关闭或者没有链接成功
  */
-const CONNECTING = 0;
-const OPEN = 1;
-const CLOSING = 2;
-const CLOSED = 3;
 
 type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
   const params = route.params;
   const {roomId, otherUserName, user} = params;
-  console.log('🚀 ~ file: ChatRoom.tsx:32 ~ ChatRoom ~ user:', user);
-
-  const navigation = useNavigation();
-
-  const title = `${otherUserName} (remaining: 9:59s)`;
-  navigation.setOptions({title});
 
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>('');
+
+  const navigation = useNavigation();
+  const title = `${otherUserName} (remaining: 9:59s)`;
+  navigation.setOptions({title});
 
   const webSocketRef = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL));
 

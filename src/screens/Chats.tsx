@@ -2,7 +2,7 @@ import {View, Text, FlatList} from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
-import {ChatListComponent} from '../network/components/ChatListComponent';
+import {ChatListComponent} from '../components/ChatListComponent';
 import {ChatService} from '../network/lib/message';
 import {ChatComponentProps, User} from '../types/network/types';
 import {AuthContext} from './Home';

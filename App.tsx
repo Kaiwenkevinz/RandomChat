@@ -13,6 +13,9 @@ import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
 // TODO: 只在 development 环境下使用 mock API
 require('./src/network/mocks/mockAPI');
 
+// TODO: Pagination or infinite scroll to prevent loading all messages at once
+// TODO: debounce button
+
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
