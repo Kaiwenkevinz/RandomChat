@@ -29,3 +29,7 @@
 # Contacts
 
 # Profile
+
+
+# Unit tests
+When enter Chats page, websocket should be initialized, onOpen event should be fired.

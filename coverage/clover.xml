@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1685365885872" clover="3.2.0">
-  <project timestamp="1685365885872" name="All files">
-    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1" elements="3" coveredelements="3" complexity="0" loc="2" ncloc="2" packages="1" files="1" classes="1"/>
-    <file name="sum.js" path="/Users/kevinzhang/Desktop/Course/CapstoneProject/work/RandomChat/src/sum.js">
-      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
+<coverage generated="1685369420493" clover="3.2.0">
+  <project timestamp="1685369420493" name="All files">
+    <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1" elements="10" coveredelements="7" complexity="0" loc="6" ncloc="6" packages="1" files="1" classes="1"/>
+    <file name="ChatListComponent.tsx" path="/Users/kevinzhang/Desktop/Course/CapstoneProject/work/RandomChat/src/components/ChatListComponent.tsx">
+      <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="21" count="1" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="25" count="0" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>
