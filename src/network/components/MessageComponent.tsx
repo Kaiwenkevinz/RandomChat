@@ -14,6 +14,7 @@ export function MessageComponent({
   time,
 }: MessageComponentProps) {
   const isReceive = user.username !== userSend;
+  const date = new Date(time * 1000);
 
   return (
     <View>
@@ -33,7 +34,7 @@ export function MessageComponent({
             <Text>{text}</Text>
           </View>
         </View>
-        <Text style={{marginLeft: 40}}>{time}</Text>
+        <Text style={{marginLeft: 40}}>{date.toLocaleString()}</Text>
       </View>
     </View>
   );

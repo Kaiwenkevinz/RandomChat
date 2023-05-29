@@ -6,6 +6,7 @@ import {styles} from '../utils/styles';
 import {MessageComponent} from '../network/components/MessageComponent';
 import {ChatService} from '../network/lib/message';
 import {MessageType} from '../types/network/types';
+import {useNavigation} from '@react-navigation/native';
 
 const NEW_MESSAGE_EVENT = 'new_message_event';
 const MESSAGE_SENT_SUCCESS_EVENT = 'message_sent_success_event';
@@ -27,8 +28,13 @@ type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
   const params = route.params;
-  const {roomId, user} = params;
+  const {roomId, otherUserName, user} = params;
   console.log('🚀 ~ file: ChatRoom.tsx:32 ~ ChatRoom ~ user:', user);
+
+  const navigation = useNavigation();
+
+  const title = `${otherUserName} (remaining: 9:59s)`;
+  navigation.setOptions({title});
 
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>('');

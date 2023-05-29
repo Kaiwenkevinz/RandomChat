@@ -5,5 +5,5 @@
 import {User} from '../network/types';
 
 export type RootStackParamList = {
-  ChatRoom: {roomId: string; user: User};
+  ChatRoom: {roomId: string; otherUserName: string; user: User};
 };

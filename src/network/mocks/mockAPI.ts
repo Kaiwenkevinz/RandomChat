@@ -23,7 +23,7 @@ mock.onGet('/allRooms').reply(200, {
   rooms: [
     {
       roomId: '1',
-      otherUser: 'Novu Hangouts',
+      otherUserName: 'Novu Hangouts',
       messages: [
         {
           msgId: '1a',
@@ -36,7 +36,7 @@ mock.onGet('/allRooms').reply(200, {
     },
     {
       roomId: '2',
-      otherUser: 'Jade',
+      otherUserName: 'Jade',
       messages: [
         {
           msgId: '2b',
@@ -53,7 +53,7 @@ mock.onGet('/allRooms').reply(200, {
 // Get messages of a room
 mock.onGet('/getMessages?roomId=1').reply(200, {
   roomId: '1',
-  otherUser: 'Novu Hangouts',
+  otherUserName: 'Novu Hangouts',
   messages: [
     {
       msgId: '1a',

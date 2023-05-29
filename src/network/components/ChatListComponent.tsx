@@ -6,7 +6,7 @@ import {ChatComponentProps, MessageType, User} from '../../types/network/types';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,
-  'roomId' | 'otherUser'
+  'roomId' | 'otherUserName'
 > & {message: MessageType} & {user: User};
 
 /**
@@ -14,27 +14,28 @@ type ChatListComponentProps = Pick<
  */
 export const ChatListComponent = ({
   roomId,
-  otherUser,
+  otherUserName,
   user,
   message,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
+  const date = new Date(message.time * 1000);
 
   const handlePress = () => {
-    navigation.navigate('ChatRoom', {roomId, user});
+    navigation.navigate('ChatRoom', {roomId, otherUserName, user});
   };
 
   return (
     <Pressable style={styles.cchat} onPress={handlePress}>
       <View style={styles.crightContainer}>
         <View>
-          <Text style={styles.cusername}>{otherUser}</Text>
+          <Text style={styles.cusername}>{otherUserName}</Text>
           <Text style={styles.cmessage}>
             {message.text ? message.text : 'Tap to start chatting'}
           </Text>
         </View>
         <View>
-          <Text style={styles.ctime}>{message.time}</Text>
+          <Text style={styles.ctime}>{date.toLocaleTimeString()}</Text>
         </View>
       </View>
     </Pressable>

@@ -42,13 +42,13 @@ const Chats = () => {
 };
 
 const renderChatComponent = (item: ChatComponentProps, user: User) => {
-  const {roomId, messages, otherUser} = item;
+  const {roomId, messages, otherUserName} = item;
   const latestMsg = messages[0];
 
   return (
     <ChatListComponent
       roomId={roomId}
-      otherUser={otherUser}
+      otherUserName={otherUserName}
       user={user}
       message={latestMsg}
     />

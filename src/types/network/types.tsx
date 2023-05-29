@@ -8,7 +8,7 @@ export type MessageType = {
 
 export type ChatComponentProps = {
   roomId: string;
-  otherUser: string;
+  otherUserName: string;
   messages: MessageType[];
 };
 
