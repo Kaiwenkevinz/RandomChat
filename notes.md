@@ -30,6 +30,18 @@
 
 # Profile
 
-
 # Unit tests
-When enter Chats page, websocket should be initialized, onOpen event should be fired.
+
+
+# useChatWebsocket() 设计思想
+ChatRoom
+sendWebSocketMessage(Message) 
+-> onServerReceiveMsg(Message + Event)
+-> if succ, render new message
+-> if fail, show error message
+
+useChatWebSocket 负责消息的发送和接收，给到一个回调函数，当消息发送收到结果时，调用回调函数
+
+上层 
+- 通过 messagesAckPending 拿到正在发送的消息
+- 通过回调函数拿到消息发送的结果

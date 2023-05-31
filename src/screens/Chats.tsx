@@ -6,9 +6,19 @@ import {ChatListComponent} from '../components/ChatListComponent';
 import {ChatService} from '../network/lib/message';
 import {ChatComponentProps, User} from '../types/network/types';
 import {AuthContext} from './Home';
+import {
+  WebSocketMessagePackType,
+  useChatWebSocket,
+} from '../hooks/useChatWebSocket';
 
 const Chats = () => {
   const {user} = useContext(AuthContext);
+
+  const {ws, sendWebSocketMessage, messagesAckPendingMemo} = useChatWebSocket(
+    (wsMessagePack: WebSocketMessagePackType) => {
+      console.log('🚀 ~ file: Chats.tsx:15 ~ wsMessagePack:', wsMessagePack);
+    },
+  );
 
   const [rooms, setRooms] = useState<ChatComponentProps[]>([]);
 
