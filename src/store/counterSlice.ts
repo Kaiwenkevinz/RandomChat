@@ -27,7 +27,7 @@ export const incrementAsync = createAsyncThunk<
   return response.data;
 });
 
-// 是 reducers 和 action creator 的集合
+// slice 是 reducers 和 action creator 的集合
 export const counterSlice = createSlice({
   name: 'counter',
   initialState,
@@ -57,6 +57,7 @@ export const counterSlice = createSlice({
 
 export const {increment, decrement, incrementByAmount} = counterSlice.actions;
 
+//  useSelector(selectCount)
 // selector回调函数，提供 state，选择需要的值
 export const selectCount = (state: RootState) => state.counter.value;
 

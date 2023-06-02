@@ -1,18 +1,13 @@
-import {GetRoomsResponse} from '../../types/network/types';
+import {GetAllChatMessageResp} from '../../types/network/types';
 import {axiosClient} from '../axios.config';
 
 /**
  * Fetch chat rooms
  */
-function getRooms() {
-  return axiosClient.get<GetRoomsResponse>('/allRooms');
-}
-
-function getMessages(roomId: string) {
-  return axiosClient.get(`/getMessages?roomId=${roomId}`);
+function getAllChatMessages() {
+  return axiosClient.get<GetAllChatMessageResp>('/all_chat_messages');
 }
 
 export const ChatService = {
-  getRooms,
-  getMessages,
+  getAllChatMessages,
 };

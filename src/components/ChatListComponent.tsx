@@ -2,37 +2,44 @@ import {View, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {ChatComponentProps, MessageType, User} from '../types/network/types';
+import {ChatComponentProps, MessagePack, User} from '../types/network/types';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,
-  'roomId' | 'otherUserName'
-> & {message: MessageType} & {user: User};
+  'roomId' | 'otherUserId'
+> & {
+  messages: MessagePack[];
+  user: User;
+};
 
 /**
  * Item component for Chat list
  */
 export const ChatListComponent = ({
   roomId,
-  otherUserName,
+  otherUserId,
   user,
-  message,
+  messages,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
-  const date = new Date(message.time * 1000);
+  const latestMessage = messages[messages.length - 1] || {text: ''};
+  const date = new Date(latestMessage.timestamp * 1000);
 
   const handlePress = () => {
-    navigation.navigate('ChatRoom', {roomId, otherUserName, user});
+    navigation.navigate('ChatRoom', {
+      roomId,
+      otherUserId,
+      user,
+      messages,
+    });
   };
 
   return (
     <Pressable style={styles.cchat} onPress={handlePress}>
       <View style={styles.crightContainer}>
         <View>
-          <Text style={styles.cusername}>{otherUserName}</Text>
-          <Text style={styles.cmessage}>
-            {message.text ? message.text : 'Tap to start chatting'}
-          </Text>
+          <Text style={styles.cusername}>{otherUserId}</Text>
+          <Text style={styles.cmessage}>{latestMessage.text}</Text>
         </View>
         <View>
           <Text style={styles.ctime}>{date.toLocaleTimeString()}</Text>

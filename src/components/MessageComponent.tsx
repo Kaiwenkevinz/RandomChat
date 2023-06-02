@@ -1,17 +1,17 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {MessageType, User} from '../types/network/types';
+import {MessagePack, User} from '../types/network/types';
 
-type MessageComponentProps = MessageType & {user: User};
+type MessageComponentProps = MessagePack & {user: User};
 
 export function MessageComponent({
   msgId,
   text,
-  userSend,
-  userReceive,
+  sendId: userSend,
+  receiveId: userReceive,
   user,
-  time,
+  timestamp: time,
 }: MessageComponentProps) {
   const isReceive = user.username !== userSend;
   const date = new Date(time * 1000);

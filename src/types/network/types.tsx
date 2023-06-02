@@ -1,18 +1,19 @@
-export type MessageType = {
+export type MessagePack = {
   msgId: string;
   text: string;
-  time: number;
-  userSend: string;
-  userReceive: string;
+  timestamp: number;
+  sendId: string;
+  receiveId: string;
+  isSent: boolean;
 };
 
 export type ChatComponentProps = {
   roomId: string;
-  otherUserName: string;
-  messages: MessageType[];
+  otherUserId: string;
+  messages: MessagePack[];
 };
 
-export type GetRoomsResponse = {
+export type GetAllChatMessageResp = {
   rooms: ChatComponentProps[];
 };
 

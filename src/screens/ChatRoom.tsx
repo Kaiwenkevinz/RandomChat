@@ -1,93 +1,54 @@
 import {View, FlatList, TextInput, Pressable, Text} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation/types';
 import {styles} from '../utils/styles';
 import {MessageComponent} from '../components/MessageComponent';
-import {ChatService} from '../network/lib/message';
-import {MessageType} from '../types/network/types';
+import {MessagePack} from '../types/network/types';
 import {useNavigation} from '@react-navigation/native';
-
-const WEB_SOCKET_URL = 'ws://localhost:8080';
-
-/**
- * readyState
- * 0 (WebSocket.CONNECTING) 正在链接中
- * 1 (WebSocket.OPEN) 已经链接并且可以通讯
- * 2 (WebSocket.CLOSING) 连接正在关闭
- * 3 (WebSocket.CLOSED) 连接已关闭或者没有链接成功
- */
+import {useAppSelector} from '../hooks/customReduxHooks';
+import {selectRooms} from '../store/chatSlice';
 
 type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
+  const navigation = useNavigation();
   const params = route.params;
-  const {roomId, otherUserName, user} = params;
+  const {roomId, otherUserId, user, ws} = params;
 
-  const [messages, setMessages] = useState<MessageType[]>([]);
+  const title = `${otherUserId} (remaining: 9:59s)`;
+
   const [currentMessage, setCurrentMessage] = useState<string>('');
 
-  const navigation = useNavigation();
-  const title = `${otherUserName} (remaining: 9:59s)`;
-  navigation.setOptions({title});
-
-  const webSocketRef = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL));
-
-  const fetchMessages = async () => {
-    const res = await ChatService.getMessages(roomId);
-    const fetchedMessages = res.data.messages;
-    setMessages(fetchedMessages);
-  };
+  const messages =
+    useAppSelector(selectRooms).find(room => room.roomId === roomId)
+      ?.messages || [];
+  const [messageHistory, _] = useState<MessagePack[]>(messages);
 
   useEffect(() => {
-    fetchMessages().catch(console.error);
-  }, []);
+    navigation.setOptions({title});
+  }, [navigation, title]);
 
   const handleSendMessage = () => {
-    if (webSocketRef.current && webSocketRef.current.readyState === OPEN) {
-      const data = {
-        roomId,
-        text: currentMessage,
-      };
-      webSocketRef.current.send(JSON.stringify(data));
+    // send message to server
 
-      console.log('Send message: ' + JSON.stringify(data));
-    }
+    // TODO: 生成消息包
+    const mockMessagePack: MessagePack = {
+      msgId: '1a',
+      text: currentMessage,
+      timestamp: 1684930783,
+      sendId: 'Novu Hangouts',
+      receiveId: 'Kevin',
+      isSent: false,
+    };
 
-    return;
-  };
-
-  useEffect(() => {
-    if (!webSocketRef.current) {
+    if (ws.readyState !== WebSocket.OPEN) {
+      console.log('Error! WebSocket not connected!');
       return;
     }
 
-    const ws = webSocketRef.current;
-
-    ws.onopen = () => {
-      // connection opened
-    };
-
-    ws.onmessage = e => {
-      // a message was received
-
-      console.log(e.data);
-    };
-
-    ws.onerror = e => {
-      // an error occurred
-      console.log(e.message);
-    };
-
-    ws.onclose = e => {
-      // connection closed
-      console.log(e.code, e.reason);
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
+    ws.send(JSON.stringify(mockMessagePack));
+  };
 
   return (
     <View style={styles.messagingscreen}>
@@ -96,17 +57,18 @@ const ChatRoom = ({route}: ChatRoomProps) => {
           styles.messagingscreen,
           {paddingVertical: 15, paddingHorizontal: 10},
         ]}>
-        {messages && messages.length > 0 ? (
+        {messageHistory && messageHistory.length > 0 ? (
           <FlatList
-            data={messages}
+            data={messageHistory}
             renderItem={({item}) => (
               <MessageComponent
                 msgId={item.msgId}
                 text={item.text}
-                userSend={item.userSend}
-                userReceive={item.userReceive}
+                sendId={item.sendId}
+                receiveId={item.receiveId}
                 user={user}
-                time={item.time}
+                timestamp={item.timestamp}
+                isSent={item.isSent}
               />
             )}
             keyExtractor={item => item.msgId}

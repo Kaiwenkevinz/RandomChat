@@ -18,70 +18,41 @@ mock.onPost('/login').reply(200, {
   },
 });
 
-// Get the lastest messages of all chat rooms
-mock.onGet('/allRooms').reply(200, {
+mock.onGet('/all_chat_messages').reply(200, {
   rooms: [
     {
-      roomId: '1',
-      otherUserName: 'Novu Hangouts',
+      roomId: 'room_1',
+      otherUserId: 'Novu Hangouts',
       messages: [
         {
           msgId: '1a',
           text: 'Hello, my name is Novu',
-          time: 1684930783,
-          userSend: 'Novu Hangouts',
-          userReceive: 'Kevin',
+          timestamp: 1684930783,
+          sendId: 'Novu Hangouts',
+          receiveId: 'Kevin',
         },
-      ],
-    },
-    {
-      roomId: '2',
-      otherUserName: 'Jade',
-      messages: [
         {
-          msgId: '2b',
-          text: "What's up? I am Kevin 🧑🏻‍💻",
-          time: 1684930951,
-          userSend: 'Kevin',
-          userReceive: 'Jade',
+          msgId: '1b',
+          text: 'Hi Novu, my name is Kevin! 😇',
+          timestamp: 1684930951,
+          sendId: 'Kevin',
+          receiveId: 'Novu Hangouts',
+        },
+        {
+          msgId: '1c',
+          text: 'Hello, my name is Novu',
+          timestamp: 1684930783,
+          sendId: 'Novu Hangouts',
+          receiveId: 'Kevin',
+        },
+        {
+          msgId: '1d',
+          text: 'Hi Novu, my name is Kevin! 😇',
+          timestamp: 1684930951,
+          sendId: 'Kevin',
+          receiveId: 'Novu Hangouts',
         },
       ],
-    },
-  ],
-});
-
-// Get messages of a room
-mock.onGet('/getMessages?roomId=1').reply(200, {
-  roomId: '1',
-  otherUserName: 'Novu Hangouts',
-  messages: [
-    {
-      msgId: '1a',
-      text: 'Hello, my name is Novu',
-      time: 1684930783,
-      userSend: 'Novu Hangouts',
-      userReceive: 'Kevin',
-    },
-    {
-      msgId: '1b',
-      text: 'Hi Novu, my name is Kevin! 😇',
-      time: 1684930951,
-      userSend: 'Kevin',
-      userReceive: 'Novu Hangouts',
-    },
-    {
-      msgId: '1c',
-      text: 'Hello, my name is Novu',
-      time: 1684930783,
-      userSend: 'Novu Hangouts',
-      userReceive: 'Kevin',
-    },
-    {
-      msgId: '1d',
-      text: 'Hi Novu, my name is Kevin! 😇',
-      time: 1684930951,
-      userSend: 'Kevin',
-      userReceive: 'Novu Hangouts',
     },
   ],
 });

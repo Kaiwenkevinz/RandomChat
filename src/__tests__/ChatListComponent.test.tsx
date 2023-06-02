@@ -11,15 +11,17 @@ it('renders correctly', () => {
     .create(
       <ChatListComponent
         roomId="1"
-        otherUserName="Jade"
+        otherUserId="Jade"
         user={{id: 'usr1', username: 'Kevin'}}
-        message={{
-          msgId: '1',
-          text: 'Hello',
-          time: 1627777777777,
-          userSend: 'Jade',
-          userReceive: 'Kevin',
-        }}
+        messages={[
+          {
+            msgId: '1',
+            text: 'Hello',
+            timestamp: 1627777777777,
+            sendId: 'Jade',
+            receiveId: 'Kevin',
+          },
+        ]}
       />,
     )
     .toJSON();

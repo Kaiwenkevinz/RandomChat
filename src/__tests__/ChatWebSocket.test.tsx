@@ -8,7 +8,7 @@ import {
   WebSocketMessagePackType,
   useChatWebSocket,
 } from '../hooks/useChatWebSocket';
-import {MessageType} from '../types/network/types';
+import {MessagePack} from '../types/network/types';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({navigate: jest.fn()}),
@@ -56,12 +56,12 @@ describe('useWebSocket hook', () => {
      * client should recieve 'ws_event_msg_ack' and log '消息发送成功'
      */
 
-    const mockMessagePack: MessageType = {
+    const mockMessagePack: MessagePack = {
       msgId: '1a',
       text: 'Hello, my name is Novu',
-      time: 1684930783,
-      userSend: 'Novu Hangouts',
-      userReceive: 'Kevin',
+      timestamp: 1684930783,
+      sendId: 'Novu Hangouts',
+      receiveId: 'Kevin',
     };
 
     const mockServerSendMsgPack: WebSocketMessagePackType = {

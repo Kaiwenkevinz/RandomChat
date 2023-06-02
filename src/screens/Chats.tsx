@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
 import {ChatService} from '../network/lib/message';
-import {ChatComponentProps, User} from '../types/network/types';
+import {ChatComponentProps, MessagePack, User} from '../types/network/types';
 import {AuthContext} from './Home';
 import {
   WebSocketMessagePackType,
@@ -14,22 +14,18 @@ import {
 const Chats = () => {
   const {user} = useContext(AuthContext);
 
-  const {ws, sendWebSocketMessage, messagesAckPendingMemo} = useChatWebSocket(
-    (wsMessagePack: WebSocketMessagePackType) => {
-      console.log('🚀 ~ file: Chats.tsx:15 ~ wsMessagePack:', wsMessagePack);
-    },
-  );
+  const {ws} = useChatWebSocket();
 
   const [rooms, setRooms] = useState<ChatComponentProps[]>([]);
 
-  const fetchRooms = async () => {
-    const res = await ChatService.getRooms();
+  const fetchAllChatMessages = async () => {
+    const res = await ChatService.getAllChatMessages();
     const fetchedRooms = res.data.rooms;
     setRooms(fetchedRooms);
   };
 
   useEffect(() => {
-    fetchRooms().catch(console.error);
+    fetchAllChatMessages().catch(console.error);
   }, []);
 
   return (
@@ -52,15 +48,14 @@ const Chats = () => {
 };
 
 const renderChatComponent = (item: ChatComponentProps, user: User) => {
-  const {roomId, messages, otherUserName} = item;
-  const latestMsg = messages[0];
+  const {roomId, messages, otherUserId} = item;
 
   return (
     <ChatListComponent
       roomId={roomId}
-      otherUserName={otherUserName}
+      otherUserId={otherUserId}
       user={user}
-      message={latestMsg}
+      messages={messages}
     />
   );
 };
