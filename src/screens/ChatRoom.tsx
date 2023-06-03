@@ -41,8 +41,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       msgId: '1a',
       text: currentMessage,
       timestamp: 1684930783,
-      sendId: 'Novu Hangouts',
-      receiveId: 'Kevin',
+      sendId: 'Kevin',
+      receiveId: 'Novu Hangouts',
       isSent: false,
     };
 

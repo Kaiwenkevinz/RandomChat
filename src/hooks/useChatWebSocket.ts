@@ -1,6 +1,8 @@
+import {MessagePack} from './../types/network/types';
 import {useEffect, useRef} from 'react';
 import {WEB_SOCKET_URL} from '../constant';
-import {MessagePack} from '../types/network/types';
+import {store} from '../store/store';
+import {appendNewMessage} from '../store/chatSlice';
 
 const useChatWebSocket = () => {
   const websocket = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL)).current;
@@ -22,15 +24,18 @@ const useChatWebSocket = () => {
   }, []);
 
   const handleOnReceiveWebSocketMessage = (e: WebSocketMessageEvent) => {
-    // if the message pack has loading, set loading to false
+    // TODO: Add action: set message isSent to true
     console.log(
       '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ e:',
-      e,
+      e.data,
     );
-    const messagePack: MessagePack = JSON.parse(e.data);
+    const message: MessagePack = JSON.parse(e.data);
+    console.log(
+      '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ message:',
+      message,
+    );
 
-    // message sent successfully, set isSent to true
-    // TODO: add action
+    store.dispatch(appendNewMessage(message));
   };
 
   return {websocket};

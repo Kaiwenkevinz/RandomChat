@@ -10,8 +10,10 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
   console.log('Server is connected');
 
   webSocket.on('message', (message: string) => {
-    console.log('Message from client :: ' + message);
-    webSocket.send(message);
+    console.log('传来的message: ', message);
+    const obj = JSON.parse(message);
+    const strObj = JSON.stringify(obj);
+    webSocket.send(strObj);
   });
 });
 
