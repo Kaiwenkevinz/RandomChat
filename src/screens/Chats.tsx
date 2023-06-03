@@ -1,31 +1,30 @@
 import {View, Text, FlatList} from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
-import {ChatService} from '../network/lib/message';
-import {ChatComponentProps, MessagePack, User} from '../types/network/types';
+import {ChatComponentProps, User} from '../types/network/types';
 import {AuthContext} from './Home';
-import {
-  WebSocketMessagePackType,
-  useChatWebSocket,
-} from '../hooks/useChatWebSocket';
+import {useChatWebSocket} from '../hooks/useChatWebSocket';
+import {useAppSelector} from '../hooks/customReduxHooks';
+import {getChatsAsync, selectRooms} from '../store/chatSlice';
+import {store} from '../store/store';
 
 const Chats = () => {
   const {user} = useContext(AuthContext);
 
-  const {ws} = useChatWebSocket();
+  const {websocket} = useChatWebSocket();
 
-  const [rooms, setRooms] = useState<ChatComponentProps[]>([]);
-
-  const fetchAllChatMessages = async () => {
-    const res = await ChatService.getAllChatMessages();
-    const fetchedRooms = res.data.rooms;
-    setRooms(fetchedRooms);
-  };
+  const {rooms, status} = useAppSelector(selectRooms);
 
   useEffect(() => {
-    fetchAllChatMessages().catch(console.error);
+    console.log('Chats mounted');
+
+    store.dispatch(getChatsAsync());
+
+    return () => {
+      console.log('Chats unmounted');
+    };
   }, []);
 
   return (
@@ -34,7 +33,7 @@ const Chats = () => {
         {rooms && rooms.length > 0 ? (
           <FlatList
             data={rooms}
-            renderItem={({item}) => renderChatComponent(item, user)}
+            renderItem={({item}) => renderChatComponent(item, user, websocket)}
             keyExtractor={item => item.roomId}
           />
         ) : (
@@ -47,7 +46,7 @@ const Chats = () => {
   );
 };
 
-const renderChatComponent = (item: ChatComponentProps, user: User) => {
+const renderChatComponent = (item: ChatComponentProps, user: User, websocket: WebSocket) => {
   const {roomId, messages, otherUserId} = item;
 
   return (
@@ -56,6 +55,7 @@ const renderChatComponent = (item: ChatComponentProps, user: User) => {
       otherUserId={otherUserId}
       user={user}
       messages={messages}
+      websocket={websocket}
     />
   );
 };

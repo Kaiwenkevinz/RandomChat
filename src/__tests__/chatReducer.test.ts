@@ -1,9 +1,6 @@
 import {axiosClient} from '../network/axios.config';
 import {store} from '../store/store';
-import {
-  GetAllChatMessageResp,
-  MessagePack,
-} from '../types/network/types';
+import {GetAllChatMessageResp, MessagePack} from '../types/network/types';
 import MockAdapter from 'axios-mock-adapter';
 import {ChatState, appendNewMessage, getChatsAsync} from '../store/chatSlice';
 
@@ -19,6 +16,7 @@ const getAllChatResponse: GetAllChatMessageResp = {
           timestamp: 1684930783,
           sendId: 'Novu Hangouts',
           receiveId: 'Kevin',
+          isSent: false,
         },
       ],
     },
@@ -49,6 +47,7 @@ describe('chat slice', () => {
     const correctState: ChatState = {
       ...{status: 'idle'},
       ...getAllChatResponse,
+      websocket: store.getState().chat.websocket,
     };
 
     expect(store.getState().chat).toStrictEqual(correctState);
@@ -64,11 +63,13 @@ describe('chat slice', () => {
       timestamp: 1685930783,
       sendId: 'Kevin',
       receiveId: 'Novu Hangouts',
+      isSent: false,
     };
 
     store.dispatch(appendNewMessage(newMessage));
 
     expect(store.getState().chat).toStrictEqual({
+      websocket: store.getState().chat.websocket,
       status: 'idle',
       rooms: [
         {
@@ -81,6 +82,7 @@ describe('chat slice', () => {
               timestamp: 1684930783,
               sendId: 'Novu Hangouts',
               receiveId: 'Kevin',
+              isSent: false,
             },
             {
               msgId: '1b',
@@ -88,6 +90,7 @@ describe('chat slice', () => {
               timestamp: 1685930783,
               sendId: 'Kevin',
               receiveId: 'Novu Hangouts',
+              isSent: false,
             },
           ],
         },

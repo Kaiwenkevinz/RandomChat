@@ -2408,7 +2408,7 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-axios-mock-adapter@*:
+axios-mock-adapter@*, axios-mock-adapter@^1.21.4:
   version "1.21.4"
   resolved "https://registry.npmjs.org/axios-mock-adapter/-/axios-mock-adapter-1.21.4.tgz"
   integrity sha512-ztnENm28ONAKeRXC/6SUW6pcsaXbThKq93MRDRAA47LYTzrGSDoO/DCr1NHz7jApEl95DrBoGPvZ0r9xtSbjqw==

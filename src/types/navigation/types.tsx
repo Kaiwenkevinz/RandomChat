@@ -9,6 +9,6 @@ export type RootStackParamList = {
     roomId: string;
     otherUserId: string;
     user: User;
-    ws: WebSocket;
+    websocket: WebSocket;
   };
 };

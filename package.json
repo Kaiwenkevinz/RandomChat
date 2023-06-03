@@ -16,6 +16,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
+    "axios-mock-adapter": "^1.21.4",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-flipper": "^0.191.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-transform-private-methods": "^7.22.3",
     "@babel/preset-env": "^7.22.4",
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.2.0",

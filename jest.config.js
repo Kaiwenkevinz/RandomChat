@@ -6,7 +6,6 @@ const config = {
     '.(js|jsx)$': 'babel-jest',
   },
   transformIgnorePatterns: [],
-  testEnvironment: 'node',
 };
 
 module.exports = config;

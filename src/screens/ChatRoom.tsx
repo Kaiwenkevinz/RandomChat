@@ -14,19 +14,23 @@ type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
 const ChatRoom = ({route}: ChatRoomProps) => {
   const navigation = useNavigation();
   const params = route.params;
-  const {roomId, otherUserId, user, ws} = params;
+  const {roomId, otherUserId, user, websocket} = params;
 
   const title = `${otherUserId} (remaining: 9:59s)`;
 
   const [currentMessage, setCurrentMessage] = useState<string>('');
 
+  const {rooms} = useAppSelector(selectRooms);
   const messages =
-    useAppSelector(selectRooms).find(room => room.roomId === roomId)
-      ?.messages || [];
-  const [messageHistory, _] = useState<MessagePack[]>(messages);
+    rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
 
   useEffect(() => {
     navigation.setOptions({title});
+    console.log('ChatRoom mounted');
+
+    return () => {
+      console.log('ChatRoom unmounted');
+    };
   }, [navigation, title]);
 
   const handleSendMessage = () => {
@@ -42,12 +46,12 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       isSent: false,
     };
 
-    if (ws.readyState !== WebSocket.OPEN) {
+    if (websocket.readyState !== WebSocket.OPEN) {
       console.log('Error! WebSocket not connected!');
       return;
     }
 
-    ws.send(JSON.stringify(mockMessagePack));
+    websocket.send(JSON.stringify(mockMessagePack));
   };
 
   return (
@@ -57,9 +61,9 @@ const ChatRoom = ({route}: ChatRoomProps) => {
           styles.messagingscreen,
           {paddingVertical: 15, paddingHorizontal: 10},
         ]}>
-        {messageHistory && messageHistory.length > 0 ? (
+        {messages && messages.length > 0 ? (
           <FlatList
-            data={messageHistory}
+            data={messages}
             renderItem={({item}) => (
               <MessageComponent
                 msgId={item.msgId}

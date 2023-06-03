@@ -1,5 +1,5 @@
-import {axiosClient} from '../axios.config';
 import MockAdapter from 'axios-mock-adapter';
+import {axiosClient} from '../axios.config';
 
 console.log('API mocking is turned on.');
 

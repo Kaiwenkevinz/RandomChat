@@ -67,7 +67,7 @@ export const chatSlice = createSlice({
 
 // 暴露 state selector
 // 使用 useSelector() 获得 state
-export const selectRooms = (state: RootState) => state.chat.rooms;
+export const selectRooms = (state: RootState) => state.chat;
 // 暴露 action
 export const {appendNewMessage} = chatSlice.actions;
 // 暴露 reducer
