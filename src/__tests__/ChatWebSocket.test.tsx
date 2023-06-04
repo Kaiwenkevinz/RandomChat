@@ -1,13 +1,8 @@
-// import renderer from 'react-test-renderer';
-// import {renderHook, act} from '@testing-library/react';
 import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import WS from 'jest-websocket-mock';
-import {WEB_SOCKET_URL, WS_EVENT_MSG_ACK} from '../constant';
-import {
-  WebSocketMessagePackType,
-  useChatWebSocket,
-} from '../hooks/useChatWebSocket';
+import {WEB_SOCKET_URL} from '../constant';
+import {useChatWebSocket} from '../hooks/useChatWebSocket';
 import {MessagePack} from '../types/network/types';
 
 jest.mock('@react-navigation/native', () => ({
@@ -15,13 +10,13 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 it('The mocked WebSocket server should be running', async () => {
-  const server = new WS('ws://localhost:1234');
+  const mockServer = new WS('ws://localhost:1234');
   const client = new WebSocket('ws://localhost:1234');
 
-  await server.connected;
+  await mockServer.connected;
   client.send('hello');
-  await expect(server).toReceiveMessage('hello');
-  expect(server).toHaveReceivedMessages(['hello']);
+  await expect(mockServer).toReceiveMessage('hello');
+  expect(mockServer).toHaveReceivedMessages(['hello']);
 });
 
 describe('useWebSocket hook', () => {
@@ -39,53 +34,30 @@ describe('useWebSocket hook', () => {
   });
 
   it('Once connection established, client sends on connected to server.', async () => {
-    renderHook(() => useChatWebSocket(() => {}));
+    renderHook(() => useChatWebSocket());
 
     await expect(server).toReceiveMessage('WebSocket Client Connected');
     expect(server).toHaveReceivedMessages(['WebSocket Client Connected']);
   });
 
-  it('Client A send message to Server, Server receives and replay ack back.', async () => {
-    /**
-     * Once connect to server, client send 'WebSocket Client Connected'
-     * Client send message pack to server
-     * message pack is in waiting ack queue
-     * server should recieve the message pack
-     * server send 'ws_event_msg_ack' with the message pack back to client
-     * message pack is removed from waiting ack queue
-     * client should recieve 'ws_event_msg_ack' and log '消息发送成功'
-     */
-
+  it('Client A send message to Server, Server receives and replay the same message back to client.', async () => {
     const mockMessagePack: MessagePack = {
       msgId: '1a',
       text: 'Hello, my name is Novu',
       timestamp: 1684930783,
       sendId: 'Novu Hangouts',
       receiveId: 'Kevin',
-    };
-
-    const mockServerSendMsgPack: WebSocketMessagePackType = {
-      eventType: WS_EVENT_MSG_ACK,
-      messagePack: mockMessagePack,
+      isSent: false,
     };
 
     // mock hook
-    const {result} = renderHook(() =>
-      useChatWebSocket(async (wsMsgPack: WebSocketMessagePackType) => {
-        // Client 收到 消息包，并且消息包包含了发送成功的状态，消息发送成功
-        await expect(wsMsgPack).toStrictEqual(mockServerSendMsgPack);
-      }),
-    );
-
-    const messagesAckPendingMemo = result.current.messagesAckPendingMemo;
-
-    // 连接建立, Client 发送 'WebSocket Client Connected'
-    await expect(server).toReceiveMessage('WebSocket Client Connected');
+    const {result} = renderHook(() => useChatWebSocket());
+    const clientWebsocket = result.current.websocket;
 
     // 测试自定义 hook 的功能
     act(() => {
       // 发送 消息包 到 Server
-      result.current.sendWebSocketMessage(mockMessagePack);
+      clientWebsocket.send(mockMessagePack);
 
       // ack waiting queue 中应该有这个消息包
       expect(messagesAckPendingMemo.has(mockMessagePack.msgId)).toBeTruthy();
