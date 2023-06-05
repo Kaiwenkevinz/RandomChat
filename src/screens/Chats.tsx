@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
 import {ChatComponentProps, User} from '../types/network/types';
-import {AuthContext} from './Home';
+import {AuthContext} from './HomeTab';
 import {useChatWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {getChatsAsync, selectRooms} from '../store/chatSlice';

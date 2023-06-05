@@ -1,15 +1,15 @@
 import {View, FlatList, TextInput, Pressable, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../types/navigation/types';
 import {styles} from '../utils/styles';
 import {MessageComponent} from '../components/MessageComponent';
 import {MessagePack} from '../types/network/types';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectRooms} from '../store/chatSlice';
+import {StackScreenProps} from '@react-navigation/stack';
+import {RootStackParamList} from '../types/navigation/types';
 
-type ChatRoomProps = NativeStackScreenProps<RootStackParamList, 'ChatRoom'>;
+type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
   const navigation = useNavigation();

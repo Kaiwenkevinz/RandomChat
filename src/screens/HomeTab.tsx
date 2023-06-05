@@ -10,19 +10,20 @@ import {StackActions, useNavigation} from '@react-navigation/native';
 import {User} from '../types/network/types';
 import {initTokenInceptor} from '../network/axios.config';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {RootStackParamList} from '../types/navigation/types';
 
 type AuthContextType = {
   token: string;
   user: User;
 };
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export const AuthContext = createContext<AuthContextType>(
   {} as AuthContextType,
 );
 
-const Home = () => {
+const HomeTab = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState<boolean>(true);
   // const authRef = useRef<AuthContextType>({token: '11', user: {} as User});
@@ -68,15 +69,19 @@ const Home = () => {
           <Text>loading</Text>
         </View>
       ) : (
-        <Tab.Navigator>
-          <Tab.Screen name="Chats" component={Chats} />
-          <Tab.Screen name="Search" component={Search} />
-          <Tab.Screen name="Contacts" component={Contacts} />
-          <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Navigator
+          screenOptions={() => ({
+            headerShown: false,
+            tabBarInactiveTintColor: 'gray',
+          })}>
+          <Tab.Screen name={'Chats'} component={Chats} />
+          <Tab.Screen name={'Search'} component={Search} />
+          <Tab.Screen name={'Contacts'} component={Contacts} />
+          <Tab.Screen name={'Profile'} component={Profile} />
         </Tab.Navigator>
       )}
     </AuthContext.Provider>
   );
 };
 
-export default Home;
+export default HomeTab;
