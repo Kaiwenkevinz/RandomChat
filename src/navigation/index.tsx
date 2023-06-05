@@ -14,12 +14,24 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{headerShown: true}}
+        screenOptions={{headerShown: false}}
         initialRouteName={'HomeTab'}>
-        <Stack.Screen name={'Register'} component={Register} />
-        <Stack.Screen name={'Login'} component={Login} />
+        <Stack.Screen
+          name={'Register'}
+          options={{headerTitle: 'Register'}}
+          component={Register}
+        />
+        <Stack.Screen
+          name={'Login'}
+          options={{headerTitle: 'Login'}}
+          component={Login}
+        />
         <Stack.Screen name={'HomeTab'} component={HomeTab} />
-        <Stack.Screen name={'ChatRoom'} component={ChatRoom} />
+        <Stack.Screen
+          name={'ChatRoom'}
+          options={{headerShown: true}}
+          component={ChatRoom}
+        />
       </Stack.Navigator>
       <Toast />
     </NavigationContainer>

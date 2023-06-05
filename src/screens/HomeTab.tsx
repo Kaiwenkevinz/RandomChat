@@ -71,13 +71,29 @@ const HomeTab = () => {
       ) : (
         <Tab.Navigator
           screenOptions={() => ({
-            headerShown: false,
+            headerShown: true,
             tabBarInactiveTintColor: 'gray',
           })}>
-          <Tab.Screen name={'Chats'} component={Chats} />
-          <Tab.Screen name={'Search'} component={Search} />
-          <Tab.Screen name={'Contacts'} component={Contacts} />
-          <Tab.Screen name={'Profile'} component={Profile} />
+          <Tab.Screen
+            name={'Chats'}
+            options={{title: 'Chats'}}
+            component={Chats}
+          />
+          <Tab.Screen
+            name={'Search'}
+            options={{title: 'Search'}}
+            component={Search}
+          />
+          <Tab.Screen
+            name={'Contacts'}
+            options={{title: 'Contact'}}
+            component={Contacts}
+          />
+          <Tab.Screen
+            name={'Profile'}
+            options={{title: 'Profile'}}
+            component={Profile}
+          />
         </Tab.Navigator>
       )}
     </AuthContext.Provider>
