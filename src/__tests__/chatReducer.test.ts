@@ -47,7 +47,6 @@ describe('chat slice', () => {
     const correctState: ChatState = {
       ...{status: 'idle'},
       ...getAllChatResponse,
-      websocket: store.getState().chat.websocket,
     };
 
     expect(store.getState().chat).toStrictEqual(correctState);
@@ -69,7 +68,6 @@ describe('chat slice', () => {
     store.dispatch(appendNewMessage(newMessage));
 
     expect(store.getState().chat).toStrictEqual({
-      websocket: store.getState().chat.websocket,
       status: 'idle',
       rooms: [
         {

@@ -57,7 +57,7 @@ export default function Login(props: Props) {
       await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
       // go to home screen
-      props.navigation.dispatch(StackActions.replace('Home'));
+      props.navigation.dispatch(StackActions.replace('HomeTab'));
     } catch (error) {
       console.log(error);
       return;

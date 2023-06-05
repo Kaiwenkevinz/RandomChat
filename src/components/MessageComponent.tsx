@@ -8,13 +8,13 @@ type MessageComponentProps = MessagePack & {user: User};
 export function MessageComponent({
   msgId,
   text,
-  sendId: userSend,
-  receiveId: userReceive,
+  sendId,
+  receiveId,
   user,
-  timestamp: time,
+  timestamp,
 }: MessageComponentProps) {
-  const isReceive = user.username !== userSend;
-  const date = new Date(time * 1000);
+  const isReceive = user.username !== sendId;
+  const date = new Date(timestamp);
 
   return (
     <View>

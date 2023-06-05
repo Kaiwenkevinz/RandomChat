@@ -10,10 +10,18 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
   console.log('Server is connected');
 
   webSocket.on('message', (message: string) => {
-    console.log('传来的message: ', message);
     const obj = JSON.parse(message);
     const strObj = JSON.stringify(obj);
+    console.log('Client 传来的 message', strObj);
     webSocket.send(strObj);
+
+    // 模拟服务器向客户端发送消息
+    setInterval(() => {
+      obj.text = 'Hi Kevin';
+      obj.sendId = 'Novu Hangouts';
+      obj.receiveId = 'Kevin';
+      webSocket.send(JSON.stringify(obj));
+    }, 2000);
   });
 });
 
