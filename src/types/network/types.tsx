@@ -21,6 +21,17 @@ export type UserInfo = {
   username: string;
 };
 
+export type UserProfile = {
+  gender: string;
+  age: string;
+  hometown: string;
+  major: string;
+  contactNumber: string;
+  birthday: string;
+  school: string;
+  mbti: string;
+};
+
 export type LoginResponse = {
   jwt: string;
   user: UserInfo;

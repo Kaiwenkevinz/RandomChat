@@ -18,6 +18,18 @@ mock.onPost('/login').reply(200, {
   },
 });
 
+export const mockUserProfile = {
+  gender: 'male',
+  age: 25,
+  hometown: 'Mars',
+  major: 'Nutural Science',
+  contactNumber: '123456789',
+  birthday: '1996-01-01',
+  school: 'Mars University',
+  mbti: 'INTJ',
+};
+mock.onGet('/user/profile').reply(200, mockUserProfile);
+
 mock.onGet('/all_chat_messages').reply(200, {
   rooms: [
     {

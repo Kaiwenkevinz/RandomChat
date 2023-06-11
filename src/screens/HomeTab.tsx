@@ -1,5 +1,5 @@
 import {Text, View} from 'react-native';
-import React, {createContext, useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Chats from './Chats';
 import Profile from './Profile';

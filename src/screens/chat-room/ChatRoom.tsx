@@ -28,7 +28,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   // the message that is currently being typed
   const [currentMessage, setCurrentMessage] = useState<string>('');
 
-  const {id: userId, username} = useAppSelector(selectUser);
+  const {id: userId, username} = useAppSelector(selectUser).userInfo;
 
   // Select state from Redux store
   const {rooms} = useAppSelector(selectRooms);

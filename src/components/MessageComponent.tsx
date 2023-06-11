@@ -13,7 +13,7 @@ export function MessageComponent({
   timestamp,
   isSent,
 }: MessageComponentProps) {
-  const userInfo = useAppSelector(selectUser);
+  const userInfo = useAppSelector(selectUser).userInfo;
   const user = userInfo || {id: '', username: ''};
   const isReceive = user.username !== sendId;
   const date = new Date(timestamp);
