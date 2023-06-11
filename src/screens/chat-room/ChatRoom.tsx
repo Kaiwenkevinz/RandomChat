@@ -96,6 +96,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       <View style={styles.messaginginputContainer}>
         <TextInput
           style={styles.messaginginput}
+          value={currentMessage}
           onChangeText={v => setCurrentMessage(v)}
         />
         <Pressable

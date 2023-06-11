@@ -9,7 +9,7 @@ import {selectUser} from '../store/userSlice';
 const useChatWebSocket = () => {
   const websocket = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL)).current;
 
-  const {id: userId} = useAppSelector(selectUser);
+  const {id: userId} = useAppSelector(selectUser).userInfo;
 
   // init Websocket
   useEffect(() => {
