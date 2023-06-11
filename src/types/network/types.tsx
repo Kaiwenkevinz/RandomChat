@@ -8,7 +8,6 @@ export type MessagePack = {
 };
 
 export type ChatComponentProps = {
-  roomId: string;
   otherUserId: string;
   messages: MessagePack[];
 };

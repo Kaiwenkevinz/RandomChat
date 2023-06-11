@@ -4,12 +4,13 @@ import {styles} from '../../utils/styles';
 import {MessageComponent} from '../../components/MessageComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
-import {selectRooms} from '../../store/chatSlice';
+import {appendNewMessage, selectRooms} from '../../store/chatSlice';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
 import {toastType} from '../../utils/toastUtil';
 import {generateMessagePack} from './chatUtil';
+import {store} from '../../store/store';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -55,7 +56,9 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     );
 
     websocket.send(JSON.stringify(messagePack));
+    store.dispatch(appendNewMessage(messagePack));
 
+    console.log('should clear input');
     setCurrentMessage('');
   };
 
@@ -68,7 +71,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
         ]}>
         {messages && messages.length > 0 ? (
           <FlatList
-            data={messages}
+            inverted
+            data={[...messages].reverse()}
             renderItem={({item}) => (
               <MessageComponent
                 msgId={item.msgId}

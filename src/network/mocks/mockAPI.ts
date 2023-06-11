@@ -21,7 +21,6 @@ mock.onPost('/login').reply(200, {
 mock.onGet('/all_chat_messages').reply(200, {
   rooms: [
     {
-      roomId: 'room_1',
       otherUserId: 'Novu Hangouts',
       messages: [
         {
@@ -48,6 +47,20 @@ mock.onGet('/all_chat_messages').reply(200, {
         {
           msgId: '1d',
           text: 'Hi Novu, my name is Kevin! 😇',
+          timestamp: 1685945115831,
+          sendId: 'Kevin',
+          receiveId: 'Novu Hangouts',
+        },
+        {
+          msgId: '2c',
+          text: 'Hello, my name is Novu',
+          timestamp: 1685945115831,
+          sendId: 'Novu Hangouts',
+          receiveId: 'Kevin',
+        },
+        {
+          msgId: '2d',
+          text: 'Hi newest',
           timestamp: 1685945115831,
           sendId: 'Kevin',
           receiveId: 'Novu Hangouts',

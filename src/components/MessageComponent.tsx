@@ -12,9 +12,11 @@ export function MessageComponent({
   receiveId,
   user,
   timestamp,
+  isSent,
 }: MessageComponentProps) {
   const isReceive = user.username !== sendId;
   const date = new Date(timestamp);
+  const sent = isSent === undefined || isSent;
 
   return (
     <View>
@@ -32,6 +34,7 @@ export function MessageComponent({
                 : [styles.mmessage, {backgroundColor: 'rgb(194, 243, 194)'}]
             }>
             <Text>{text}</Text>
+            <Text>{sent ? 'Sent' : 'Sending'}</Text>
           </View>
         </View>
         <Text style={{marginLeft: 40}}>{date.toLocaleString()}</Text>

@@ -24,18 +24,13 @@ const useChatWebSocket = () => {
   }, []);
 
   const handleOnReceiveWebSocketMessage = (e: WebSocketMessageEvent) => {
-    // TODO: Add action: set message isSent to true
-    console.log(
-      '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ e:',
-      e.data,
-    );
     const message: MessagePack = JSON.parse(e.data);
     console.log(
       '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ message:',
       message,
     );
 
-    store.dispatch(appendNewMessage(message));
+    // TODO: set message isSent to true
   };
 
   return {websocket};

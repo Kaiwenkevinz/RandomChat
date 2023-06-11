@@ -48,7 +48,12 @@ export const chatSlice = createSlice({
 
       state = {...state, rooms};
     },
-  }, // 这里都是同步 action creator和对应的 reducer
+    setMessageStatusToSent: (state, action: PayloadAction<string>) => {
+      const {msgId} = action.payload;
+
+      // TODO: 通过 user id 找到 room, 通过 msg Id 找到 message
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(getChatsAsync.pending, state => {

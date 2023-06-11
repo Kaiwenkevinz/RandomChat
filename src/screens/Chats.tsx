@@ -34,7 +34,7 @@ const Chats = () => {
           <FlatList
             data={rooms}
             renderItem={({item}) => renderChatComponent(item, user, websocket)}
-            keyExtractor={item => item.roomId}
+            keyExtractor={item => item.otherUserId}
           />
         ) : (
           <View style={styles.chatemptyContainer}>
@@ -46,12 +46,15 @@ const Chats = () => {
   );
 };
 
-const renderChatComponent = (item: ChatComponentProps, user: User, websocket: WebSocket) => {
-  const {roomId, messages, otherUserId} = item;
+const renderChatComponent = (
+  item: ChatComponentProps,
+  user: User,
+  websocket: WebSocket,
+) => {
+  const {messages, otherUserId} = item;
 
   return (
     <ChatListComponent
-      roomId={roomId}
       otherUserId={otherUserId}
       user={user}
       messages={messages}

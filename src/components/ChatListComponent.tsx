@@ -4,10 +4,7 @@ import React from 'react';
 import {styles} from '../utils/styles';
 import {ChatComponentProps, MessagePack, User} from '../types/network/types';
 
-type ChatListComponentProps = Pick<
-  ChatComponentProps,
-  'roomId' | 'otherUserId'
-> & {
+type ChatListComponentProps = Pick<ChatComponentProps, 'otherUserId'> & {
   messages: MessagePack[];
   user: User;
   websocket: WebSocket;
@@ -17,7 +14,6 @@ type ChatListComponentProps = Pick<
  * Item component for Chat list
  */
 export const ChatListComponent = ({
-  roomId,
   otherUserId,
   user,
   messages,
@@ -29,7 +25,6 @@ export const ChatListComponent = ({
 
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
-      roomId,
       otherUserId,
       user,
       messages,
