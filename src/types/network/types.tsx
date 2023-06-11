@@ -4,7 +4,7 @@ export type MessagePack = {
   timestamp: number;
   sendId: string;
   receiveId: string;
-  isSent: boolean;
+  isSent?: boolean;
 };
 
 export type ChatComponentProps = {

@@ -8,6 +8,11 @@ export interface ChatState {
   status: 'idle' | 'loading' | 'failed';
 }
 
+export type SetMessagesStatusToSentType = {
+  otherUserId: string;
+  msgId: string;
+};
+
 // state
 const initialState: ChatState = {
   rooms: [],
@@ -46,10 +51,27 @@ export const chatSlice = createSlice({
         console.log('target room not found');
       }
     },
-    setMessageStatusToSent: (state, action: PayloadAction<string>) => {
-      const {msgId} = action.payload;
-
-      // TODO: 通过 user id 找到 room, 通过 msg Id 找到 message
+    setMessageStatusToSent: (
+      state,
+      action: PayloadAction<SetMessagesStatusToSentType>,
+    ) => {
+      const {otherUserId, msgId} = action.payload;
+      const rooms = state.rooms;
+      const targetRoom = rooms.find(room => {
+        if (room.otherUserId === otherUserId) {
+          return true;
+        }
+      });
+      if (targetRoom) {
+        const targetMessage = targetRoom.messages.find(message => {
+          if (message.msgId === msgId) {
+            return true;
+          }
+        });
+        if (targetMessage) {
+          delete targetMessage.isSent;
+        }
+      }
     },
   },
   extraReducers: builder => {
@@ -72,6 +94,6 @@ export const chatSlice = createSlice({
 // 使用 useSelector() 获得 state
 export const selectRooms = (state: RootState) => state.chat;
 // 暴露 action
-export const {appendNewMessage} = chatSlice.actions;
+export const {appendNewMessage, setMessageStatusToSent} = chatSlice.actions;
 // 暴露 reducer
 export default chatSlice.reducer;
