@@ -7,6 +7,7 @@ import Register from '../screens/Register';
 import Login from '../screens/Login';
 import Toast from 'react-native-toast-message';
 import HomeTab from '../screens/HomeTab';
+import ProfileEdit from '../screens/ProfileEdit';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -31,6 +32,11 @@ const Navigation = () => {
           name={'ChatRoom'}
           options={{headerShown: true}}
           component={ChatRoom}
+        />
+        <Stack.Screen
+          name={'ProfileEdit'}
+          options={{headerShown: true, headerBackTitle: 'Profile'}}
+          component={ProfileEdit}
         />
       </Stack.Navigator>
       <Toast />

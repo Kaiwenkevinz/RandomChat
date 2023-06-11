@@ -27,6 +27,7 @@ export type UserProfile = {
   hometown: string;
   major: string;
   contactNumber: string;
+  email: string;
   birthday: string;
   school: string;
   mbti: string;

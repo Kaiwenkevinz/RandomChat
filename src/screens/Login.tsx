@@ -88,7 +88,7 @@ export default function Login(props: Props) {
         onPress={() => {
           props.navigation.navigate('Register');
         }}>
-        <Text style={styles.buttonText}>Go to Register</Text>
+        <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
     </View>
   );

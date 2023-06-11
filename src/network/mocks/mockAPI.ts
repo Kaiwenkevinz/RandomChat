@@ -24,6 +24,7 @@ export const mockUserProfile = {
   hometown: 'Mars',
   major: 'Nutural Science',
   contactNumber: '123456789',
+  email: '123@email.com',
   birthday: '1996-01-01',
   school: 'Mars University',
   mbti: 'INTJ',
