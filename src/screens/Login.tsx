@@ -14,6 +14,8 @@ import {authService} from '../network/lib/auth';
 import {StackActions} from '@react-navigation/native';
 import {loadStorageData, saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {store} from '../store/store';
+import {addNewUserInfo} from '../store/userSlice';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;

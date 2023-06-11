@@ -1,9 +1,6 @@
 /**
  * Define the types of navigation params here.
  */
-
-import {User} from '../network/types';
-
 export type RootStackParamList = {
   Register: undefined;
   Login: undefined;
@@ -13,9 +10,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Contacts: undefined;
   ChatRoom: {
-    roomId: string;
     otherUserId: string;
-    user: User;
     websocket: WebSocket;
   };
 };

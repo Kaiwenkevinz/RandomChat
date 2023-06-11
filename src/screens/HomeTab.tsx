@@ -7,27 +7,17 @@ import Contacts from './Contacts';
 import Search from './Search';
 import {loadStorageData} from '../utils/storageUtil';
 import {StackActions, useNavigation} from '@react-navigation/native';
-import {User} from '../types/network/types';
 import {initTokenInceptor} from '../network/axios.config';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 import {RootStackParamList} from '../types/navigation/types';
-
-type AuthContextType = {
-  token: string;
-  user: User;
-};
+import {addNewUserInfo} from '../store/userSlice';
+import {store} from '../store/store';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
-
-export const AuthContext = createContext<AuthContextType>(
-  {} as AuthContextType,
-);
 
 const HomeTab = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState<boolean>(true);
-  // const authRef = useRef<AuthContextType>({token: '11', user: {} as User});
-  const authRef = useRef<AuthContextType>({token: '', user: {} as User});
 
   useEffect(() => {
     console.log('Home screen mounted');
@@ -40,8 +30,9 @@ const HomeTab = () => {
           navigation.dispatch(StackActions.replace('Login'));
         }
 
+        const {token, user} = data;
+
         // TODO: validate JWT
-        const token = data.token;
         const valid = token !== null;
 
         // token not valid, go to login
@@ -52,8 +43,8 @@ const HomeTab = () => {
         // add token to axios interceptor, so that every request will have token
         initTokenInceptor(token);
 
-        // save token and user to context
-        authRef.current = data;
+        // add user info to redux store
+        store.dispatch(addNewUserInfo(user));
 
         setLoading(false);
       })
@@ -63,7 +54,7 @@ const HomeTab = () => {
   }, []);
 
   return (
-    <AuthContext.Provider value={authRef.current}>
+    <>
       {loading ? (
         <View>
           <Text>loading</Text>
@@ -96,7 +87,7 @@ const HomeTab = () => {
           />
         </Tab.Navigator>
       )}
-    </AuthContext.Provider>
+    </>
   );
 };
 

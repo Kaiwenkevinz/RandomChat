@@ -1,19 +1,20 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {MessagePack, User} from '../types/network/types';
+import {MessagePack} from '../types/network/types';
+import {useAppSelector} from '../hooks/customReduxHooks';
+import {selectUser} from '../store/userSlice';
 
-type MessageComponentProps = MessagePack & {user: User};
+type MessageComponentProps = MessagePack;
 
 export function MessageComponent({
-  msgId,
   text,
   sendId,
-  receiveId,
-  user,
   timestamp,
   isSent,
 }: MessageComponentProps) {
+  const userInfo = useAppSelector(selectUser);
+  const user = userInfo || {id: '', username: ''};
   const isReceive = user.username !== sendId;
   const date = new Date(timestamp);
   const sent = isSent === undefined || isSent;

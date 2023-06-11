@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import counterReducer from './counterSlice';
 import chatReducer from './chatSlice';
+import userReducer from './userSlice';
 
 const middlewares = getDefaultMiddleware({
   // https://github.com/reduxjs/redux-toolkit/issues/415
@@ -23,6 +24,7 @@ export const store = configureStore({
   reducer: {
     counter: counterReducer,
     chat: chatReducer,
+    user: userReducer,
   },
   middleware: middlewares,
 });

@@ -11,6 +11,7 @@ import {showToast} from '../../utils/toastUtil';
 import {toastType} from '../../utils/toastUtil';
 import {generateMessagePack} from './chatUtil';
 import {store} from '../../store/store';
+import {selectUser} from '../../store/userSlice';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -19,13 +20,15 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   // get params from route
   const params = route.params;
-  const {otherUserId, user, websocket} = params;
+  const {otherUserId, websocket} = params;
 
   // the title of the chat room which shows timer countdown
   const title = `${otherUserId} (remaining: 9:59s)`;
 
   // the message that is currently being typed
   const [currentMessage, setCurrentMessage] = useState<string>('');
+
+  const {id: userId, username} = useAppSelector(selectUser);
 
   // Select state from Redux store
   const {rooms} = useAppSelector(selectRooms);
@@ -51,7 +54,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
     const messagePack = generateMessagePack(
       currentMessage,
-      user.id,
+      userId,
       otherUserId,
     );
 
@@ -79,7 +82,6 @@ const ChatRoom = ({route}: ChatRoomProps) => {
                 text={item.text}
                 sendId={item.sendId}
                 receiveId={item.receiveId}
-                user={user}
                 timestamp={item.timestamp}
                 isSent={item.isSent}
               />

@@ -1,18 +1,15 @@
 import {View, Text, FlatList} from 'react-native';
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
-import {ChatComponentProps, User} from '../types/network/types';
-import {AuthContext} from './HomeTab';
+import {ChatComponentProps} from '../types/network/types';
 import {useChatWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {getChatsAsync, selectRooms} from '../store/chatSlice';
 import {store} from '../store/store';
 
 const Chats = () => {
-  const {user} = useContext(AuthContext);
-
   const {websocket} = useChatWebSocket();
 
   const {rooms, status} = useAppSelector(selectRooms);
@@ -33,7 +30,7 @@ const Chats = () => {
         {rooms && rooms.length > 0 ? (
           <FlatList
             data={rooms}
-            renderItem={({item}) => renderChatComponent(item, user, websocket)}
+            renderItem={({item}) => renderChatComponent(item, websocket)}
             keyExtractor={item => item.otherUserId}
           />
         ) : (
@@ -48,7 +45,6 @@ const Chats = () => {
 
 const renderChatComponent = (
   item: ChatComponentProps,
-  user: User,
   websocket: WebSocket,
 ) => {
   const {messages, otherUserId} = item;
@@ -56,7 +52,6 @@ const renderChatComponent = (
   return (
     <ChatListComponent
       otherUserId={otherUserId}
-      user={user}
       messages={messages}
       websocket={websocket}
     />

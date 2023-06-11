@@ -33,7 +33,7 @@ export const chatSlice = createSlice({
   reducers: {
     appendNewMessage: (state, action: PayloadAction<MessagePack>) => {
       const {sendId, receiveId} = action.payload;
-      const rooms = [...state.rooms];
+      const rooms = state.rooms;
       const targetRoom = rooms.find(room => {
         if (room.otherUserId === sendId || room.otherUserId === receiveId) {
           return true;
@@ -45,14 +45,12 @@ export const chatSlice = createSlice({
       } else {
         console.log('target room not found');
       }
-
-      state = {...state, rooms};
     },
     setMessageStatusToSent: (state, action: PayloadAction<string>) => {
       const {msgId} = action.payload;
 
       // TODO: 通过 user id 找到 room, 通过 msg Id 找到 message
-    }
+    },
   },
   extraReducers: builder => {
     builder

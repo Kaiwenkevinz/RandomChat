@@ -2,11 +2,10 @@ import {View, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {ChatComponentProps, MessagePack, User} from '../types/network/types';
+import {ChatComponentProps, MessagePack} from '../types/network/types';
 
 type ChatListComponentProps = Pick<ChatComponentProps, 'otherUserId'> & {
   messages: MessagePack[];
-  user: User;
   websocket: WebSocket;
 };
 
@@ -15,7 +14,6 @@ type ChatListComponentProps = Pick<ChatComponentProps, 'otherUserId'> & {
  */
 export const ChatListComponent = ({
   otherUserId,
-  user,
   messages,
   websocket,
 }: ChatListComponentProps) => {
@@ -26,7 +24,6 @@ export const ChatListComponent = ({
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
       otherUserId,
-      user,
       messages,
       websocket,
     });

@@ -16,12 +16,12 @@ export type GetAllChatMessageResp = {
   rooms: ChatComponentProps[];
 };
 
-export type User = {
+export type UserInfo = {
   id: string;
   username: string;
 };
 
 export type LoginResponse = {
   jwt: string;
-  user: User;
+  user: UserInfo;
 };
