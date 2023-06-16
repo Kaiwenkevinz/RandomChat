@@ -8,6 +8,7 @@ import {useChatWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {getChatsAsync, selectRooms} from '../store/chatSlice';
 import {store} from '../store/store';
+import {getUserProfileAsync} from '../store/userSlice';
 
 const Chats = () => {
   const {websocket} = useChatWebSocket();
@@ -18,6 +19,7 @@ const Chats = () => {
     console.log('Chats mounted');
 
     store.dispatch(getChatsAsync());
+    store.dispatch(getUserProfileAsync());
 
     return () => {
       console.log('Chats unmounted');
@@ -47,11 +49,12 @@ const renderChatComponent = (
   item: ChatComponentProps,
   websocket: WebSocket,
 ) => {
-  const {messages, otherUserId} = item;
+  const {messages, otherUserId, otherUserAvatarUrl} = item;
 
   return (
     <ChatListComponent
       otherUserId={otherUserId}
+      otherUserAvatarUrl={otherUserAvatarUrl}
       messages={messages}
       websocket={websocket}
     />

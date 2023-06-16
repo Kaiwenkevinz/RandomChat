@@ -4,16 +4,22 @@ import {styles} from '../utils/styles';
 import {MessagePack} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
+import UserAvatar from 'react-native-user-avatar';
 
-type MessageComponentProps = MessagePack;
+type MessageComponentProps = MessagePack & {
+  otherUserAvatarUrl: string;
+  userAvatarUrl: string;
+};
 
 export function MessageComponent({
   text,
+  otherUserAvatarUrl,
+  userAvatarUrl,
   sendId,
   timestamp,
   isSent,
 }: MessageComponentProps) {
-  const userInfo = useAppSelector(selectUser).userInfo;
+  const userInfo = useAppSelector(selectUser).userInfo; // TODO: 把 username 改成从props里面拿
   const user = userInfo || {id: '', username: ''};
   const isReceive = user.username !== sendId;
   const date = new Date(timestamp);
@@ -27,7 +33,18 @@ export function MessageComponent({
             ? styles.mmessageWrapper
             : [styles.mmessageWrapper, {alignItems: 'flex-end'}]
         }>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={[
+            isReceive ? {flexDirection: 'row'} : {flexDirection: 'row-reverse'},
+            {alignItems: 'center'},
+          ]}>
+          <UserAvatar
+            bgColor="#fff"
+            size={50}
+            name={'Other User'}
+            src={isReceive ? otherUserAvatarUrl : userAvatarUrl}
+            style={styles.cavatar}
+          />
           <View
             style={
               isReceive

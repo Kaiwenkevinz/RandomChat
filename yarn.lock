@@ -2192,6 +2192,11 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
+abortcontroller-polyfill@^1.4.0:
+  version "1.7.5"
+  resolved "https://registry.npmjs.org/abortcontroller-polyfill/-/abortcontroller-polyfill-1.7.5.tgz"
+  integrity sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==
+
 absolute-path@^0.0.0:
   version "0.0.0"
   resolved "https://registry.npmjs.org/absolute-path/-/absolute-path-0.0.0.tgz"
@@ -4203,6 +4208,11 @@ inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.3, inherits@2, inherits@2.0.4:
   version "2.0.4"
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+initials@^3.0.1:
+  version "3.1.2"
+  resolved "https://registry.npmjs.org/initials/-/initials-3.1.2.tgz"
+  integrity sha512-Sltg35nx8+GX1w4U86rmbxFEmqFiSuMJviS6cB2KChB+jcT2/8Td+nlImXD74HkqpZF5PMv8hN57AyrA/7ltXw==
 
 internal-slot@^1.0.3, internal-slot@^1.0.5:
   version "1.0.5"
@@ -6391,6 +6401,15 @@ react-native-toast-message@^2.1.6:
   version "2.1.6"
   resolved "https://registry.npmjs.org/react-native-toast-message/-/react-native-toast-message-2.1.6.tgz"
   integrity sha512-VctXuq20vmRa9AE13acaNZhrLcS3FaBS2zEevS3+vhBsnVZYG0FIlWIis9tVnpnNxUb3ART+BWtwQjzSttXTng==
+
+react-native-user-avatar@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/react-native-user-avatar/-/react-native-user-avatar-1.0.8.tgz"
+  integrity sha512-OYm7cfEt0IjiL739OGwRZoBCCuAn6CectNcyi1tsa5WtDZjQm7eK0B1mymxZfqELZ847wcDIuevHM9obr4+kxw==
+  dependencies:
+    abortcontroller-polyfill "^1.4.0"
+    initials "^3.0.1"
+    prop-types "^15.7.2"
 
 react-native-uuid@^2.0.1:
   version "2.0.1"

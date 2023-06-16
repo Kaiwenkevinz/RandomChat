@@ -9,6 +9,7 @@ export type MessagePack = {
 
 export type ChatComponentProps = {
   otherUserId: string;
+  otherUserAvatarUrl: string;
   messages: MessagePack[];
 };
 
@@ -31,6 +32,7 @@ export type UserProfile = {
   birthday: string;
   school: string;
   mbti: string;
+  avatarUrl: string;
 };
 
 export type LoginResponse = {

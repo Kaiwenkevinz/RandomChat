@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   chatscreen: {
     backgroundColor: '#F7F7F7',
     flex: 1,
-    padding: 10,
+    margin: 10,
     position: 'relative',
   },
   chatheading: {
@@ -118,20 +118,26 @@ export const styles = StyleSheet.create({
     backgroundColor: '#f5ccc2',
     padding: 15,
     borderRadius: 10,
+    marginRight: 10,
     marginBottom: 2,
   },
   mvatar: {
     marginRight: 5,
   },
+
   cchat: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 5,
-    paddingHorizontal: 15,
     backgroundColor: '#fff',
     height: 80,
     marginBottom: 10,
+  },
+  crightContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   cavatar: {
     marginRight: 15,
@@ -145,12 +151,8 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.7,
   },
-  crightContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
   ctime: {
+    fontSize: 12,
     opacity: 0.5,
   },
 });

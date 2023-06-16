@@ -7,6 +7,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import eventEmitter from '../services/event-emitter';
 import {EVENT_UPDATE_USER_PROFILE} from '../services/event-emitter/constants';
+import UserAvatar from 'react-native-user-avatar';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
@@ -33,6 +34,12 @@ const Profile = () => {
       ) : (
         <ScrollView style={styles.container}>
           <View style={styles.infoContainer}>
+            <UserAvatar
+              bgColor="#fff"
+              size={100}
+              name={userInfo.username}
+              src={userProfile.avatarUrl}
+            />
             <Text style={styles.label}>Id:</Text>
             <Text style={styles.value}>{userInfo.id}</Text>
             <Text style={styles.label}>Name:</Text>

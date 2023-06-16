@@ -15,6 +15,7 @@ export type RootStackParamList = {
   Contacts: undefined;
   ChatRoom: {
     otherUserId: string;
+    otherUserAvatarUrl: string;
     websocket: WebSocket;
   };
 };

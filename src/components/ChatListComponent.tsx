@@ -3,8 +3,12 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {styles} from '../utils/styles';
 import {ChatComponentProps, MessagePack} from '../types/network/types';
+import UserAvatar from 'react-native-user-avatar';
 
-type ChatListComponentProps = Pick<ChatComponentProps, 'otherUserId'> & {
+type ChatListComponentProps = Pick<
+  ChatComponentProps,
+  'otherUserId' | 'otherUserAvatarUrl'
+> & {
   messages: MessagePack[];
   websocket: WebSocket;
 };
@@ -14,6 +18,7 @@ type ChatListComponentProps = Pick<ChatComponentProps, 'otherUserId'> & {
  */
 export const ChatListComponent = ({
   otherUserId,
+  otherUserAvatarUrl,
   messages,
   websocket,
 }: ChatListComponentProps) => {
@@ -24,6 +29,7 @@ export const ChatListComponent = ({
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
       otherUserId,
+      otherUserAvatarUrl,
       messages,
       websocket,
     });
@@ -31,6 +37,13 @@ export const ChatListComponent = ({
 
   return (
     <Pressable style={styles.cchat} onPress={handlePress}>
+      <UserAvatar
+        style={styles.cavatar}
+        bgColor="#fff"
+        size={50}
+        name={otherUserId}
+        src={otherUserAvatarUrl}
+      />
       <View style={styles.crightContainer}>
         <View>
           <Text style={styles.cusername}>{otherUserId}</Text>
