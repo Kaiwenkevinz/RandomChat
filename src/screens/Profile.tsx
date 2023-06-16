@@ -5,6 +5,8 @@ import {getUserProfileAsync, selectUser} from '../store/userSlice';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import eventEmitter from '../services/event-emitter';
+import {EVENT_UPDATE_USER_PROFILE} from '../services/event-emitter/constants';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
@@ -13,6 +15,15 @@ const Profile = () => {
 
   useEffect(() => {
     store.dispatch(getUserProfileAsync());
+    eventEmitter.on(EVENT_UPDATE_USER_PROFILE, () => {
+      store.dispatch(getUserProfileAsync());
+    });
+
+    return () => {
+      eventEmitter.off(EVENT_UPDATE_USER_PROFILE, () => {
+        console.log('Event listener', EVENT_UPDATE_USER_PROFILE, 'removed');
+      });
+    };
   }, []);
 
   return (

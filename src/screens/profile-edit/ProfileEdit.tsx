@@ -9,6 +9,8 @@ import {genderItems, majorItems, schoolItems} from './constant';
 import {userService} from '../../network/lib/user';
 import {useNavigation} from '@react-navigation/native';
 import {showToast, toastType} from '../../utils/toastUtil';
+import eventEmitter from '../../services/event-emitter';
+import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants';
 
 type ProfileEditProps = StackScreenProps<RootStackParamList, 'ProfileEdit'>;
 type UserType = UserInfo & UserProfile;
@@ -58,6 +60,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
     userService
       .updateUserProfile(newUserObj)
       .then(() => {
+        eventEmitter.emit(EVENT_UPDATE_USER_PROFILE);
         showToast(toastType.SUCCESS, '', 'Update profile successfully');
         navigation.goBack();
       })
