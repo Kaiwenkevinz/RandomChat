@@ -1,46 +1,75 @@
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../types/navigation/types';
-import {UserInfo, UserProfile} from '../types/network/types';
+import {RootStackParamList} from '../../types/navigation/types';
+import {UserInfo, UserProfile} from '../../types/network/types';
 import {ScrollView} from 'react-native-gesture-handler';
 import RNPickerSelect from 'react-native-picker-select';
+import {genderItems, majorItems, schoolItems} from './constant';
+import {userService} from '../../network/lib/user';
+import {useNavigation} from '@react-navigation/native';
+import {showToast, toastType} from '../../utils/toastUtil';
 
 type ProfileEditProps = StackScreenProps<RootStackParamList, 'ProfileEdit'>;
 type UserType = UserInfo & UserProfile;
 
-// TOOD: implement this Dropdown
-export const Dropdown = () => {
+// TODO: 抽取 Dropdown 组件
+interface DropdownProps {
+  onValueChange: (value: string) => void;
+  items: {label: string; value: string}[];
+  value: string;
+}
+
+export const Dropdown = (props: DropdownProps) => {
+  const {onValueChange, items, value} = props;
+
   return (
     <RNPickerSelect
-      onValueChange={value => console.log(value)}
-      value={'football'}
-      items={[
-        {label: 'Football', value: 'football'},
-        {label: 'Baseball', value: 'baseball'},
-        {label: 'Hockey', value: 'hockey'},
-      ]}
+      onValueChange={v => {
+        onValueChange(v);
+      }}
+      value={value}
+      items={items}
     />
   );
 };
 
 const ProfileEdit = ({route}: ProfileEditProps) => {
+  const navigation = useNavigation();
   const params = route.params;
   const [userObj, setUserObj] = useState<UserType>({
     ...params,
   });
 
+  const [loading, setLoading] = useState(false);
+
+  const [genderValue, setGenderValue] = useState(genderItems[0].value);
+  const [schoolValue, setSchoolValue] = useState(schoolItems[0].value);
+  const [majorValue, setMajorValue] = useState(majorItems[0].value);
+
+  const handleOnPress = () => {
+    const newUserObj = {
+      ...userObj,
+      gender: genderValue,
+      school: schoolValue,
+      major: majorValue,
+    };
+    setLoading(true);
+    userService
+      .updateUserProfile(newUserObj)
+      .then(() => {
+        showToast(toastType.SUCCESS, '', 'Update profile successfully');
+        navigation.goBack();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <>
+      {loading ? <Text>Loading...</Text> : null}
       <ScrollView style={styles.container}>
-        {/* <Dropdown /> */}
-
         <Text style={styles.label}>Username</Text>
         <TextInput
           style={styles.input}
@@ -60,6 +89,13 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
             userObj.age = e;
             setUserObj({...userObj});
           }}
+        />
+
+        <Text style={styles.label}>Gender</Text>
+        <Dropdown
+          onValueChange={setGenderValue}
+          items={genderItems}
+          value={genderValue}
         />
 
         <Text style={styles.label}>Phone Number</Text>
@@ -84,28 +120,24 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
         />
 
         <Text style={styles.label}>School</Text>
-        <TextInput
-          style={styles.input}
-          value={userObj.school}
-          onChangeText={e => {
-            userObj.school = e;
-            setUserObj({...userObj});
-          }}
+        <Dropdown
+          onValueChange={setSchoolValue}
+          items={schoolItems}
+          value={schoolValue}
         />
 
         <Text style={styles.label}>Major</Text>
-        <TextInput
-          style={styles.input}
-          value={userObj.major}
-          onChangeText={e => {
-            userObj.major = e;
-            setUserObj({...userObj});
-          }}
+        <Dropdown
+          onValueChange={setMajorValue}
+          items={majorItems}
+          value={majorValue}
         />
       </ScrollView>
 
       <TouchableOpacity style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonText}>Edit Profile</Text>
+        <Text style={styles.buttonText} onPress={handleOnPress}>
+          Save
+        </Text>
       </TouchableOpacity>
     </>
   );

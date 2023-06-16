@@ -82,3 +82,5 @@ mock.onGet('/all_chat_messages').reply(200, {
     },
   ],
 });
+
+mock.onPost('/user/update/profile').reply(200);

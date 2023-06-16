@@ -74,6 +74,9 @@ const errorHandle = (status: number, other: string) => {
     case -1:
       showToast(toastType.ERROR, 'Error', 'username already exists');
       break;
+    case 500:
+      showToast(toastType.ERROR, 'Server Error', 'Server is broken');
+      break;
 
     // // 401: 未登录状态，跳转登录页
     // case 401:

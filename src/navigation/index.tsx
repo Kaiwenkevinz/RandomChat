@@ -7,7 +7,7 @@ import Register from '../screens/Register';
 import Login from '../screens/Login';
 import Toast from 'react-native-toast-message';
 import HomeTab from '../screens/HomeTab';
-import ProfileEdit from '../screens/ProfileEdit';
+import ProfileEdit from '../screens/profile-edit/ProfileEdit';
 
 const Stack = createStackNavigator<RootStackParamList>();
 

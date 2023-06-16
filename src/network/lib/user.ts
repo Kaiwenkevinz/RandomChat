@@ -5,6 +5,11 @@ function getUserProfile() {
   return axiosClient.get<UserProfile>('/user/profile');
 }
 
+function updateUserProfile(userProfile: UserProfile) {
+  return axiosClient.post<UserProfile>('/user/update/profile', userProfile);
+}
+
 export const userService = {
   getUserProfile,
+  updateUserProfile,
 };
