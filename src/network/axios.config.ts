@@ -26,18 +26,6 @@ const initTokenInceptor = (token: string) => {
   );
 };
 
-// log request and response
-const printResponse = (res: any) => {
-  const printable = `
-Response: ${res.status}
-${JSON.stringify(res.data, null, 2)}
-`;
-
-  console.log(printable);
-
-  return res;
-};
-
 axiosClient.interceptors.request.use(req => {
   const method = req.method || '';
   const headers = {
@@ -59,11 +47,12 @@ Data: ${JSON.stringify(req.data, null, 2)}
 
 axiosClient.interceptors.response.use(
   res => {
-    printResponse(res);
+    res = res.data;
+    console.log('Response:', res);
     return Promise.resolve(res);
   },
   error => {
-    printResponse(error.response);
+    console.log('Request Error:', error);
     return Promise.reject(error);
   },
 );

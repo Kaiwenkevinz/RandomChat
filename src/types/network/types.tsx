@@ -35,7 +35,30 @@ export type UserProfile = {
   avatarUrl: string;
 };
 
-export type LoginResponse = {
-  jwt: string;
-  user: UserInfo;
-};
+export interface User {
+  id: number;
+  username?: string;
+  age?: number;
+  avatar_url?: string;
+  birthday?: string;
+  gender?: string;
+  hometown?: string;
+  mail?: string;
+  major?: string;
+  mbti?: string;
+  members?: string;
+  school?: string;
+  telephone_number?: string;
+  create_time?: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  user: User;
+}
+
+export interface Response<T> {
+  status: string;
+  msg: string;
+  data: T;
+}

@@ -1,22 +1,19 @@
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../axios.config';
+import {mockLogin} from './mockData';
+import {API_LOGIN} from '../constant';
 
 console.log('API mocking is turned on.');
 
 const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
 
 // Register
+// TODO: to delete
 mock.onPost('/register').reply(200);
 // mock.onPost('/register').reply(-1);
 
 // Login
-mock.onPost('/login').reply(200, {
-  token: 'jwt112233',
-  user: {
-    id: 'Kevin',
-    username: 'Kevin',
-  },
-});
+mock.onPost(API_LOGIN).reply(200, mockLogin.mockResponse);
 
 export const mockUserProfile = {
   gender: 'male',

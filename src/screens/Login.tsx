@@ -8,12 +8,13 @@ import {
 import {NavigationScreenProp} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
-import {increment, selectCount} from '../store/counterSlice';
+import {selectCount} from '../store/counterSlice';
 import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
 import {StackActions} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {Response} from '../types/network/types';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;
@@ -22,11 +23,6 @@ type Props = {
 export default function Login(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // useSelector 用于获取 redux store 中的数据
-  const count = useAppSelector(selectCount);
-  // dispatch 用于触发 redux action
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     console.log('Login screen mounted');
@@ -53,7 +49,7 @@ export default function Login(props: Props) {
     try {
       // login and save jwt and user to AsyncStorage
       const res = await authService.login(username, password);
-      const data = res.data;
+      const data = res.data; // TODO: 直接拿到data
       await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
       // go to home screen
@@ -66,7 +62,6 @@ export default function Login(props: Props) {
 
   return (
     <View style={styles.container}>
-      <Text onPress={() => dispatch(increment())}>{count}</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -88,7 +83,7 @@ export default function Login(props: Props) {
         onPress={() => {
           props.navigation.navigate('Register');
         }}>
-        <Text style={styles.buttonText}>Edit Profile</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
     </View>
   );
