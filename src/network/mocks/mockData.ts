@@ -1,6 +1,6 @@
 import {LoginResponse, User} from '../../types/network/types';
 
-export const generageMockResponse = <T>(data: T) => ({
+export const generageMockResponse = <T>(data: T | null = null) => ({
   data,
   msg: 'success',
   status: 200,
@@ -31,4 +31,22 @@ export const mockLogin = {
     user: mockUser,
     token: 'jwt1234567890',
   }),
+};
+
+export const mockSendVerifyEmail = {
+  mockRequestBody: {
+    username: 'Kevin',
+    email: '123@email.com',
+  },
+  mockResponse: generageMockResponse(),
+};
+
+export const mockRegister = {
+  mockRequestBody: {
+    username: 'Kevin',
+    password: '123456',
+    email: '123@email.com',
+    code: 'e-m-a-i-l',
+  },
+  mockResponse: generageMockResponse<User>(),
 };
