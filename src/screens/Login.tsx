@@ -7,14 +7,11 @@ import {
 } from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
-import {useAppSelector, useAppDispatch} from '../hooks/customReduxHooks';
-import {selectCount} from '../store/counterSlice';
 import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
 import {StackActions} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
-import {Response} from '../types/network/types';
 
 type Props = {
   navigation: NavigationScreenProp<any, any>;
@@ -55,7 +52,7 @@ export default function Login(props: Props) {
       // go to home screen
       props.navigation.dispatch(StackActions.replace('HomeTab'));
     } catch (error) {
-      console.log(error);
+      console.log('🚀unhandled from login', error);
       return;
     }
   };

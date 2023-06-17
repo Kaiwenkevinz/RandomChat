@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../axios.config';
-import {mockLogin, mockRegister} from './mockData';
+import {mockLogin, mockRegister, mockSendVerifyEmail} from './mockData';
 import {API_LOGIN, API_REGISTER, API_SEND_EMAIL} from '../constant';
 
 console.log('API mocking is turned on.');
@@ -8,7 +8,7 @@ console.log('API mocking is turned on.');
 const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
 
 // Register
-mock.onPost(API_SEND_EMAIL).reply(200);
+mock.onPost(API_SEND_EMAIL).reply(200, mockSendVerifyEmail.mockResponse);
 mock.onPost(API_REGISTER).reply(200, mockRegister.mockResponse);
 
 // Login

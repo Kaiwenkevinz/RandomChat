@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../../../network/axios.config';
 import {
+  API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_LOGIN,
   API_REGISTER,
   API_SEND_EMAIL,
@@ -25,11 +26,13 @@ describe('API 测试', () => {
     // 每个测试之后都会跑，可以统一添加一些清理功能等
     mock.reset();
   });
+
   describe('user service', () => {
     test('登录接口 should 获得后端数据并返回正确的对象', async () => {
       mock
         .onPost(API_LOGIN, mockLogin.mockRequestBody)
         .reply(200, mockLogin.mockResponse);
+
       const resp = await authService.login(
         mockLogin.mockRequestBody.username,
         mockLogin.mockRequestBody.password,
@@ -64,5 +67,18 @@ describe('API 测试', () => {
 
       expect(resp).toEqual(mockRegister.mockResponse);
     });
+  });
+
+  describe('chat service', () => {
+    // test('获取与所有好友的所有聊天记录', async () => {
+    //   mock
+    //     .onPost(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES, mockLogin.mockRequestBody)
+    //     .reply(200, mockLogin.mockResponse);
+    //   const resp = await authService.login(
+    //     mockLogin.mockRequestBody.username,
+    //     mockLogin.mockRequestBody.password,
+    //   );
+    //   expect(resp).toEqual(mockLogin.mockResponse);
+    // });
   });
 });

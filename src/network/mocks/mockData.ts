@@ -3,7 +3,7 @@ import {LoginResponse, User} from '../../types/network/types';
 export const generageMockResponse = <T>(data: T | null = null) => ({
   data,
   msg: 'success',
-  status: 200,
+  status: 'ok',
 });
 
 export const mockUser: User = {
@@ -50,3 +50,7 @@ export const mockRegister = {
   },
   mockResponse: generageMockResponse<User>(),
 };
+
+export const mockAllFriendAllChatMessages= {
+  
+}

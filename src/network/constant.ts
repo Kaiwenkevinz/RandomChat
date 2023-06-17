@@ -9,3 +9,5 @@ export const API_UPDATE_USER_INFO = '/login/register';
 export const API_GET_USER_INFO = '/user/getUserInfo';
 // 获取用户好友列表
 export const API_GET_FRIEND_LIST = '/user/getFriendList';
+// 获取与所有好友的所有聊天记录
+export const API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES = '/user/getChatInfo';

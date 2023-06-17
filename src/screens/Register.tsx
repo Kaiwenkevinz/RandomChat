@@ -18,6 +18,8 @@ export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [reEnteredPassword, setPasswordAgain] = useState('');
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
 
   useEffect(() => {
     console.log('Register screen mounted');
@@ -26,6 +28,22 @@ export default function Register(props: Props) {
       console.log('Register screen unmounted');
     };
   }, []);
+
+  const handleVerifyEmail = async () => {
+    console.log(`email: ${email}, code: ${code}`);
+
+    try {
+      await authService.sendVerifyEmail(username, email);
+      showToast(
+        toastType.SUCCESS,
+        'Success',
+        'Send code to email successfully',
+      );
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
 
   const handleRegister = async () => {
     console.log(
@@ -75,6 +93,21 @@ export default function Register(props: Props) {
         value={reEnteredPassword}
         onChangeText={setPasswordAgain}
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="code"
+        value={code}
+        onChangeText={setCode}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleVerifyEmail}>
+        <Text style={styles.buttonText}>Verify Email</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
