@@ -26,8 +26,7 @@ export const getChatsAsync = createAsyncThunk<ChatComponentProps[], void>(
   'chat/fetchAllChatMessages',
   async () => {
     const response = await ChatService.getAllChatMessages();
-    console.log('🚀 ~ file: chatSlice.ts:29 ~ response:', response.data);
-    return response.data.data;
+    return response.data.data.rooms;
   },
 );
 

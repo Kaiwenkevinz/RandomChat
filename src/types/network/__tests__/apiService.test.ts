@@ -43,6 +43,19 @@ describe('API 测试', () => {
       expect(resp).toEqual(mockLogin.mockResponse);
     });
 
+    test('登录用户不存在 should 返回 200, 但是携带相应的错误信息', async () => {
+      mock
+        .onPost(API_LOGIN, mockLogin.mockRequestBody)
+        .reply(200, {status: 'error', msg: 'No such user!', data: null});
+
+      const resp = await authService.login(
+        mockLogin.mockRequestBody.username,
+        mockLogin.mockRequestBody.password,
+      );
+
+      expect(resp).toEqual({status: 'error', msg: 'No such user!', data: null});
+    });
+
     test('发送邮件地址接口 should 获得后端返回的发送成功消息', async () => {
       mock
         .onPost(API_SEND_EMAIL, mockSendVerifyEmail.mockRequestBody)
@@ -73,10 +86,8 @@ describe('API 测试', () => {
 
   describe('chat service', () => {
     test('获取与所有好友的所有聊天记录', async () => {
-      initAuthInceptor('token-123', 100);
-
       mock
-        .onGet(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
+        .onPost(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
         .reply(200, mockAllFriendAllChatMessages.mockResponse);
       const resp = await ChatService.getAllChatMessages();
 

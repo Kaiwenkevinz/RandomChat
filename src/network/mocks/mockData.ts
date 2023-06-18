@@ -8,7 +8,7 @@ export const generageMockResponse = <T>(data: T | null = null) => ({
 
 export const mockUser: User = {
   id: 100,
-  username: 'Kevin',
+  username: 1,
   gender: 'male',
   age: 25,
   hometown: 'Mars',
@@ -24,7 +24,7 @@ export const mockUser: User = {
 
 export const mockLogin = {
   mockRequestBody: {
-    username: 'Kevin',
+    username: 1,
     password: '123456',
   },
   mockResponse: generageMockResponse<LoginResponse>({
@@ -35,7 +35,7 @@ export const mockLogin = {
 
 export const mockSendVerifyEmail = {
   mockRequestBody: {
-    username: 'Kevin',
+    username: 1,
     email: '123@email.com',
   },
   mockResponse: generageMockResponse(),
@@ -43,7 +43,7 @@ export const mockSendVerifyEmail = {
 
 export const mockRegister = {
   mockRequestBody: {
-    username: 'Kevin',
+    username: 1,
     password: '123456',
     email: '123@email.com',
     code: 'e-m-a-i-l',
@@ -67,43 +67,43 @@ export const mockAllFriendAllChatMessages = {
             msgId: '1a',
             text: 'Hello, my name is Novu',
             timestamp: 1685945115831,
-            sendId: 'Novu Hangouts',
-            receiveId: 'Kevin',
+            sendId: 200,
+            receiveId: 1,
           },
           {
             msgId: '1b',
             text: 'Hi Novu, my name is Kevin! 😇',
             timestamp: 1685945115831,
-            sendId: 'Kevin',
-            receiveId: 'Novu Hangouts',
+            sendId: 1,
+            receiveId: 200,
           },
           {
             msgId: '1c',
             text: 'Hello, my name is Novu',
             timestamp: 1685945115831,
-            sendId: 'Novu Hangouts',
-            receiveId: 'Kevin',
+            sendId: 200,
+            receiveId: 1,
           },
           {
             msgId: '1d',
             text: 'Hi Novu, my name is Kevin! 😇',
             timestamp: 1685945115831,
-            sendId: 'Kevin',
-            receiveId: 'Novu Hangouts',
+            sendId: 1,
+            receiveId: 200,
           },
           {
             msgId: '2c',
             text: 'Hello, my name is Novu',
             timestamp: 1685945115831,
-            sendId: 'Novu Hangouts',
-            receiveId: 'Kevin',
+            sendId: 200,
+            receiveId: 1,
           },
           {
             msgId: '2d',
             text: 'Hi newest',
             timestamp: 1685945115831,
-            sendId: 'Kevin',
-            receiveId: 'Novu Hangouts',
+            sendId: 1,
+            receiveId: 200,
           },
         ],
       },

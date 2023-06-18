@@ -14,7 +14,6 @@ const Chats = () => {
   const {websocket} = useChatWebSocket();
 
   const {rooms, status} = useAppSelector(selectRooms);
-  console.log("🚀 ~ file: Chats.tsx:17 ~ Chats ~ rooms:", rooms)
 
   useEffect(() => {
     console.log('Chats mounted');

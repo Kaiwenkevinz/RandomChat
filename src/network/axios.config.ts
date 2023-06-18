@@ -1,6 +1,7 @@
 import axios, {AxiosResponse} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
-import {CusResponse} from '../types/network/types';
+import {Result} from '../types/network/types';
+import {prettyPrint} from '../utils/printUtil';
 
 const axiosClient = axios.create({
   baseURL: 'http://10.68.95.179:8080', // TODO: hard code
@@ -10,7 +11,7 @@ const axiosClient = axios.create({
   },
 });
 
-// 除了登录注册的所有接口都带上token和userId
+// 调用此方法后，所有接口都会带上token和userId
 const initAuthInceptor = (token: string, userId: number) => {
   console.log('initAuthInceptor, token: ', token, 'userId: ', userId);
   axiosClient.interceptors.request.use(
@@ -47,28 +48,36 @@ Data: ${JSON.stringify(req.data, null, 2)}
   return req;
 });
 
-// Handle errors
-const errorHandle = (status: string, msg: string) => {
-  console.log('拦截错误');
+/**
+ * 统一处理原生的 http 错误码, 如 401, 500
+ * @param status 后端返回的 response.status 字段值
+ */
+const handleErrorCode = (status: number, message: string) => {
+  console.log(`统一处理原生错误码, status: ${status}, message: ${message}`);
+  switch (status) {
+    case 401:
+      showToast(toastType.ERROR, 'Error', '401: Unauthorized');
+      // TODO: 跳转到登录页
+      break;
+    case 500:
+      showToast(toastType.ERROR, 'Error', '500: Internal Server Error');
+      break;
+    default:
+      showToast(toastType.ERROR, 'Unknown Error', status.toString());
+  }
+};
+
+/**
+ * 统一处理和后端约定的错误信息, 通过 msg 字段判断错误信息
+ * @param status 在 response.data 中的 status 字段
+ * @param msg 在 response.data 中的 msg 字段
+ */
+const handleErrorCustomeCode = (status: string, msg: string) => {
+  console.log(`统一处理自定义错误码, status: ${status}, msg: ${msg}`);
   switch (msg) {
     case 'No such user!':
       showToast(toastType.ERROR, 'Error', msg);
       break;
-
-    // TODO: 测试 401 登出的情况
-
-    // // 401: 未登录状态，跳转登录页
-    // case 401:
-    //   // toLogin();
-    //   break;
-    // // 403 token过期
-    // // 清除token并跳转登录页
-    // case 403:
-    //   // localStorage.removeItem('token');
-    //   break;
-    // // 404请求不存在
-    // case 404:
-    //   break;
     default:
       console.log('Unknown error: ', msg);
   }
@@ -76,40 +85,33 @@ const errorHandle = (status: string, msg: string) => {
 
 axiosClient.interceptors.response.use(
   res => {
-    const status = res.data.status.toString();
-    console.log('🚀 ~ file: axios.config.ts:77 ~ status:', status);
+    console.log('Response:', prettyPrint(res));
 
-    // 请求没问题，传给下一个拦截器
+    const data = res.data as Result;
+    const {status, msg} = data;
+
+    // 请求没问题，提取 data，往下继续传
     if (status === 'ok') {
       return Promise.resolve(res);
+      // console.log('拦截器', prettyPrint(data));
+
+      // return Promise.resolve<AxiosResponse<string>>(res.data);
     }
 
-    // 处理请求错误码
-    errorHandle(status, res.data.msg);
+    // 处理后端自定义的错误信息
+    handleErrorCustomeCode(status, msg);
 
-    return Promise.reject(
-      'Error from axiosClient.interceptors.response: ' + res,
-    );
+    return Promise.reject('拦截器处理了自定义的错误信息');
   },
   error => {
-    console.log('🚀 ~ file: axios.config.ts:92 ~ error:', error);
-    const {response} = error;
-    if (response) {
-      errorHandle(response.msg, 'unknown error'); // TODO: error message from server
-      return Promise.reject(response);
-    }
-  },
-);
+    /**
+     * 原生错误码会走这个回调
+     */
+    const message = error.message;
+    const status = error.response.status;
+    handleErrorCode(status, message);
 
-axiosClient.interceptors.response.use(
-  res => {
-    // 只需要 请求体中 data 字段的数据
-    console.log('Response:', JSON.stringify(res, null, 2));
-    return Promise.resolve(res);
-  },
-  error => {
-    console.log('Request Error:', error);
-    return Promise.reject(error);
+    return Promise.reject('拦截器处理了原生错误码: ' + status);
   },
 );
 

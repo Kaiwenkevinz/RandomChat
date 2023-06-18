@@ -42,5 +42,5 @@ mock.onGet('/user/profile').reply(200, mockUserProfile);
 mock.onPost('/user/update/profile').reply(200);
 
 mock
-  .onGet(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
+  .onPost(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
   .reply(200, mockAllFriendAllChatMessages.mockResponse);

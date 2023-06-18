@@ -40,7 +40,7 @@ export interface LoginResponse {
   user: User;
 }
 
-export interface CusResponse<T = null> {
+export interface Result<T = null> {
   status: string;
   msg: string;
   data: T;
