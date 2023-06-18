@@ -7,11 +7,12 @@ import Contacts from './Contacts';
 import Search from './Search';
 import {loadStorageData} from '../utils/storageUtil';
 import {StackActions, useNavigation} from '@react-navigation/native';
-import {initTokenInceptor} from '../network/axios.config';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 import {RootStackParamList} from '../types/navigation/types';
 import {addNewUserInfo} from '../store/userSlice';
 import {store} from '../store/store';
+import {initAuthInceptor} from '../network/axios.config';
+import {User} from '../types/network/types';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -26,11 +27,14 @@ const HomeTab = () => {
     loadStorageData(LOCAL_STORAGE_KEY_AUTH)
       .then(data => {
         // token not exist, go to login
-        if (!data) {
+        if (data == null) {
           navigation.dispatch(StackActions.replace('Login'));
+          return;
         }
 
-        const {token, user} = data;
+        let token = data?.token;
+        let user = data?.user;
+        let userId = user?.id;
 
         // TODO: validate JWT
         const valid = token !== null;
@@ -41,10 +45,16 @@ const HomeTab = () => {
         }
 
         // add token to axios interceptor, so that every request will have token
-        initTokenInceptor(token);
+        if (!token) {
+          token = '';
+        }
+        if (!userId) {
+          userId = 0;
+        }
+        initAuthInceptor(token, userId);
 
         // add user info to redux store
-        store.dispatch(addNewUserInfo(user));
+        store.dispatch(addNewUserInfo(user as User));
 
         setLoading(false);
       })

@@ -51,6 +51,62 @@ export const mockRegister = {
   mockResponse: generageMockResponse<User>(),
 };
 
-export const mockAllFriendAllChatMessages= {
-  
-}
+export const mockAllFriendAllChatMessages = {
+  mockRequestBody: {
+    id: 100,
+  },
+  mockResponse: generageMockResponse({
+    rooms: [
+      {
+        otherUserId: 200,
+        otherUserName: 'Novu Hangouts',
+        otherUserAvatarUrl:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
+        messages: [
+          {
+            msgId: '1a',
+            text: 'Hello, my name is Novu',
+            timestamp: 1685945115831,
+            sendId: 'Novu Hangouts',
+            receiveId: 'Kevin',
+          },
+          {
+            msgId: '1b',
+            text: 'Hi Novu, my name is Kevin! 😇',
+            timestamp: 1685945115831,
+            sendId: 'Kevin',
+            receiveId: 'Novu Hangouts',
+          },
+          {
+            msgId: '1c',
+            text: 'Hello, my name is Novu',
+            timestamp: 1685945115831,
+            sendId: 'Novu Hangouts',
+            receiveId: 'Kevin',
+          },
+          {
+            msgId: '1d',
+            text: 'Hi Novu, my name is Kevin! 😇',
+            timestamp: 1685945115831,
+            sendId: 'Kevin',
+            receiveId: 'Novu Hangouts',
+          },
+          {
+            msgId: '2c',
+            text: 'Hello, my name is Novu',
+            timestamp: 1685945115831,
+            sendId: 'Novu Hangouts',
+            receiveId: 'Kevin',
+          },
+          {
+            msgId: '2d',
+            text: 'Hi newest',
+            timestamp: 1685945115831,
+            sendId: 'Kevin',
+            receiveId: 'Novu Hangouts',
+          },
+        ],
+      },
+    ],
+  }),
+};

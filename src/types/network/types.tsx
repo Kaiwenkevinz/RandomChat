@@ -2,37 +2,20 @@ export type MessagePack = {
   msgId: string;
   text: string;
   timestamp: number;
-  sendId: string;
-  receiveId: string;
+  sendId: number;
+  receiveId: number;
   isSent?: boolean;
 };
 
 export type ChatComponentProps = {
-  otherUserId: string;
+  otherUserId: number;
+  otherUserName: string;
   otherUserAvatarUrl: string;
   messages: MessagePack[];
 };
 
 export type GetAllChatMessageResp = {
   rooms: ChatComponentProps[];
-};
-
-export type UserInfo = {
-  id: string;
-  username: string;
-};
-
-export type UserProfile = {
-  gender: string;
-  age: string;
-  hometown: string;
-  major: string;
-  contactNumber: string;
-  email: string;
-  birthday: string;
-  school: string;
-  mbti: string;
-  avatarUrl: string;
 };
 
 export interface User {
@@ -57,7 +40,7 @@ export interface LoginResponse {
   user: User;
 }
 
-export interface Response<T> {
+export interface CusResponse<T = null> {
   status: string;
   msg: string;
   data: T;

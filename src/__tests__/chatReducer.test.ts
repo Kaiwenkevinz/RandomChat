@@ -8,7 +8,7 @@ const getAllChatResponse: GetAllChatMessageResp = {
   rooms: [
     {
       roomId: 'room_1',
-      otherUserId: 'Novu Hangouts',
+      otherUserName: 'Novu Hangouts',
       messages: [
         {
           msgId: '1a',

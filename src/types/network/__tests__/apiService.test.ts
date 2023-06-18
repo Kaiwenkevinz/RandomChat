@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import {axiosClient} from '../../../network/axios.config';
+import {axiosClient, initAuthInceptor} from '../../../network/axios.config';
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_LOGIN,
@@ -7,11 +7,13 @@ import {
   API_SEND_EMAIL,
 } from '../../../network/constant';
 import {
+  mockAllFriendAllChatMessages,
   mockLogin,
   mockRegister,
   mockSendVerifyEmail,
 } from '../../../network/mocks/mockData';
 import {authService} from '../../../network/lib/auth';
+import {ChatService} from '../../../network/lib/message';
 
 describe('API 测试', () => {
   let mock: MockAdapter;
@@ -70,15 +72,15 @@ describe('API 测试', () => {
   });
 
   describe('chat service', () => {
-    // test('获取与所有好友的所有聊天记录', async () => {
-    //   mock
-    //     .onPost(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES, mockLogin.mockRequestBody)
-    //     .reply(200, mockLogin.mockResponse);
-    //   const resp = await authService.login(
-    //     mockLogin.mockRequestBody.username,
-    //     mockLogin.mockRequestBody.password,
-    //   );
-    //   expect(resp).toEqual(mockLogin.mockResponse);
-    // });
+    test('获取与所有好友的所有聊天记录', async () => {
+      initAuthInceptor('token-123', 100);
+
+      mock
+        .onGet(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
+        .reply(200, mockAllFriendAllChatMessages.mockResponse);
+      const resp = await ChatService.getAllChatMessages();
+
+      expect(resp).toEqual(mockAllFriendAllChatMessages.mockResponse);
+    });
   });
 });

@@ -20,22 +20,22 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   // get params from route
   const params = route.params;
-  const {otherUserId, otherUserAvatarUrl, websocket} = params;
+  const {otherUserId, otherUserName, otherUserAvatarUrl, websocket} = params;
 
   // the title of the chat room which shows timer countdown
-  const title = `${otherUserId} (remaining: 9:59s)`;
+  const title = `${otherUserName} (remaining: 9:59s)`;
 
   // the message that is currently being typed
   const [currentMessage, setCurrentMessage] = useState<string>('');
 
-  const {id: userId, username} = useAppSelector(selectUser).userInfo;
-  const userProfile = useAppSelector(selectUser).userProfile;
-  const userAvatarUrl = userProfile?.avatarUrl || '';
+  const user = useAppSelector(selectUser).user;
+  const userId = user.id;
+  const userAvatarUrl = user?.avatar_url || '';
 
   // Select state from Redux store
   const {rooms} = useAppSelector(selectRooms);
   const messages =
-    rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
+    rooms.find(room => room.otherUserName === otherUserName)?.messages || [];
 
   // set the title of the chat room
   useEffect(() => {

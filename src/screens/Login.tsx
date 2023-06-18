@@ -46,7 +46,7 @@ export default function Login(props: Props) {
     try {
       // login and save jwt and user to AsyncStorage
       const res = await authService.login(username, password);
-      const data = res.data; // TODO: 直接拿到data
+      const data = res.data.data; // TODO: 直接拿到data
       await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
       // go to home screen

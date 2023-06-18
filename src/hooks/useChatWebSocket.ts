@@ -9,7 +9,7 @@ import {selectUser} from '../store/userSlice';
 const useChatWebSocket = () => {
   const websocket = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL)).current;
 
-  const {id: userId} = useAppSelector(selectUser).userInfo;
+  const {id: userId} = useAppSelector(selectUser).user;
 
   // init Websocket
   useEffect(() => {
@@ -33,7 +33,7 @@ const useChatWebSocket = () => {
       '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ message:',
       message,
     );
-    let otherUserId = '';
+    let otherUserId;
     if (message.sendId === userId) {
       otherUserId = message.receiveId;
     } else {

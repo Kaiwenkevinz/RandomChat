@@ -2,7 +2,6 @@ import {Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
-import {UserInfo, UserProfile} from '../../types/network/types';
 import {ScrollView} from 'react-native-gesture-handler';
 import RNPickerSelect from 'react-native-picker-select';
 import {genderItems, majorItems, schoolItems} from './constant';
@@ -11,9 +10,9 @@ import {useNavigation} from '@react-navigation/native';
 import {showToast, toastType} from '../../utils/toastUtil';
 import eventEmitter from '../../services/event-emitter';
 import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants';
+import {User} from '../../types/network/types';
 
 type ProfileEditProps = StackScreenProps<RootStackParamList, 'ProfileEdit'>;
-type UserType = UserInfo & UserProfile;
 
 // TODO: 抽取 Dropdown 组件
 interface DropdownProps {
@@ -39,7 +38,7 @@ export const Dropdown = (props: DropdownProps) => {
 const ProfileEdit = ({route}: ProfileEditProps) => {
   const navigation = useNavigation();
   const params = route.params;
-  const [userObj, setUserObj] = useState<UserType>({
+  const [userObj, setUserObj] = useState<User>({
     ...params,
   });
 
@@ -87,9 +86,9 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
         <TextInput
           keyboardType="numeric"
           style={styles.input}
-          value={userObj.age.toString()}
+          value={userObj.age?.toString()}
           onChangeText={e => {
-            userObj.age = e;
+            userObj.age = parseInt(e, 10);
             setUserObj({...userObj});
           }}
         />
@@ -105,9 +104,9 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
         <TextInput
           keyboardType="numeric"
           style={styles.input}
-          value={userObj.contactNumber}
+          value={userObj.telephone_number}
           onChangeText={e => {
-            userObj.contactNumber = e;
+            userObj.telephone_number = e;
             setUserObj({...userObj});
           }}
         />
@@ -115,7 +114,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
-          value={userObj.email}
+          value={userObj.mail}
           onChangeText={e => {
             userObj.username = e;
             setUserObj({...userObj});

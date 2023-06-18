@@ -8,18 +8,19 @@ import {useChatWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {getChatsAsync, selectRooms} from '../store/chatSlice';
 import {store} from '../store/store';
-import {getUserProfileAsync} from '../store/userSlice';
+import {getProfileAsync} from '../store/userSlice';
 
 const Chats = () => {
   const {websocket} = useChatWebSocket();
 
   const {rooms, status} = useAppSelector(selectRooms);
+  console.log("🚀 ~ file: Chats.tsx:17 ~ Chats ~ rooms:", rooms)
 
   useEffect(() => {
     console.log('Chats mounted');
 
     store.dispatch(getChatsAsync());
-    store.dispatch(getUserProfileAsync());
+    // store.dispatch(getProfileAsync());
 
     return () => {
       console.log('Chats unmounted');
@@ -32,8 +33,8 @@ const Chats = () => {
         {rooms && rooms.length > 0 ? (
           <FlatList
             data={rooms}
-            renderItem={({item}) => renderChatComponent(item, websocket)}
-            keyExtractor={item => item.otherUserId}
+            renderItem={({item}) => renderChatComponent(item, websocket)} // TODO: websocket 提取出来
+            keyExtractor={item => item.otherUserName}
           />
         ) : (
           <View style={styles.chatemptyContainer}>
@@ -49,11 +50,11 @@ const renderChatComponent = (
   item: ChatComponentProps,
   websocket: WebSocket,
 ) => {
-  const {messages, otherUserId, otherUserAvatarUrl} = item;
+  const {messages, otherUserName, otherUserAvatarUrl} = item;
 
   return (
     <ChatListComponent
-      otherUserId={otherUserId}
+      otherUserName={otherUserName}
       otherUserAvatarUrl={otherUserAvatarUrl}
       messages={messages}
       websocket={websocket}

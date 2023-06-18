@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../../network/axios.config';
 import {mockUserProfile} from '../../network/mocks/mockAPI';
 import {store} from '../store';
-import {getUserProfileAsync} from '../userSlice';
+import {getProfileAsync} from '../userSlice';
 
 const mockNetworkResponse = () => {
   const mock = new MockAdapter(axiosClient);
@@ -15,7 +15,7 @@ describe('User slice', () => {
   });
 
   it('should get user profile when get user profile from server', async () => {
-    await store.dispatch(getUserProfileAsync());
+    await store.dispatch(getProfileAsync());
 
     const state = store.getState();
     console.log('🚀 ~ file: userSlice.test.ts:21 ~ it ~ state:', state);

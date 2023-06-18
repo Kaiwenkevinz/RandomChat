@@ -1,7 +1,7 @@
 import {Text, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {store} from '../store/store';
-import {getUserProfileAsync, selectUser} from '../store/userSlice';
+import {getProfileAsync, selectUser} from '../store/userSlice';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
@@ -11,13 +11,13 @@ import UserAvatar from 'react-native-user-avatar';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
-  const {userInfo, userProfile, status} = userStore;
+  const {user, status} = userStore;
   const navigation = useNavigation();
 
   useEffect(() => {
-    store.dispatch(getUserProfileAsync());
+    store.dispatch(getProfileAsync());
     eventEmitter.on(EVENT_UPDATE_USER_PROFILE, () => {
-      store.dispatch(getUserProfileAsync());
+      store.dispatch(getProfileAsync());
     });
 
     return () => {
@@ -37,36 +37,35 @@ const Profile = () => {
             <UserAvatar
               bgColor="#fff"
               size={100}
-              name={userInfo.username}
-              src={userProfile.avatarUrl}
+              name={user.username}
+              src={user.avatar_url}
             />
             <Text style={styles.label}>Id:</Text>
-            <Text style={styles.value}>{userInfo.id}</Text>
+            <Text style={styles.value}>{user.id}</Text>
             <Text style={styles.label}>Name:</Text>
-            <Text style={styles.value}>{userInfo.username}</Text>
+            <Text style={styles.value}>{user.username}</Text>
             <Text style={styles.label}>Gender:</Text>
-            <Text style={styles.value}>{userProfile.gender}</Text>
+            <Text style={styles.value}>{user.gender}</Text>
             <Text style={styles.label}>Age:</Text>
-            <Text style={styles.value}>{userProfile.age}</Text>
+            <Text style={styles.value}>{user.age}</Text>
             <Text style={styles.label}>Hometown:</Text>
-            <Text style={styles.value}>{userProfile.hometown}</Text>
+            <Text style={styles.value}>{user.hometown}</Text>
             <Text style={styles.label}>Email:</Text>
-            <Text style={styles.value}>{userProfile.email}</Text>
+            <Text style={styles.value}>{user.mail}</Text>
             <Text style={styles.label}>Major:</Text>
-            <Text style={styles.value}>{userProfile.major}</Text>
+            <Text style={styles.value}>{user.major}</Text>
             <Text style={styles.label}>Birthday:</Text>
-            <Text style={styles.value}>{userProfile.birthday}</Text>
+            <Text style={styles.value}>{user.birthday}</Text>
             <Text style={styles.label}>School:</Text>
-            <Text style={styles.value}>{userProfile.school}</Text>
+            <Text style={styles.value}>{user.school}</Text>
             <Text style={styles.label}>MBTI:</Text>
-            <Text style={styles.value}>{userProfile.mbti}</Text>
+            <Text style={styles.value}>{user.mbti}</Text>
           </View>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
               navigation.navigate('ProfileEdit', {
-                ...userInfo,
-                ...userProfile,
+                ...user,
               });
             }}>
             <Text style={styles.buttonText}>Edit Profile</Text>

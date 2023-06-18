@@ -1,7 +1,17 @@
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../axios.config';
-import {mockLogin, mockRegister, mockSendVerifyEmail} from './mockData';
-import {API_LOGIN, API_REGISTER, API_SEND_EMAIL} from '../constant';
+import {
+  mockAllFriendAllChatMessages,
+  mockLogin,
+  mockRegister,
+  mockSendVerifyEmail,
+} from './mockData';
+import {
+  API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
+  API_LOGIN,
+  API_REGISTER,
+  API_SEND_EMAIL,
+} from '../constant';
 
 console.log('API mocking is turned on.');
 
@@ -19,7 +29,7 @@ export const mockUserProfile = {
   age: 25,
   hometown: 'Mars',
   major: 'Nutural Science',
-  contactNumber: '123456789',
+  telephone_number: '123456789',
   email: '123@email.com',
   birthday: '1996-01-01',
   school: 'Mars University',
@@ -29,79 +39,8 @@ export const mockUserProfile = {
 };
 mock.onGet('/user/profile').reply(200, mockUserProfile);
 
-mock.onGet('/all_chat_messages').reply(200, {
-  rooms: [
-    {
-      otherUserId: 'Novu Hangouts',
-      otherUserAvatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
-      messages: [
-        {
-          msgId: '1a',
-          text: 'Hello, my name is Novu',
-          timestamp: 1685945115831,
-          sendId: 'Novu Hangouts',
-          receiveId: 'Kevin',
-        },
-        {
-          msgId: '1b',
-          text: 'Hi Novu, my name is Kevin! 😇',
-          timestamp: 1685945115831,
-          sendId: 'Kevin',
-          receiveId: 'Novu Hangouts',
-        },
-        {
-          msgId: '1c',
-          text: 'Hello, my name is Novu',
-          timestamp: 1685945115831,
-          sendId: 'Novu Hangouts',
-          receiveId: 'Kevin',
-        },
-        {
-          msgId: '1d',
-          text: 'Hi Novu, my name is Kevin! 😇',
-          timestamp: 1685945115831,
-          sendId: 'Kevin',
-          receiveId: 'Novu Hangouts',
-        },
-        {
-          msgId: '2c',
-          text: 'Hello, my name is Novu',
-          timestamp: 1685945115831,
-          sendId: 'Novu Hangouts',
-          receiveId: 'Kevin',
-        },
-        {
-          msgId: '2d',
-          text: 'Hi newest',
-          timestamp: 1685945115831,
-          sendId: 'Kevin',
-          receiveId: 'Novu Hangouts',
-        },
-      ],
-    },
-    {
-      otherUserId: 'Novu Hangouts 2',
-      otherUserAvatarUrl:
-        'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000',
-      messages: [
-        {
-          msgId: '1a',
-          text: 'Hello, my name is Novu',
-          timestamp: 1685945115831,
-          sendId: 'Novu Hangouts',
-          receiveId: 'Kevin',
-        },
-        {
-          msgId: '1b',
-          text: 'Hi Novu, my name is Kevin! 😇',
-          timestamp: 1685945115831,
-          sendId: 'Kevin',
-          receiveId: 'Novu Hangouts',
-        },
-      ],
-    },
-  ],
-});
-
 mock.onPost('/user/update/profile').reply(200);
+
+mock
+  .onGet(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
+  .reply(200, mockAllFriendAllChatMessages.mockResponse);

@@ -9,7 +9,7 @@ export interface ChatState {
 }
 
 export type SetMessagesStatusToSentType = {
-  otherUserId: string;
+  otherUserId: number;
   msgId: string;
 };
 
@@ -26,7 +26,8 @@ export const getChatsAsync = createAsyncThunk<ChatComponentProps[], void>(
   'chat/fetchAllChatMessages',
   async () => {
     const response = await ChatService.getAllChatMessages();
-    return response.data.rooms;
+    console.log('🚀 ~ file: chatSlice.ts:29 ~ response:', response.data);
+    return response.data.data;
   },
 );
 

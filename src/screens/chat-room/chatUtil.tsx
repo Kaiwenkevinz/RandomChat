@@ -3,8 +3,8 @@ import uuid from 'react-native-uuid';
 
 export const generateMessagePack = (
   text: string,
-  userId: string,
-  otherUserId: string,
+  userId: number,
+  otherUserId: number,
 ) => {
   const res: MessagePack = {
     msgId: uuid.v4().toString(),

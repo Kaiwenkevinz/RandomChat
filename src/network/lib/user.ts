@@ -1,12 +1,12 @@
-import {UserProfile} from '../../types/network/types';
+import {User} from '../../types/network/types';
 import {axiosClient} from '../axios.config';
 
 function getUserProfile() {
-  return axiosClient.get<UserProfile>('/user/profile');
+  return axiosClient.get<User>('/user/profile');
 }
 
-function updateUserProfile(userProfile: UserProfile) {
-  return axiosClient.post<UserProfile>('/user/update/profile', userProfile);
+function updateUserProfile(user: User) {
+  return axiosClient.post<User>('/user/update/profile', user);
 }
 
 export const userService = {

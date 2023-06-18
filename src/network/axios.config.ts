@@ -1,5 +1,6 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
+import {CusResponse} from '../types/network/types';
 
 const axiosClient = axios.create({
   baseURL: 'http://10.68.95.179:8080', // TODO: hard code
@@ -9,14 +10,15 @@ const axiosClient = axios.create({
   },
 });
 
-// token interceptor
-const initTokenInceptor = (token: string) => {
-  console.log('initTokenInceptor, token: ', token);
+// 除了登录注册的所有接口都带上token和userId
+const initAuthInceptor = (token: string, userId: number) => {
+  console.log('initAuthInceptor, token: ', token, 'userId: ', userId);
   axiosClient.interceptors.request.use(
     config => {
       if (!config.headers.Authorization) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+      config.params = {id: userId, ...config.params};
 
       return config;
     },
@@ -52,6 +54,8 @@ const errorHandle = (status: string, msg: string) => {
     case 'No such user!':
       showToast(toastType.ERROR, 'Error', msg);
       break;
+
+    // TODO: 测试 401 登出的情况
 
     // // 401: 未登录状态，跳转登录页
     // case 401:
@@ -100,8 +104,7 @@ axiosClient.interceptors.response.use(
 axiosClient.interceptors.response.use(
   res => {
     // 只需要 请求体中 data 字段的数据
-    res = res.data;
-    console.log('Response:', res);
+    console.log('Response:', JSON.stringify(res, null, 2));
     return Promise.resolve(res);
   },
   error => {
@@ -110,4 +113,4 @@ axiosClient.interceptors.response.use(
   },
 );
 
-export {axiosClient, initTokenInceptor};
+export {axiosClient, initAuthInceptor};

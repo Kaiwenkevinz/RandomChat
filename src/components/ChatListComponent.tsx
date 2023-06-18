@@ -7,7 +7,7 @@ import UserAvatar from 'react-native-user-avatar';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,
-  'otherUserId' | 'otherUserAvatarUrl'
+  'otherUserName' | 'otherUserAvatarUrl'
 > & {
   messages: MessagePack[];
   websocket: WebSocket;
@@ -17,7 +17,7 @@ type ChatListComponentProps = Pick<
  * Item component for Chat list
  */
 export const ChatListComponent = ({
-  otherUserId,
+  otherUserName,
   otherUserAvatarUrl,
   messages,
   websocket,
@@ -28,12 +28,16 @@ export const ChatListComponent = ({
 
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
-      otherUserId,
+      otherUserName,
       otherUserAvatarUrl,
       messages,
       websocket,
     });
   };
+  console.log(
+    '🚀 ~ file: ChatListComponent.tsx:36 ~ handlePress ~ otherUserAvatarUrl:',
+    otherUserName,
+  );
 
   return (
     <Pressable style={styles.cchat} onPress={handlePress}>
@@ -41,12 +45,12 @@ export const ChatListComponent = ({
         style={styles.cavatar}
         bgColor="#fff"
         size={50}
-        name={otherUserId}
+        name={otherUserName}
         src={otherUserAvatarUrl}
       />
       <View style={styles.crightContainer}>
         <View>
-          <Text style={styles.cusername}>{otherUserId}</Text>
+          <Text style={styles.cusername}>{otherUserName}</Text>
           <Text style={styles.cmessage}>{latestMessage.text}</Text>
         </View>
         <View>

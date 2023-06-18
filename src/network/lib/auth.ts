@@ -1,5 +1,5 @@
 import {LoginResponse} from './../../types/network/types';
-import {Response, User} from '../../types/network/types';
+import {CusResponse, User} from '../../types/network/types';
 import {axiosClient} from '../axios.config';
 import {API_LOGIN, API_REGISTER, API_SEND_EMAIL} from '../constant';
 
@@ -25,7 +25,7 @@ function sendVerifyEmail(username: string, email: string) {
 }
 
 function login(username: string, password: string) {
-  return axiosClient.post<Response<LoginResponse>>(API_LOGIN, {
+  return axiosClient.post<CusResponse<LoginResponse>>(API_LOGIN, {
     username,
     password, // TODO: encrypt password
   });

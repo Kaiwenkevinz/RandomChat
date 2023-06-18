@@ -12,7 +12,7 @@ it('renders correctly', () => {
     .create(
       <ChatListComponent
         roomId="1"
-        otherUserId="Jade"
+        otherUserName="Jade"
         user={{id: 'usr1', username: 'Kevin'}}
         websocket={new WebSocket(WEB_SOCKET_URL)}
         messages={[
