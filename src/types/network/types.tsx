@@ -40,8 +40,8 @@ export interface LoginResponse {
   user: User;
 }
 
-export interface Result<T = null> {
-  status: string;
+export interface Result<T = any> {
+  status: string; // 服务器返回的约定字段，'ok' | 'error'
   msg: string;
   data: T;
 }

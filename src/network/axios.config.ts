@@ -1,6 +1,5 @@
-import axios, {AxiosResponse} from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
-import {Result} from '../types/network/types';
 import {prettyPrint} from '../utils/printUtil';
 
 const axiosClient = axios.create({
@@ -85,23 +84,20 @@ const handleErrorCustomeCode = (status: string, msg: string) => {
 
 axiosClient.interceptors.response.use(
   res => {
-    console.log('Response:', prettyPrint(res));
-
-    const data = res.data as Result;
+    const data = res.data;
     const {status, msg} = data;
+
+    console.log('Response:', prettyPrint(data));
 
     // 请求没问题，提取 data，往下继续传
     if (status === 'ok') {
-      return Promise.resolve(res);
-      // console.log('拦截器', prettyPrint(data));
-
-      // return Promise.resolve<AxiosResponse<string>>(res.data);
+      return Promise.resolve(data);
     }
 
     // 处理后端自定义的错误信息
     handleErrorCustomeCode(status, msg);
 
-    return Promise.reject('拦截器处理了自定义的错误信息');
+    return Promise.reject(new Error(msg));
   },
   error => {
     /**
@@ -111,8 +107,34 @@ axiosClient.interceptors.response.use(
     const status = error.response.status;
     handleErrorCode(status, message);
 
-    return Promise.reject('拦截器处理了原生错误码: ' + status);
+    return Promise.reject(new Error(message));
   },
 );
 
 export {axiosClient, initAuthInceptor};
+
+export const api = {
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    return axiosClient.get(url, config);
+  },
+
+  post<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return axiosClient.post(url, data, config);
+  },
+
+  put<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return axiosClient.put(url, data, config);
+  },
+
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+    return axiosClient.delete(url, config);
+  },
+};

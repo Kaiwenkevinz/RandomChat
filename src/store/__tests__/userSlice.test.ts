@@ -1,3 +1,5 @@
+import {generageMockResponse} from './../../network/mocks/mockData';
+import {API_GET_USER_INFO} from './../../network/constant';
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../../network/axios.config';
 import {mockUserProfile} from '../../network/mocks/mockAPI';
@@ -6,7 +8,9 @@ import {getProfileAsync} from '../userSlice';
 
 const mockNetworkResponse = () => {
   const mock = new MockAdapter(axiosClient);
-  mock.onGet(`/user/profile`).reply(200, mockUserProfile);
+  mock
+    .onGet(API_GET_USER_INFO)
+    .reply(200, generageMockResponse(mockUserProfile));
 };
 
 describe('User slice', () => {
@@ -19,6 +23,5 @@ describe('User slice', () => {
 
     const state = store.getState();
     console.log('🚀 ~ file: userSlice.test.ts:21 ~ it ~ state:', state);
-    // TODO: fix test
   });
 });

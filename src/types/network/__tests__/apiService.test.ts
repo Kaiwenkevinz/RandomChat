@@ -1,5 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-import {axiosClient, initAuthInceptor} from '../../../network/axios.config';
+import {axiosClient} from '../../../network/axios.config';
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_LOGIN,
@@ -43,17 +43,17 @@ describe('API 测试', () => {
       expect(resp).toEqual(mockLogin.mockResponse);
     });
 
-    test('登录用户不存在 should 返回 200, 但是携带相应的错误信息', async () => {
+    test('登录用户不存在 should 返回相应的自定义错误信息', async () => {
       mock
         .onPost(API_LOGIN, mockLogin.mockRequestBody)
         .reply(200, {status: 'error', msg: 'No such user!', data: null});
 
-      const resp = await authService.login(
-        mockLogin.mockRequestBody.username,
-        mockLogin.mockRequestBody.password,
-      );
-
-      expect(resp).toEqual({status: 'error', msg: 'No such user!', data: null});
+      await authService
+        .login(
+          mockLogin.mockRequestBody.username,
+          mockLogin.mockRequestBody.password,
+        )
+        .catch(error => expect(error.message).toEqual('No such user!'));
     });
 
     test('发送邮件地址接口 should 获得后端返回的发送成功消息', async () => {

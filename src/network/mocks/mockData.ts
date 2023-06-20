@@ -7,8 +7,8 @@ export const generageMockResponse = <T>(data: T | null = null) => ({
 });
 
 export const mockUser: User = {
-  id: 100,
-  username: 1,
+  id: 1,
+  username: 'Kevin',
   gender: 'male',
   age: 25,
   hometown: 'Mars',
@@ -24,7 +24,7 @@ export const mockUser: User = {
 
 export const mockLogin = {
   mockRequestBody: {
-    username: 1,
+    username: 'Kevin',
     password: '123456',
   },
   mockResponse: generageMockResponse<LoginResponse>({
@@ -35,7 +35,7 @@ export const mockLogin = {
 
 export const mockSendVerifyEmail = {
   mockRequestBody: {
-    username: 1,
+    username: 'Kevin',
     email: '123@email.com',
   },
   mockResponse: generageMockResponse(),
@@ -43,7 +43,7 @@ export const mockSendVerifyEmail = {
 
 export const mockRegister = {
   mockRequestBody: {
-    username: 1,
+    username: 'Kevin',
     password: '123456',
     email: '123@email.com',
     code: 'e-m-a-i-l',
@@ -53,60 +53,58 @@ export const mockRegister = {
 
 export const mockAllFriendAllChatMessages = {
   mockRequestBody: {
-    id: 100,
+    id: 1,
   },
-  mockResponse: generageMockResponse({
-    rooms: [
-      {
-        otherUserId: 200,
-        otherUserName: 'Novu Hangouts',
-        otherUserAvatarUrl:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
-        messages: [
-          {
-            msgId: '1a',
-            text: 'Hello, my name is Novu',
-            timestamp: 1685945115831,
-            sendId: 200,
-            receiveId: 1,
-          },
-          {
-            msgId: '1b',
-            text: 'Hi Novu, my name is Kevin! 😇',
-            timestamp: 1685945115831,
-            sendId: 1,
-            receiveId: 200,
-          },
-          {
-            msgId: '1c',
-            text: 'Hello, my name is Novu',
-            timestamp: 1685945115831,
-            sendId: 200,
-            receiveId: 1,
-          },
-          {
-            msgId: '1d',
-            text: 'Hi Novu, my name is Kevin! 😇',
-            timestamp: 1685945115831,
-            sendId: 1,
-            receiveId: 200,
-          },
-          {
-            msgId: '2c',
-            text: 'Hello, my name is Novu',
-            timestamp: 1685945115831,
-            sendId: 200,
-            receiveId: 1,
-          },
-          {
-            msgId: '2d',
-            text: 'Hi newest',
-            timestamp: 1685945115831,
-            sendId: 1,
-            receiveId: 200,
-          },
-        ],
-      },
-    ],
-  }),
+  mockResponse: generageMockResponse([
+    {
+      otherUserId: 200,
+      otherUserName: 'Novu Hangouts',
+      otherUserAvatarUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
+      messages: [
+        {
+          msgId: '1a',
+          text: 'Hello, my name is Novu',
+          timestamp: 1685945115831,
+          sendId: 200,
+          receiveId: 1,
+        },
+        {
+          msgId: '1b',
+          text: 'Hi Novu, my name is Kevin! 😇',
+          timestamp: 1685945115831,
+          sendId: 1,
+          receiveId: 200,
+        },
+        {
+          msgId: '1c',
+          text: 'Hello, my name is Novu',
+          timestamp: 1685945115831,
+          sendId: 200,
+          receiveId: 1,
+        },
+        {
+          msgId: '1d',
+          text: 'Hi Novu, my name is Kevin! 😇',
+          timestamp: 1685945115831,
+          sendId: 1,
+          receiveId: 200,
+        },
+        {
+          msgId: '2c',
+          text: 'Hello, my name is Novu',
+          timestamp: 1685945115831,
+          sendId: 200,
+          receiveId: 1,
+        },
+        {
+          msgId: '2d',
+          text: 'Hi newest',
+          timestamp: 1685945115831,
+          sendId: 1,
+          receiveId: 200,
+        },
+      ],
+    },
+  ]),
 };

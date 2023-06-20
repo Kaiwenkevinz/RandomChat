@@ -1,6 +1,6 @@
 import {LoginResponse} from './../../types/network/types';
 import {Result, User} from '../../types/network/types';
-import {axiosClient} from '../axios.config';
+import {api} from '../axios.config';
 import {API_LOGIN, API_REGISTER, API_SEND_EMAIL} from '../constant';
 
 function register(
@@ -9,7 +9,7 @@ function register(
   email: string,
   code: string,
 ) {
-  return axiosClient.post(API_REGISTER, {
+  return api.post<Result<User>>(API_REGISTER, {
     username,
     password, // TODO: encrypt password
     email,
@@ -18,14 +18,14 @@ function register(
 }
 
 function sendVerifyEmail(username: string, email: string) {
-  return axiosClient.post(API_SEND_EMAIL, {
+  return api.post(API_SEND_EMAIL, {
     username,
     email,
   });
 }
 
 function login(username: string, password: string) {
-  return axiosClient.post<Result<LoginResponse>>(API_LOGIN, {
+  return api.post<Result<LoginResponse>>(API_LOGIN, {
     username,
     password, // TODO: encrypt password
   });

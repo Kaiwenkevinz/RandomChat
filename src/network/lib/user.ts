@@ -1,12 +1,13 @@
-import {User} from '../../types/network/types';
-import {axiosClient} from '../axios.config';
+import {Result, User} from '../../types/network/types';
+import {api} from '../axios.config';
+import {API_GET_USER_INFO, API_UPDATE_USER_INFO} from '../constant';
 
 function getUserProfile() {
-  return axiosClient.get<User>('/user/profile');
+  return api.get<Result<User>>(API_GET_USER_INFO);
 }
 
 function updateUserProfile(user: User) {
-  return axiosClient.post<User>('/user/update/profile', user);
+  return api.post<Result<User>>(API_UPDATE_USER_INFO, user);
 }
 
 export const userService = {
