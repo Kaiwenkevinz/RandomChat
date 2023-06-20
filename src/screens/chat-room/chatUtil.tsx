@@ -2,17 +2,19 @@ import {MessagePack} from '../../types/network/types';
 import uuid from 'react-native-uuid';
 
 export const generateMessagePack = (
-  text: string,
+  type: 'text' | 'image' | 'video' | 'system',
+  content: string,
   userId: number,
   otherUserId: number,
 ) => {
   const res: MessagePack = {
-    msgId: uuid.v4().toString(),
-    text,
+    type,
+    id: uuid.v4().toString(),
+    content,
+    fromId: userId,
+    toId: otherUserId,
+    isGroup: 0,
     timestamp: Date.now(),
-    sendId: userId,
-    receiveId: otherUserId,
-    isSent: false,
   };
 
   return res;

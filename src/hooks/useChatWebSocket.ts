@@ -1,15 +1,22 @@
 import {MessagePack} from './../types/network/types';
 import {useEffect, useRef} from 'react';
-import {WEB_SOCKET_URL} from '../constant';
 import {store} from '../store/store';
 import {setMessageStatusToSent} from '../store/chatSlice';
 import {useAppSelector} from './customReduxHooks';
 import {selectUser} from '../store/userSlice';
 
-const useChatWebSocket = () => {
-  const websocket = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL)).current;
-
+const useChatWebSocket = (token: string) => {
+  // const websocket = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL)).current;
   const {id: userId} = useAppSelector(selectUser).user;
+
+  // TODO: 抽取
+  const URL = `ws://10.68.62.219:8080/chat/${userId}`;
+  const websocket = useRef<WebSocket>(
+    new WebSocket(URL, null, {
+      headers: {Authorization: `Bearer ${token}`},
+    }),
+  ).current;
+  console.log('🚀 ~ file: useChatWebSocket.ts:15 ~ URL:', URL);
 
   // init Websocket
   useEffect(() => {
@@ -34,12 +41,12 @@ const useChatWebSocket = () => {
       message,
     );
     let otherUserId;
-    if (message.sendId === userId) {
-      otherUserId = message.receiveId;
+    if (message.fromId === userId) {
+      otherUserId = message.toId;
     } else {
-      otherUserId = message.sendId;
+      otherUserId = message.fromId;
     }
-    const msgId = message.msgId;
+    const msgId = message.id;
 
     // set message status to sent
     store.dispatch(setMessageStatusToSent({otherUserId, msgId}));

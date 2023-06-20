@@ -42,11 +42,11 @@ describe('useWebSocket hook', () => {
 
   it('Client A send message to Server, Server receives and replay the same message back to client.', async () => {
     const mockMessagePack: MessagePack = {
-      msgId: '1a',
-      text: 'Hello, my name is Novu',
+      id: '1a',
+      content: 'Hello, my name is Novu',
       timestamp: 1684930783,
-      sendId: 'Novu Hangouts',
-      receiveId: 'Kevin',
+      fromId: 'Novu Hangouts',
+      toId: 'Kevin',
       isSent: false,
     };
 
@@ -60,7 +60,7 @@ describe('useWebSocket hook', () => {
       clientWebsocket.send(mockMessagePack);
 
       // ack waiting queue 中应该有这个消息包
-      expect(messagesAckPendingMemo.has(mockMessagePack.msgId)).toBeTruthy();
+      expect(messagesAckPendingMemo.has(mockMessagePack.id)).toBeTruthy();
     });
 
     // Server 收到 Client 发送的消息包
@@ -70,6 +70,6 @@ describe('useWebSocket hook', () => {
     server.send(JSON.stringify(mockServerSendMsgPack));
 
     // Client 收到消息包 ack，消息包从 ack waiting queue 中移除
-    expect(messagesAckPendingMemo.has(mockMessagePack.msgId)).toBeFalsy();
+    expect(messagesAckPendingMemo.has(mockMessagePack.id)).toBeFalsy();
   });
 });

@@ -1,10 +1,12 @@
 export type MessagePack = {
-  msgId: string;
-  text: string;
-  timestamp: number;
-  sendId: number;
-  receiveId: number;
+  type: 'text' | 'image' | 'video' | 'system';
+  id: string;
+  content: string;
+  fromId: number;
+  toId: number;
+  isGroup: 0 | 1;
   isSent?: boolean;
+  timestamp: number;
 };
 
 export type ChatComponentProps = {

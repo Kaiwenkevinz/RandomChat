@@ -55,6 +55,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     }
 
     const messagePack = generateMessagePack(
+      'text',
       currentMessage,
       userId,
       otherUserId,
@@ -81,17 +82,17 @@ const ChatRoom = ({route}: ChatRoomProps) => {
             data={[...messages].reverse()}
             renderItem={({item}) => (
               <MessageComponent
-                msgId={item.msgId}
+                id={item.id}
                 otherUserAvatarUrl={otherUserAvatarUrl}
                 userAvatarUrl={userAvatarUrl}
-                text={item.text}
-                sendId={item.sendId}
-                receiveId={item.receiveId}
+                content={item.content}
+                fromId={item.fromId}
+                toId={item.toId}
                 timestamp={item.timestamp}
                 isSent={item.isSent}
               />
             )}
-            keyExtractor={item => item.msgId}
+            keyExtractor={item => item.id}
           />
         ) : (
           ''

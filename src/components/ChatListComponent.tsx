@@ -7,7 +7,7 @@ import UserAvatar from 'react-native-user-avatar';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,
-  'otherUserName' | 'otherUserAvatarUrl'
+  'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
 > & {
   messages: MessagePack[];
   websocket: WebSocket;
@@ -17,27 +17,25 @@ type ChatListComponentProps = Pick<
  * Item component for Chat list
  */
 export const ChatListComponent = ({
+  otherUserId,
   otherUserName,
   otherUserAvatarUrl,
   messages,
   websocket,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
-  const latestMessage = messages[messages.length - 1] || {text: ''};
+  const latestMessage = messages[messages.length - 1] || {content: ''};
   const date = new Date(latestMessage.timestamp * 1000);
 
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
+      otherUserId,
       otherUserName,
       otherUserAvatarUrl,
       messages,
       websocket,
     });
   };
-  console.log(
-    '🚀 ~ file: ChatListComponent.tsx:36 ~ handlePress ~ otherUserAvatarUrl:',
-    otherUserName,
-  );
 
   return (
     <Pressable style={styles.cchat} onPress={handlePress}>
@@ -51,7 +49,7 @@ export const ChatListComponent = ({
       <View style={styles.crightContainer}>
         <View>
           <Text style={styles.cusername}>{otherUserName}</Text>
-          <Text style={styles.cmessage}>{latestMessage.text}</Text>
+          <Text style={styles.cmessage}>{latestMessage.content}</Text>
         </View>
         <View>
           <Text style={styles.ctime}>{date.toLocaleTimeString()}</Text>

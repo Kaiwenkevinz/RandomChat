@@ -11,11 +11,11 @@ const getAllChatResponse: GetAllChatMessageResp = {
       otherUserName: 'Novu Hangouts',
       messages: [
         {
-          msgId: '1a',
-          text: 'Hello, my name is Novu',
+          id: '1a',
+          content: 'Hello, my name is Novu',
           timestamp: 1684930783,
-          sendId: 'Novu Hangouts',
-          receiveId: 'Kevin',
+          fromId: 'Novu Hangouts',
+          toId: 'Kevin',
           isSent: false,
         },
       ],
@@ -57,11 +57,11 @@ describe('chat slice', () => {
     await store.dispatch(getChatsAsync());
 
     const newMessage: MessagePack = {
-      msgId: '1b',
-      text: 'This is a new message from Kevin',
+      id: '1b',
+      content: 'This is a new message from Kevin',
       timestamp: 1685930783,
-      sendId: 'Kevin',
-      receiveId: 'Novu Hangouts',
+      fromId: 'Kevin',
+      toId: 'Novu Hangouts',
       isSent: false,
     };
 

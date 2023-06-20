@@ -37,7 +37,7 @@ export const chatSlice = createSlice({
   initialState,
   reducers: {
     appendNewMessage: (state, action: PayloadAction<MessagePack>) => {
-      const {sendId, receiveId} = action.payload;
+      const {fromId: sendId, toId: receiveId} = action.payload;
       const rooms = state.rooms;
       const targetRoom = rooms.find(room => {
         if (room.otherUserId === sendId || room.otherUserId === receiveId) {
@@ -64,7 +64,7 @@ export const chatSlice = createSlice({
       });
       if (targetRoom) {
         const targetMessage = targetRoom.messages.find(message => {
-          if (message.msgId === msgId) {
+          if (message.id === msgId) {
             return true;
           }
         });

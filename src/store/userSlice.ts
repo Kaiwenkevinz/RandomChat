@@ -5,12 +5,14 @@ import {userService} from '../network/lib/user';
 
 type UserState = {
   user: User;
+  token: string;
   status: 'idle' | 'loading' | 'failed';
 };
 
 // state
 const initialState: UserState = {
   user: {} as User,
+  token: '',
   status: 'idle',
 };
 
@@ -30,6 +32,9 @@ export const userSlice = createSlice({
     addNewUserInfo: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     },
+    addToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -47,5 +52,5 @@ export const userSlice = createSlice({
 });
 
 export const selectUser = (state: RootState) => state.user;
-export const {addNewUserInfo} = userSlice.actions;
+export const {addNewUserInfo, addToken} = userSlice.actions;
 export default userSlice.reducer;

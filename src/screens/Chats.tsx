@@ -11,15 +11,15 @@ import {store} from '../store/store';
 import {getProfileAsync} from '../store/userSlice';
 
 const Chats = () => {
-  const {websocket} = useChatWebSocket();
-
+  const token = useAppSelector(state => state.user.token);
+  const {websocket} = useChatWebSocket(token);
   const {rooms, status} = useAppSelector(selectRooms);
 
   useEffect(() => {
     console.log('Chats mounted');
 
     store.dispatch(getChatsAsync());
-    // store.dispatch(getProfileAsync());
+    store.dispatch(getProfileAsync());
 
     return () => {
       console.log('Chats unmounted');
@@ -49,10 +49,11 @@ const renderChatComponent = (
   item: ChatComponentProps,
   websocket: WebSocket,
 ) => {
-  const {messages, otherUserName, otherUserAvatarUrl} = item;
+  const {messages, otherUserId, otherUserName, otherUserAvatarUrl} = item;
 
   return (
     <ChatListComponent
+      otherUserId={otherUserId}
       otherUserName={otherUserName}
       otherUserAvatarUrl={otherUserAvatarUrl}
       messages={messages}

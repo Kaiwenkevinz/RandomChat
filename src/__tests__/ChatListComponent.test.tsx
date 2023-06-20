@@ -17,11 +17,11 @@ it('renders correctly', () => {
         websocket={new WebSocket(WEB_SOCKET_URL)}
         messages={[
           {
-            msgId: '1',
-            text: 'Hello',
+            id: '1',
+            content: 'Hello',
             timestamp: 1627777777777,
-            sendId: 'Jade',
-            receiveId: 'Kevin',
+            fromId: 'Jade',
+            toId: 'Kevin',
             isSent: false,
           },
         ]}

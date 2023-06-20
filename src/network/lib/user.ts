@@ -3,7 +3,7 @@ import {api} from '../axios.config';
 import {API_GET_USER_INFO, API_UPDATE_USER_INFO} from '../constant';
 
 function getUserProfile() {
-  return api.get<Result<User>>(API_GET_USER_INFO);
+  return api.post<Result<User>>(API_GET_USER_INFO);
 }
 
 function updateUserProfile(user: User) {

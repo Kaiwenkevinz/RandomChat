@@ -12,10 +12,10 @@ type MessageComponentProps = MessagePack & {
 };
 
 export function MessageComponent({
-  text,
+  content: text,
   otherUserAvatarUrl,
   userAvatarUrl,
-  sendId,
+  fromId: sendId,
   timestamp,
   isSent,
 }: MessageComponentProps) {

@@ -3,7 +3,7 @@ import {showToast, toastType} from '../utils/toastUtil';
 import {prettyPrint} from '../utils/printUtil';
 
 const axiosClient = axios.create({
-  baseURL: 'http://10.68.95.179:8080', // TODO: hard code
+  baseURL: 'http://10.68.62.219:8080', // TODO: hard code
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
