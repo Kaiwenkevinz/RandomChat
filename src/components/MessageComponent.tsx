@@ -1,12 +1,12 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {MessagePack} from '../types/network/types';
+import {MessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
 import UserAvatar from 'react-native-user-avatar';
 
-type MessageComponentProps = MessagePack & {
+type MessageComponentProps = MessagePackReceive & {
   otherUserAvatarUrl: string;
   userAvatarUrl: string;
 };
@@ -15,8 +15,8 @@ export function MessageComponent({
   content: text,
   otherUserAvatarUrl,
   userAvatarUrl,
-  fromId: sendId,
-  timestamp,
+  sender_id: sendId,
+  send_time: timestamp,
   isSent,
 }: MessageComponentProps) {
   const user = useAppSelector(selectUser).user; // TODO: 把 username 改成从props里面拿

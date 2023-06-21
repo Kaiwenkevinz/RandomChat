@@ -1,10 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from './store';
-import {ChatComponentProps, MessagePack} from '../types/network/types';
+import {ChatComponentProps, MessagePackReceive} from '../types/network/types';
 import {chatService} from '../network/lib/message';
 
 export interface ChatState {
-  rooms: ChatComponentProps[];
+  data: ChatComponentProps[];
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -15,7 +15,7 @@ export type SetMessagesStatusToSentType = {
 
 // state
 const initialState: ChatState = {
-  rooms: [],
+  data: [],
   status: 'idle',
 };
 
@@ -36,9 +36,13 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    appendNewMessage: (state, action: PayloadAction<MessagePack>) => {
-      const {fromId: sendId, toId: receiveId} = action.payload;
-      const rooms = state.rooms;
+    reset: state => {
+      state.data = [];
+      state.status = 'idle';
+    },
+    appendNewMessage: (state, action: PayloadAction<MessagePackReceive>) => {
+      const {sender_id: sendId, receiver_id: receiveId} = action.payload;
+      const rooms = state.data;
       const targetRoom = rooms.find(room => {
         if (room.otherUserId === sendId || room.otherUserId === receiveId) {
           return true;
@@ -51,12 +55,12 @@ export const chatSlice = createSlice({
         console.log('target room not found');
       }
     },
-    setMessageStatusToSent: (
+    updateMessageStatus: (
       state,
       action: PayloadAction<SetMessagesStatusToSentType>,
     ) => {
       const {otherUserId, msgId} = action.payload;
-      const rooms = state.rooms;
+      const rooms = state.data;
       const targetRoom = rooms.find(room => {
         if (room.otherUserId === otherUserId) {
           return true;
@@ -82,7 +86,7 @@ export const chatSlice = createSlice({
       .addCase(getChatsAsync.fulfilled, (state, action) => {
         // 在 getChatsAsync 完成后，拿到结果并更新 store
         state.status = 'idle';
-        state.rooms = action.payload;
+        state.data = action.payload;
       })
       .addCase(getChatsAsync.rejected, (state, _) => {
         state.status = 'failed';
@@ -94,6 +98,6 @@ export const chatSlice = createSlice({
 // 使用 useSelector() 获得 state
 export const selectRooms = (state: RootState) => state.chat;
 // 暴露 action
-export const {appendNewMessage, setMessageStatusToSent} = chatSlice.actions;
+export const {reset, appendNewMessage, updateMessageStatus} = chatSlice.actions;
 // 暴露 reducer
 export default chatSlice.reducer;

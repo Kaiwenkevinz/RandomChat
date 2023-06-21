@@ -1,20 +1,41 @@
-import {MessagePack} from '../../types/network/types';
+import {MessagePackReceive, MessagePackSend} from '../../types/network/types';
 import uuid from 'react-native-uuid';
 
-export const generateMessagePack = (
-  type: 'text' | 'image' | 'video' | 'system',
+export const generateSendMessagePack = (
   content: string,
   userId: number,
   otherUserId: number,
+  type: 'text' | 'image' | 'video' | 'system' = 'text',
 ) => {
-  const res: MessagePack = {
-    type,
+  const res: MessagePackSend = {
+    type: type,
     id: uuid.v4().toString(),
     content,
     fromId: userId,
     toId: otherUserId,
     isGroup: 0,
-    timestamp: Date.now(),
+  };
+
+  return res;
+};
+
+export const generateReceiveMessagePack = (
+  id: string,
+  content: string,
+  userId: number,
+  otherUserId: number,
+  type: 'text' | 'image' | 'video' | 'system' = 'text',
+  isGroup: 0 | 1 = 0,
+) => {
+  const res: MessagePackReceive = {
+    id,
+    message_type: type,
+    content,
+    sender_id: userId,
+    receiver_id: otherUserId,
+    isSent: false,
+    send_time: new Date().toISOString(),
+    isGroup,
   };
 
   return res;

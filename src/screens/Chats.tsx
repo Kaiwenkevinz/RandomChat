@@ -13,7 +13,7 @@ import {getProfileAsync} from '../store/userSlice';
 const Chats = () => {
   const token = useAppSelector(state => state.user.token);
   const {websocket} = useChatWebSocket(token);
-  const {rooms, status} = useAppSelector(selectRooms);
+  const {data: rooms, status} = useAppSelector(selectRooms);
 
   useEffect(() => {
     console.log('Chats mounted');

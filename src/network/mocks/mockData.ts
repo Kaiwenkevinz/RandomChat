@@ -1,10 +1,17 @@
-import {LoginResponse, User} from '../../types/network/types';
+import {
+  LoginResponse,
+  MessagePackReceive,
+  MessagePackSend,
+  Result,
+  User,
+} from '../../types/network/types';
 
-export const generageMockResponse = <T>(data: T | null = null) => ({
-  data,
-  msg: 'success',
-  status: 'ok',
-});
+export const generageMockResponse = <T>(data: T | null = null) =>
+  ({
+    data,
+    msg: 'success',
+    status: 'ok',
+  } as Result<T>);
 
 export const mockUser: User = {
   id: 1,
@@ -51,6 +58,25 @@ export const mockRegister = {
   mockResponse: generageMockResponse<User>(),
 };
 
+export const mockUserProfile = {
+  mockResponse: generageMockResponse<User>(mockUser),
+};
+
+export const generateMockChatMessage = (
+  id: string,
+  content: string,
+  type = 'text',
+) => {
+  return {
+    id,
+    message_type: type,
+    content,
+    sender_id: 200,
+    receiver_id: 1,
+    send_time: '2023-04-08T08:07:23.000+00:00',
+  } as MessagePackReceive;
+};
+
 export const mockAllFriendAllChatMessages = {
   mockRequestBody: {
     id: 1,
@@ -62,27 +88,24 @@ export const mockAllFriendAllChatMessages = {
       otherUserAvatarUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
       messages: [
-        {
-          id: '1a',
-          message_type: 'text',
-          content: 'Hello, my name is Novu',
-          sender_id: 200,
-          receiver_id: 1,
-          send_time: '2023-04-08T08:07:23.000+00:00',
-        },
-        {
-          id: '1b',
-          message_type: 'text',
-          content: 'Hi Novu, my name is Kevin! 😇',
-          sender_id: 1,
-          receiver_id: 200,
-          send_time: '2023-04-09T23:45:23.000+00:00',
-        },
+        generateMockChatMessage('1a', 'Hello, my name is Novu'),
+        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin! 😇'),
       ],
+    },
+    {
+      otherUserId: 300,
+      otherUserName: 'Alex',
+      otherUserAvatarUrl: null,
+      messages: [generateMockChatMessage('1a', 'I am Alex')],
     },
   ]),
 };
 
-export const mockUserProfile = {
-  mockResponse: generageMockResponse<User>(mockUser),
+export const mockSendNewMessage: MessagePackSend = {
+  id: 'new-message-id',
+  type: 'text',
+  content: 'This is new message from user id 200',
+  fromId: 200,
+  toId: 1,
+  isGroup: 0,
 };

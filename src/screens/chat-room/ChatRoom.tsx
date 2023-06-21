@@ -9,7 +9,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
 import {toastType} from '../../utils/toastUtil';
-import {generateMessagePack} from './chatUtil';
+import {generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
 
@@ -33,7 +33,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   const userAvatarUrl = user?.avatar_url || '';
 
   // Select state from Redux store
-  const {rooms} = useAppSelector(selectRooms);
+  const {data: rooms} = useAppSelector(selectRooms);
   const messages =
     rooms.find(room => room.otherUserName === otherUserName)?.messages || [];
 
@@ -54,7 +54,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       return;
     }
 
-    const messagePack = generateMessagePack(
+    // 用于发送的消息体和用于展示的消息体的字段不一样，所以需要生成两个消息体，一个发送，一个展示
+    const messagePack = generateSendMessagePack(
       'text',
       currentMessage,
       userId,
@@ -86,9 +87,9 @@ const ChatRoom = ({route}: ChatRoomProps) => {
                 otherUserAvatarUrl={otherUserAvatarUrl}
                 userAvatarUrl={userAvatarUrl}
                 content={item.content}
-                fromId={item.fromId}
-                toId={item.toId}
-                timestamp={item.timestamp}
+                sender_id={item.sender_id}
+                receiver_id={item.receiver_id}
+                send_time={item.send_time}
                 isSent={item.isSent}
               />
             )}

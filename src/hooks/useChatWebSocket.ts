@@ -1,7 +1,7 @@
-import {MessagePack} from './../types/network/types';
+import {MessagePackReceive} from './../types/network/types';
 import {useEffect, useRef} from 'react';
 import {store} from '../store/store';
-import {setMessageStatusToSent} from '../store/chatSlice';
+import {updateMessageStatus} from '../store/chatSlice';
 import {useAppSelector} from './customReduxHooks';
 import {selectUser} from '../store/userSlice';
 
@@ -35,21 +35,21 @@ const useChatWebSocket = (token: string) => {
   }, []);
 
   const handleOnReceiveWebSocketMessage = (e: WebSocketMessageEvent) => {
-    const message: MessagePack = JSON.parse(e.data);
+    const message: MessagePackReceive = JSON.parse(e.data);
     console.log(
       '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ message:',
       message,
     );
     let otherUserId;
-    if (message.fromId === userId) {
-      otherUserId = message.toId;
+    if (message.sender_id === userId) {
+      otherUserId = message.receiver_id;
     } else {
-      otherUserId = message.fromId;
+      otherUserId = message.sender_id;
     }
     const msgId = message.id;
 
     // set message status to sent
-    store.dispatch(setMessageStatusToSent({otherUserId, msgId}));
+    store.dispatch(updateMessageStatus({otherUserId, msgId}));
   };
 
   return {websocket};

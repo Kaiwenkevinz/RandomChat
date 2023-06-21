@@ -1,23 +1,28 @@
-export type MessagePack = {
+export type MessagePackSend = {
   type: 'text' | 'image' | 'video' | 'system';
   id: string;
   content: string;
   fromId: number;
   toId: number;
   isGroup: 0 | 1;
+};
+
+export type MessagePackReceive = {
+  message_type: 'text' | 'image' | 'video' | 'system';
+  id: string;
+  content: string;
+  sender_id: number;
+  receiver_id: number;
+  isGroup: 0 | 1;
+  send_time: string;
   isSent?: boolean;
-  timestamp: number;
 };
 
 export type ChatComponentProps = {
   otherUserId: number;
   otherUserName: string;
-  otherUserAvatarUrl: string;
-  messages: MessagePack[];
-};
-
-export type GetAllChatMessageResp = {
-  rooms: ChatComponentProps[];
+  otherUserAvatarUrl: string | null;
+  messages: MessagePackReceive[];
 };
 
 export interface User {

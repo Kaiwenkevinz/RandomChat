@@ -13,7 +13,7 @@ const middlewares = getDefaultMiddleware({
   immutableCheck: false,
 });
 
-if (__DEV__) {
+if (__DEV__ && !process.env.JEST_WORKER_ID) {
   console.log('Redux debugging is turned on.');
   const createDebugger = require('redux-flipper').default;
   middlewares.push(createDebugger());

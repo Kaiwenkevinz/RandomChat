@@ -2,14 +2,14 @@ import {View, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {ChatComponentProps, MessagePack} from '../types/network/types';
+import {ChatComponentProps, MessagePackReceive} from '../types/network/types';
 import UserAvatar from 'react-native-user-avatar';
 
 type ChatListComponentProps = Pick<
   ChatComponentProps,
   'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
 > & {
-  messages: MessagePack[];
+  messages: MessagePackReceive[];
   websocket: WebSocket;
 };
 
@@ -25,7 +25,7 @@ export const ChatListComponent = ({
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
   const latestMessage = messages[messages.length - 1] || {content: ''};
-  const date = new Date(latestMessage.timestamp * 1000);
+  const dateStr = latestMessage.send_time;
 
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
@@ -52,7 +52,7 @@ export const ChatListComponent = ({
           <Text style={styles.cmessage}>{latestMessage.content}</Text>
         </View>
         <View>
-          <Text style={styles.ctime}>{date.toLocaleTimeString()}</Text>
+          <Text style={styles.ctime}>{dateStr}</Text>
         </View>
       </View>
     </Pressable>

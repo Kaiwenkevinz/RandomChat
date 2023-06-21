@@ -19,9 +19,9 @@ it('renders correctly', () => {
           {
             id: '1',
             content: 'Hello',
-            timestamp: 1627777777777,
-            fromId: 'Jade',
-            toId: 'Kevin',
+            send_time: 1627777777777,
+            sender_id: 'Jade',
+            receiver_id: 'Kevin',
             isSent: false,
           },
         ]}
