@@ -11,6 +11,6 @@ function getAllChatMessages() {
   );
 }
 
-export const ChatService = {
+export const chatService = {
   getAllChatMessages,
 };

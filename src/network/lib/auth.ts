@@ -18,7 +18,7 @@ function register(
 }
 
 function sendVerifyEmail(username: string, email: string) {
-  return api.post(API_SEND_EMAIL, {
+  return api.post<Result>(API_SEND_EMAIL, {
     username,
     email,
   });

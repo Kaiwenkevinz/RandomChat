@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from './store';
 import {ChatComponentProps, MessagePack} from '../types/network/types';
-import {ChatService} from '../network/lib/message';
+import {chatService} from '../network/lib/message';
 
 export interface ChatState {
   rooms: ChatComponentProps[];
@@ -25,7 +25,7 @@ const initialState: ChatState = {
 export const getChatsAsync = createAsyncThunk<ChatComponentProps[], void>(
   'chat/fetchAllChatMessages',
   async () => {
-    const response = await ChatService.getAllChatMessages();
+    const response = await chatService.getAllChatMessages();
     return response.data;
   },
 );
