@@ -2,7 +2,7 @@ import {Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Chats from './Chats';
-import Profile from './Profile';
+import Profile from './profile-display/Profile';
 import Contacts from './Contacts';
 import Search from './Search';
 import {loadStorageData} from '../utils/storageUtil';

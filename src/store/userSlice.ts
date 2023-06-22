@@ -20,6 +20,10 @@ export const getProfileAsync = createAsyncThunk<User, void>(
   'user/getUserProfile',
   async () => {
     const response = await userService.getUserProfile();
+    if (!response.data.avatar_url || response.data.avatar_url === '') {
+      response.data.avatar_url =
+        'https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg';
+    }
 
     return response.data;
   },

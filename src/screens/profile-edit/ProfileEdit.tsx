@@ -1,4 +1,10 @@
-import {Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
@@ -26,6 +32,7 @@ export const Dropdown = (props: DropdownProps) => {
 
   return (
     <RNPickerSelect
+      style={pickerSelectStyles}
       onValueChange={v => {
         onValueChange(v);
       }}
@@ -76,14 +83,13 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
   return (
     <>
       {loading ? <Text>Loading...</Text> : null}
-      <ScrollView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.label}>Username</Text>
         <TextInput
           style={styles.input}
           value={userObj.username}
           onChangeText={e => {
-            userObj.username = e;
-            setUserObj({...userObj});
+            setUserObj({...userObj, username: e});
           }}
         />
 
@@ -93,8 +99,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
           style={styles.input}
           value={userObj.age?.toString()}
           onChangeText={e => {
-            userObj.age = parseInt(e, 10);
-            setUserObj({...userObj});
+            setUserObj({...userObj, age: parseInt(e, 10)});
           }}
         />
 
@@ -111,8 +116,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
           style={styles.input}
           value={userObj.telephone_number}
           onChangeText={e => {
-            userObj.telephone_number = e;
-            setUserObj({...userObj});
+            setUserObj({...userObj, telephone_number: e});
           }}
         />
 
@@ -121,8 +125,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
           style={styles.input}
           value={userObj.mail}
           onChangeText={e => {
-            userObj.username = e;
-            setUserObj({...userObj});
+            setUserObj({...userObj, mail: e});
           }}
         />
 
@@ -141,43 +144,71 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
         />
       </ScrollView>
 
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonText} onPress={handleOnPress}>
-          Save
-        </Text>
-      </TouchableOpacity>
+      <View style={{backgroundColor: '#fff'}}>
+        <TouchableOpacity style={styles.button} onPress={handleOnPress}>
+          <Text style={styles.buttonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
+    flexGrow: 1,
+    paddingBottom: 20,
     backgroundColor: '#fff',
+    paddingHorizontal: 20,
   },
   label: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginTop: 12,
+    marginBottom: 12,
   },
   input: {
-    height: 50,
+    height: 40,
     backgroundColor: '#f7f7f7',
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 12,
+    fontSize: 16,
   },
   button: {
     backgroundColor: '#007aff',
-    padding: 10,
+    paddingVertical: 16,
     borderRadius: 5,
+    marginHorizontal: 20,
+    marginBottom: 12,
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    height: 50,
+    fontSize: 16,
+    backgroundColor: '#f7f7f7',
+    borderRadius: 5,
+    paddingHorizontal: 12,
+    marginBottom: 20,
+  },
+  inputAndroid: {
+    height: 50,
+    fontSize: 16,
+    backgroundColor: '#f7f7f7',
+    borderRadius: 5,
+    paddingHorizontal: 12,
+    marginBottom: 20,
+  },
+  placeholder: {
+    color: '#9EA0A4',
+    fontWeight: 'bold',
   },
 });
 

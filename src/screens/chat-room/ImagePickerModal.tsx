@@ -47,7 +47,10 @@ const ImagePickerModal = (props: ImagePickerModalProps) => {
     props.onClose();
 
     // upload uri to server, get url of image
-    const resp = await chatService.uploadImage(uri, `imageName_${Date.now()}`);
+    const resp = await chatService.uploadImage(
+      uri,
+      `${props.imageName}_${Date.now()}`,
+    );
     const imageUrl = resp.data;
 
     // image url 传给外层使用者处理

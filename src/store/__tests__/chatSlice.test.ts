@@ -49,6 +49,8 @@ describe('Redux chat reducer', () => {
   it('获取聊天信息并更新 store', async () => {
     await store.dispatch(getChatsAsync());
     const chatState = store.getState().chat;
+    chatRoomData[1].otherUserAvatarUrl =
+      'https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg';
     expect(chatState).toStrictEqual({
       status: 'idle',
       data: chatRoomData,

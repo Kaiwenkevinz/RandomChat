@@ -26,6 +26,13 @@ export const getChatsAsync = createAsyncThunk<ChatComponentProps[], void>(
   'chat/fetchAllChatMessages',
   async () => {
     const response = await chatService.getAllChatMessages();
+    response.data.forEach((room: ChatComponentProps) => {
+      if (!room.otherUserAvatarUrl || room.otherUserAvatarUrl === '') {
+        room.otherUserAvatarUrl =
+          'https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg';
+      }
+    });
+
     return response.data;
   },
 );
