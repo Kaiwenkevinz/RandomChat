@@ -10,14 +10,74 @@ import {
 } from 'react-native';
 import React from 'react';
 import images from '../../../assets';
+import {
+  ImageLibraryOptions,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import {chatService} from '../../network/lib/message';
 
 interface ImagePickerModalProps {
   isVisible: boolean;
   onClose: () => void;
-  onImageLibraryPress: () => void;
-  onCameraPress: () => void;
+  onConfirmImage: (imageUrl: string) => void;
+  imageName: string;
 }
 const ImagePickerModal = (props: ImagePickerModalProps) => {
+  const onImageLibraryPress = async () => {
+    const options = {
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    } as ImageLibraryOptions;
+
+    const result = await launchImageLibrary(options);
+    if (result.didCancel || !result.assets || result.assets.length === 0) {
+      console.log('用户取消了图片选择, 原因: ', result.errorCode);
+
+      return;
+    }
+
+    let uri = result.assets[0].uri;
+    if (uri === undefined) {
+      uri = '';
+      console.log('uri is undefined, 不应该 happen');
+    }
+
+    props.onClose();
+
+    // upload uri to server, get url of image
+    const resp = await chatService.uploadImage(uri, `imageName_${Date.now()}`);
+    const imageUrl = resp.data;
+
+    // image url 传给外层使用者处理
+    props.onConfirmImage(imageUrl);
+  };
+
+  const onCameraPress = async () => {
+    const options = {
+      saveToPhotos: true,
+      mediaType: 'photo',
+      includeBase64: false,
+    } as ImageLibraryOptions;
+
+    const result = await launchCamera(options);
+    console.log('🚀 ~ file: ChatRoom.tsx:59 ~ onCameraPress ~ result:', result);
+    if (result.didCancel || !result.assets || result.assets.length === 0) {
+      console.log('用户取消了照相机, 原因: ', result.errorCode);
+
+      return;
+    }
+
+    let uri = result.assets[0].uri;
+    if (uri === undefined) {
+      uri = '';
+      console.log('uri is undefined, 不应该 happen');
+    }
+
+    // TODO: 照相机拍照后, 上传到服务器
+  };
+
   return (
     <Modal
       visible={props.isVisible}
@@ -29,11 +89,11 @@ const ImagePickerModal = (props: ImagePickerModalProps) => {
           <View style={styles.modalOverlay} />
         </TouchableWithoutFeedback>
         <SafeAreaView style={styles.modalView}>
-          <Pressable style={styles.button} onPress={props.onImageLibraryPress}>
+          <Pressable style={styles.button} onPress={onImageLibraryPress}>
             <Image style={styles.buttonIcon} source={images.photos} />
             <Text style={styles.buttonText}>Library</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={props.onCameraPress}>
+          <Pressable style={styles.button} onPress={onCameraPress}>
             <Image style={styles.buttonIcon} source={images.camera} />
             <Text style={styles.buttonText}>Camera</Text>
           </Pressable>

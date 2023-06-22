@@ -78,7 +78,7 @@ describe('Redux chat reducer', () => {
 
     // 消息刚发送，isSent 为 false
     const newMessageJustSend = generateReceiveMessagePack(
-      '2a',
+      'test-1',
       'new message content',
       1,
       200,
@@ -93,7 +93,7 @@ describe('Redux chat reducer', () => {
     expect(newMessage.isSent).toBe(false);
 
     // 消息发送成功，isSent 为 undefined, 代表已发送
-    store.dispatch(updateMessageStatus({otherUserId: 200, msgId: '2a'}));
+    store.dispatch(updateMessageStatus({otherUserId: 200, msgId: 'test-1'}));
 
     messages = store.getState().chat.data[0].messages;
     newMessage = messages[messages.length - 1];

@@ -13,75 +13,12 @@ import {generateReceiveMessagePack, generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
 import ImagePickerModal from './ImagePickerModal';
-import {
-  ImageLibraryOptions,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
-import {chatService} from '../../network/lib/message';
 import {MessagePackSend} from '../../types/network/types';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
-  const [visible, setVisible] = useState(false);
-
-  const onImageLibraryPress = async () => {
-    const options = {
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: false,
-    } as ImageLibraryOptions;
-
-    const result = await launchImageLibrary(options);
-    if (result.didCancel || !result.assets || result.assets.length === 0) {
-      console.log('用户取消了图片选择, 原因: ', result.errorCode);
-
-      return;
-    }
-
-    let uri = result.assets[0].uri;
-    if (uri === undefined) {
-      uri = '';
-      console.log('uri is undefined, 不应该 happen');
-    }
-
-    // upload uri to server, get url of image
-    const resp = await chatService.uploadImage(
-      uri,
-      `${userId}_${otherUserId}_${Date.now()}`,
-    );
-    const imageUrl = resp.data;
-
-    setVisible(false);
-
-    // send image url to server
-    realSendMessage('image', imageUrl);
-  };
-
-  const onCameraPress = async () => {
-    const options = {
-      saveToPhotos: true,
-      mediaType: 'photo',
-      includeBase64: false,
-    } as ImageLibraryOptions;
-
-    const result = await launchCamera(options);
-    console.log('🚀 ~ file: ChatRoom.tsx:59 ~ onCameraPress ~ result:', result);
-    if (result.didCancel || !result.assets || result.assets.length === 0) {
-      console.log('用户取消了照相机, 原因: ', result.errorCode);
-
-      return;
-    }
-
-    let uri = result.assets[0].uri;
-    if (uri === undefined) {
-      uri = '';
-      console.log('uri is undefined, 不应该 happen');
-    }
-
-    // TODO: 照相机拍照后, 上传到服务器
-  };
+  const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -114,17 +51,22 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     };
   }, [navigation, title]);
 
-  const handleSendMessage = () => {
+  const handleSendText = () => {
+    realSendMessage('text', currentMessage);
+    setCurrentMessage('');
+  };
+
+  const handleSendImage = (imageUrl: string) => {
+    realSendMessage('image', imageUrl);
+  };
+
+  const realSendMessage = (type: MessagePackSend['type'], content: string) => {
     if (websocket.readyState !== WebSocket.OPEN) {
       showToast(toastType.ERROR, 'Error', 'Error! WebSocket not connected!');
       console.log('Error! WebSocket not connected!');
       return;
     }
-    realSendMessage('text', currentMessage);
-    setCurrentMessage('');
-  };
 
-  const realSendMessage = (type: MessagePackSend['type'], content: string) => {
     // 用于发送的消息体和用于展示的消息体的字段不一样，所以需要生成两个消息体，一个发送，一个展示
     const messagePackToSend = generateSendMessagePack(
       content,
@@ -189,14 +131,14 @@ const ChatRoom = ({route}: ChatRoomProps) => {
         />
         <Pressable
           style={styles.messagingbuttonContainer}
-          onPress={handleSendMessage}>
+          onPress={handleSendText}>
           <View>
             <Text style={{color: '#f2f0f1', fontSize: 14}}>SEND</Text>
           </View>
         </Pressable>
         <Pressable
           style={styles.messagingbuttonContainer}
-          onPress={() => setVisible(true)}>
+          onPress={() => setModalVisible(true)}>
           <View>
             <Text style={{color: '#f2f0f1', fontSize: 12}}>Send Image</Text>
           </View>
@@ -204,10 +146,10 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       </View>
 
       <ImagePickerModal
-        isVisible={visible}
-        onClose={() => setVisible(false)}
-        onImageLibraryPress={onImageLibraryPress}
-        onCameraPress={onCameraPress}
+        isVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirmImage={handleSendImage}
+        imageName={`${userId}_${otherUserId}`}
       />
     </View>
   );
