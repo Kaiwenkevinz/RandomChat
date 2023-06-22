@@ -19,7 +19,7 @@ export function MessageComponent({
   send_time: timestamp,
   isSent,
 }: MessageComponentProps) {
-  const user = useAppSelector(selectUser).user; // TODO: 把 username 改成从props里面拿
+  const user = useAppSelector(selectUser).user;
   const isReceive = user.id !== sendId;
   const date = new Date(timestamp);
   const sent = isSent === undefined || isSent;

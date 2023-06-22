@@ -65,14 +65,16 @@ export const mockUserProfile = {
 export const generateMockChatMessage = (
   id: string,
   content: string,
+  sender_id: number = 200,
+  receiver_id: number = 1,
   type = 'text',
 ) => {
   return {
     id,
     message_type: type,
     content,
-    sender_id: 200,
-    receiver_id: 1,
+    sender_id,
+    receiver_id,
     send_time: '2023-04-08T08:07:23.000+00:00',
   } as MessagePackReceive;
 };
@@ -88,8 +90,8 @@ export const mockAllFriendAllChatMessages = {
       otherUserAvatarUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
       messages: [
-        generateMockChatMessage('1a', 'Hello, my name is Novu'),
-        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin! 😇'),
+        generateMockChatMessage('1a', 'Hello, my name is Novu', 200, 1),
+        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin! 😇', 1, 200),
       ],
     },
     {

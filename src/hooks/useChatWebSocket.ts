@@ -16,7 +16,7 @@ const useChatWebSocket = (token: string) => {
       headers: {Authorization: `Bearer ${token}`},
     }),
   ).current;
-  console.log('🚀 ~ file: useChatWebSocket.ts:15 ~ URL:', URL);
+  console.log('websocket 连接 url:', URL);
 
   // init Websocket
   useEffect(() => {

@@ -25,7 +25,7 @@ export const ChatListComponent = ({
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
   const latestMessage = messages[messages.length - 1] || {content: ''};
-  const dateStr = latestMessage.send_time;
+  const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
 
   const handlePress = () => {
     navigation.navigate('ChatRoom', {

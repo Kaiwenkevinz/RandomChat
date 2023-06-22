@@ -9,7 +9,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
 import {toastType} from '../../utils/toastUtil';
-import {generateSendMessagePack} from './chatUtil';
+import {generateReceiveMessagePack, generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
 
@@ -55,17 +55,21 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     }
 
     // 用于发送的消息体和用于展示的消息体的字段不一样，所以需要生成两个消息体，一个发送，一个展示
-    const messagePack = generateSendMessagePack(
-      'text',
+    const messagePackToSend = generateSendMessagePack(
       currentMessage,
       userId,
       otherUserId,
     );
+    const messagePackToShow = generateReceiveMessagePack(
+      messagePackToSend.id,
+      messagePackToSend.content,
+      messagePackToSend.fromId,
+      messagePackToSend.toId,
+    );
 
-    websocket.send(JSON.stringify(messagePack));
-    store.dispatch(appendNewMessage(messagePack));
+    websocket.send(JSON.stringify(messagePackToSend));
+    store.dispatch(appendNewMessage(messagePackToShow));
 
-    console.log('should clear input');
     setCurrentMessage('');
   };
 
@@ -91,6 +95,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
                 receiver_id={item.receiver_id}
                 send_time={item.send_time}
                 isSent={item.isSent}
+                message_type={item.message_type}
+                isGroup={item.isGroup}
               />
             )}
             keyExtractor={item => item.id}

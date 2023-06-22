@@ -1,6 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../axios.config';
 import {
+  generageMockResponse,
   mockAllFriendAllChatMessages,
   mockLogin,
   mockRegister,
@@ -31,7 +32,12 @@ mock.onPost(API_LOGIN).reply(200, mockLogin.mockResponse);
 mock.onPost(API_GET_USER_INFO).reply(200, mockUserProfile.mockResponse);
 
 // Update user profile
-mock.onPost(API_UPDATE_USER_INFO).reply(200);
+mock.onAny().reply(config => {
+  if (config.method === 'post' && config.url === API_UPDATE_USER_INFO) {
+    return [200, generageMockResponse()];
+  }
+  return [404];
+});
 
 // 所有好友的所有聊天记录
 mock

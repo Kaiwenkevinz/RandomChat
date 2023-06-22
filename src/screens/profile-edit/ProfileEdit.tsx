@@ -58,11 +58,16 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
     setLoading(true);
     userService
       .updateUserProfile(newUserObj)
-      .then(() => {
-        eventEmitter.emit(EVENT_UPDATE_USER_PROFILE);
-        showToast(toastType.SUCCESS, '', 'Update profile successfully');
-        navigation.goBack();
-      })
+      .then(
+        () => {
+          eventEmitter.emit(EVENT_UPDATE_USER_PROFILE);
+          showToast(toastType.SUCCESS, '', 'Update profile successfully');
+          navigation.goBack();
+        },
+        err => {
+          showToast(toastType.ERROR, '', err.message);
+        },
+      )
       .finally(() => {
         setLoading(false);
       });
