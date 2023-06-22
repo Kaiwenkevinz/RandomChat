@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React from 'react';
 import {styles} from '../utils/styles';
 import {MessagePackReceive} from '../types/network/types';
@@ -12,7 +12,8 @@ type MessageComponentProps = MessagePackReceive & {
 };
 
 export function MessageComponent({
-  content: text,
+  message_type: type,
+  content,
   otherUserAvatarUrl,
   userAvatarUrl,
   sender_id: sendId,
@@ -50,7 +51,17 @@ export function MessageComponent({
                 ? styles.mmessage
                 : [styles.mmessage, {backgroundColor: 'rgb(194, 243, 194)'}]
             }>
-            <Text>{text}</Text>
+            {type === 'text' ? (
+              <Text>{content}</Text>
+            ) : (
+              <Image
+                source={{
+                  uri: content,
+                }}
+                resizeMode="center"
+                style={styles.messageImage}
+              />
+            )}
             <Text>{sent ? 'Sent' : 'Sending'}</Text>
           </View>
         </View>

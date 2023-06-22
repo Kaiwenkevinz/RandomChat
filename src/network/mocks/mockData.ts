@@ -92,6 +92,20 @@ export const mockAllFriendAllChatMessages = {
       messages: [
         generateMockChatMessage('1a', 'Hello, my name is Novu', 200, 1),
         generateMockChatMessage('1b', 'Hi Novu, my name is Kevin! 😇', 1, 200),
+        generateMockChatMessage(
+          '2a',
+          'https://picsum.photos/200/300',
+          1,
+          200,
+          'image',
+        ),
+        generateMockChatMessage(
+          '3a',
+          'https://picsum.photos/200/300',
+          200,
+          1,
+          'image',
+        ),
       ],
     },
     {
@@ -111,3 +125,7 @@ export const mockSendNewMessage: MessagePackSend = {
   toId: 1,
   isGroup: 0,
 };
+
+export const mockUploadImageRepsonse: Result<string> = generageMockResponse(
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZ89N0rGa9eYLJ4sK5rgg5IrIPtAa-pvXRANZ4JIG2b-D_83D7VElzIHfbh-SOOFbAic&usqp=CAU',
+);

@@ -1,6 +1,18 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  messageImage: {
+    width: 100,
+    height: 100,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  logo: {
+    width: 66,
+    height: 58,
+  },
   loginbuttonText: {
     textAlign: 'center',
     color: '#fff',

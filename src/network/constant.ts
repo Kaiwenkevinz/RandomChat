@@ -11,6 +11,8 @@ export const API_GET_USER_INFO = '/user/getUserInfo';
 export const API_GET_FRIEND_LIST = '/user/getFriendList';
 // 获取与所有好友的所有聊天记录
 export const API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES = '/user/getChatInfo';
+// 上传图片
+export const API_UPLOAD_IMAGE = '/file/uploadImage';
 
 export const API_ERROR_MSG = {
   NO_SUCH_USER: 'No such user!',

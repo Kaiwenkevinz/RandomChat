@@ -13,30 +13,74 @@ import {generateReceiveMessagePack, generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
 import ImagePickerModal from './ImagePickerModal';
+import {
+  ImageLibraryOptions,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import {chatService} from '../../network/lib/message';
+import {MessagePackSend} from '../../types/network/types';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
-  const [pickerResponse, setPickerResponse] = useState(null);
   const [visible, setVisible] = useState(false);
 
-  const onImageLibraryPress = () => {
-    // const options = {
-    //   selectionLimit: 1,
-    //   mediaType: 'photo',
-    //   includeBase64: false,
-    // };
-    // ImagePicker.launchImageLibrary(options, setPickerResponse);
-    console.log('onImageLibraryPress');
+  const onImageLibraryPress = async () => {
+    const options = {
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    } as ImageLibraryOptions;
+
+    const result = await launchImageLibrary(options);
+    if (result.didCancel || !result.assets || result.assets.length === 0) {
+      console.log('用户取消了图片选择, 原因: ', result.errorCode);
+
+      return;
+    }
+
+    let uri = result.assets[0].uri;
+    if (uri === undefined) {
+      uri = '';
+      console.log('uri is undefined, 不应该 happen');
+    }
+
+    // upload uri to server, get url of image
+    const resp = await chatService.uploadImage(
+      uri,
+      `${userId}_${otherUserId}_${Date.now()}`,
+    );
+    const imageUrl = resp.data;
+
+    setVisible(false);
+
+    // send image url to server
+    realSendMessage('image', imageUrl);
   };
 
-  const onCameraPress = () => {
-    // const options = {
-    //   saveToPhotos: true,
-    //   mediaType: 'photo',
-    //   includeBase64: false,
-    // };
-    // ImagePicker.launchCamera(options, setPickerResponse);
+  const onCameraPress = async () => {
+    const options = {
+      saveToPhotos: true,
+      mediaType: 'photo',
+      includeBase64: false,
+    } as ImageLibraryOptions;
+
+    const result = await launchCamera(options);
+    console.log('🚀 ~ file: ChatRoom.tsx:59 ~ onCameraPress ~ result:', result);
+    if (result.didCancel || !result.assets || result.assets.length === 0) {
+      console.log('用户取消了照相机, 原因: ', result.errorCode);
+
+      return;
+    }
+
+    let uri = result.assets[0].uri;
+    if (uri === undefined) {
+      uri = '';
+      console.log('uri is undefined, 不应该 happen');
+    }
+
+    // TODO: 照相机拍照后, 上传到服务器
   };
 
   const navigation = useNavigation();
@@ -76,24 +120,28 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       console.log('Error! WebSocket not connected!');
       return;
     }
+    realSendMessage('text', currentMessage);
+    setCurrentMessage('');
+  };
 
+  const realSendMessage = (type: MessagePackSend['type'], content: string) => {
     // 用于发送的消息体和用于展示的消息体的字段不一样，所以需要生成两个消息体，一个发送，一个展示
     const messagePackToSend = generateSendMessagePack(
-      currentMessage,
+      content,
       userId,
       otherUserId,
+      type,
     );
     const messagePackToShow = generateReceiveMessagePack(
       messagePackToSend.id,
       messagePackToSend.content,
       messagePackToSend.fromId,
       messagePackToSend.toId,
+      messagePackToSend.type,
     );
 
     websocket.send(JSON.stringify(messagePackToSend));
     store.dispatch(appendNewMessage(messagePackToShow));
-
-    setCurrentMessage('');
   };
 
   return (
@@ -108,20 +156,24 @@ const ChatRoom = ({route}: ChatRoomProps) => {
             style={{flexGrow: 0}}
             inverted
             data={[...messages].reverse()}
-            renderItem={({item}) => (
-              <MessageComponent
-                id={item.id}
-                otherUserAvatarUrl={otherUserAvatarUrl}
-                userAvatarUrl={userAvatarUrl}
-                content={item.content}
-                sender_id={item.sender_id}
-                receiver_id={item.receiver_id}
-                send_time={item.send_time}
-                isSent={item.isSent}
-                message_type={item.message_type}
-                isGroup={item.isGroup}
-              />
-            )}
+            renderItem={({item}) => {
+              console.log('item', item.message_type);
+
+              return (
+                <MessageComponent
+                  id={item.id}
+                  otherUserAvatarUrl={otherUserAvatarUrl}
+                  userAvatarUrl={userAvatarUrl}
+                  content={item.content}
+                  sender_id={item.sender_id}
+                  receiver_id={item.receiver_id}
+                  send_time={item.send_time}
+                  isSent={item.isSent}
+                  message_type={item.message_type}
+                  isGroup={item.isGroup}
+                />
+              );
+            }}
             keyExtractor={item => item.id}
           />
         ) : (

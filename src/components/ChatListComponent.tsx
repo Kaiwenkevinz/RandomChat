@@ -49,7 +49,11 @@ export const ChatListComponent = ({
       <View style={styles.crightContainer}>
         <View>
           <Text style={styles.cusername}>{otherUserName}</Text>
-          <Text style={styles.cmessage}>{latestMessage.content}</Text>
+          <Text style={styles.cmessage}>
+            {latestMessage.message_type === 'text'
+              ? latestMessage.content
+              : '[image]'}
+          </Text>
         </View>
         <View>
           <Text style={styles.ctime}>{dateStr}</Text>

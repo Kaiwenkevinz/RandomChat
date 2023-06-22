@@ -6,6 +6,7 @@ import {
   mockLogin,
   mockRegister,
   mockSendVerifyEmail,
+  mockUploadImageRepsonse,
   mockUserProfile,
 } from './mockData';
 import {
@@ -15,6 +16,7 @@ import {
   API_REGISTER,
   API_SEND_EMAIL,
   API_UPDATE_USER_INFO,
+  API_UPLOAD_IMAGE,
 } from '../constant';
 
 console.log('API mocking is turned on.');
@@ -43,5 +45,10 @@ mock.onAny().reply(config => {
   ) {
     return [200, mockAllFriendAllChatMessages.mockResponse];
   }
+  // 上传图片
+  if (config.method === 'post' && config.url === API_UPLOAD_IMAGE) {
+    return [200, mockUploadImageRepsonse];
+  }
+
   return [404];
 });

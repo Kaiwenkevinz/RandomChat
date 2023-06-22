@@ -1,4 +1,4 @@
-import {MessagePackReceive} from './../types/network/types';
+import {MessagePackReceive, MessagePackSend} from './../types/network/types';
 import {useEffect, useRef} from 'react';
 import {store} from '../store/store';
 import {updateMessageStatus} from '../store/chatSlice';
@@ -10,7 +10,7 @@ const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;
 
   // TODO: 抽取
-  const URL = `ws://10.68.62.219:8080/chat/${userId}`;
+  const URL = `ws://localhost:8080/chat/${userId}`;
   const websocket = useRef<WebSocket>(
     new WebSocket(URL, null, {
       headers: {Authorization: `Bearer ${token}`},
@@ -35,16 +35,15 @@ const useChatWebSocket = (token: string) => {
   }, []);
 
   const handleOnReceiveWebSocketMessage = (e: WebSocketMessageEvent) => {
-    const message: MessagePackReceive = JSON.parse(e.data);
-    console.log(
-      '🚀 ~ file: useChatWebSocket.ts:31 ~ handleOnReceiveWebSocketMessage ~ message:',
-      message,
-    );
+    const message: MessagePackSend = JSON.parse(e.data);
+
+    console.log(`服务器 ack message: ${JSON.stringify(message, null, 2)}`);
+
     let otherUserId;
-    if (message.sender_id === userId) {
-      otherUserId = message.receiver_id;
+    if (message.toId === userId) {
+      otherUserId = message.fromId;
     } else {
-      otherUserId = message.sender_id;
+      otherUserId = message.toId;
     }
     const msgId = message.id;
 
