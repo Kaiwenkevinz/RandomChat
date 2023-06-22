@@ -12,10 +12,33 @@ import {toastType} from '../../utils/toastUtil';
 import {generateReceiveMessagePack, generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
+import ImagePickerModal from './ImagePickerModal';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
+  const [pickerResponse, setPickerResponse] = useState(null);
+  const [visible, setVisible] = useState(false);
+
+  const onImageLibraryPress = () => {
+    // const options = {
+    //   selectionLimit: 1,
+    //   mediaType: 'photo',
+    //   includeBase64: false,
+    // };
+    // ImagePicker.launchImageLibrary(options, setPickerResponse);
+    console.log('onImageLibraryPress');
+  };
+
+  const onCameraPress = () => {
+    // const options = {
+    //   saveToPhotos: true,
+    //   mediaType: 'photo',
+    //   includeBase64: false,
+    // };
+    // ImagePicker.launchCamera(options, setPickerResponse);
+  };
+
   const navigation = useNavigation();
 
   // get params from route
@@ -116,10 +139,24 @@ const ChatRoom = ({route}: ChatRoomProps) => {
           style={styles.messagingbuttonContainer}
           onPress={handleSendMessage}>
           <View>
-            <Text style={{color: '#f2f0f1', fontSize: 20}}>SEND</Text>
+            <Text style={{color: '#f2f0f1', fontSize: 14}}>SEND</Text>
+          </View>
+        </Pressable>
+        <Pressable
+          style={styles.messagingbuttonContainer}
+          onPress={() => setVisible(true)}>
+          <View>
+            <Text style={{color: '#f2f0f1', fontSize: 12}}>Send Image</Text>
           </View>
         </Pressable>
       </View>
+
+      <ImagePickerModal
+        isVisible={visible}
+        onClose={() => setVisible(false)}
+        onImageLibraryPress={onImageLibraryPress}
+        onCameraPress={onCameraPress}
+      />
     </View>
   );
 };

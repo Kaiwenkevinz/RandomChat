@@ -31,15 +31,17 @@ mock.onPost(API_LOGIN).reply(200, mockLogin.mockResponse);
 // User profile
 mock.onPost(API_GET_USER_INFO).reply(200, mockUserProfile.mockResponse);
 
-// Update user profile
 mock.onAny().reply(config => {
+  // Update user profile
   if (config.method === 'post' && config.url === API_UPDATE_USER_INFO) {
     return [200, generageMockResponse()];
   }
+  // 所有好友的所有聊天记录
+  if (
+    config.method === 'post' &&
+    config.url === API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES
+  ) {
+    return [200, mockAllFriendAllChatMessages.mockResponse];
+  }
   return [404];
 });
-
-// 所有好友的所有聊天记录
-mock
-  .onPost(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
-  .reply(200, mockAllFriendAllChatMessages.mockResponse);
