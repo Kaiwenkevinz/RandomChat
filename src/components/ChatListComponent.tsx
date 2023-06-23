@@ -2,14 +2,14 @@ import {View, Text, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {ChatComponentProps, MessagePackReceive} from '../types/network/types';
+import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import UserAvatar from 'react-native-user-avatar';
 
 type ChatListComponentProps = Pick<
-  ChatComponentProps,
+  IChatRoom,
   'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
 > & {
-  messages: MessagePackReceive[];
+  messages: IMessagePackReceive[];
 };
 
 /**

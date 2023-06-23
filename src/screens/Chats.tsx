@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
-import {ChatComponentProps} from '../types/network/types';
+import {IChatRoom} from '../types/network/types';
 import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {getChatsAsync, selectRooms} from '../store/chatSlice';
@@ -46,7 +46,7 @@ const Chats = () => {
   );
 };
 
-const renderChatComponent = (item: ChatComponentProps) => {
+const renderChatComponent = (item: IChatRoom) => {
   const {messages, otherUserId, otherUserName, otherUserAvatarUrl} = item;
 
   return (

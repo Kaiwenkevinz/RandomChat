@@ -3,7 +3,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 import WS from 'jest-websocket-mock';
 import {WEB_SOCKET_URL} from '../constant';
 import {useChatWebSocket} from '../hooks/useChatWebSocket';
-import {MessagePackReceive} from '../types/network/types';
+import {IMessagePackReceive} from '../types/network/types';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({navigate: jest.fn()}),
@@ -41,7 +41,7 @@ describe('useWebSocket hook', () => {
   });
 
   it('Client A send message to Server, Server receives and replay the same message back to client.', async () => {
-    const mockMessagePack: MessagePackReceive = {
+    const mockMessagePack: IMessagePackReceive = {
       id: '1a',
       content: 'Hello, my name is Novu',
       send_time: 1684930783,

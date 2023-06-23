@@ -1,5 +1,5 @@
-import {LoginResponse} from './../../types/network/types';
-import {Result, User} from '../../types/network/types';
+import {ILoginResponse} from './../../types/network/types';
+import {Result, IUser} from '../../types/network/types';
 import {api} from '../axios.config';
 import {API_LOGIN, API_REGISTER, API_SEND_EMAIL} from '../constant';
 
@@ -9,7 +9,7 @@ function register(
   email: string,
   code: string,
 ) {
-  return api.post<Result<User>>(API_REGISTER, {
+  return api.post<Result<IUser>>(API_REGISTER, {
     username,
     password, // TODO: encrypt password
     email,
@@ -25,7 +25,7 @@ function sendVerifyEmail(username: string, email: string) {
 }
 
 function login(username: string, password: string) {
-  return api.post<Result<LoginResponse>>(API_LOGIN, {
+  return api.post<Result<ILoginResponse>>(API_LOGIN, {
     username,
     password, // TODO: encrypt password
   });

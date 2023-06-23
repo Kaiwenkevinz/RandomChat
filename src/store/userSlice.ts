@@ -1,22 +1,22 @@
 import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {User} from '../types/network/types';
+import {IUser} from '../types/network/types';
 import {RootState} from './store';
 import {userService} from '../network/lib/user';
 
 type UserState = {
-  user: User;
+  user: IUser;
   token: string;
   status: 'idle' | 'loading' | 'failed';
 };
 
 // state
 const initialState: UserState = {
-  user: {} as User,
+  user: {} as IUser,
   token: '',
   status: 'idle',
 };
 
-export const getProfileAsync = createAsyncThunk<User, void>(
+export const getProfileAsync = createAsyncThunk<IUser, void>(
   'user/getUserProfile',
   async () => {
     const response = await userService.getUserProfile();
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addNewUserInfo: (state, action: PayloadAction<User>) => {
+    addNewUserInfo: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
     addToken: (state, action: PayloadAction<string>) => {

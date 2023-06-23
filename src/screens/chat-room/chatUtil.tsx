@@ -1,4 +1,4 @@
-import {MessagePackReceive, MessagePackSend} from '../../types/network/types';
+import {IMessagePackReceive, MessagePackSend} from '../../types/network/types';
 import uuid from 'react-native-uuid';
 
 export const generateSendMessagePack = (
@@ -27,7 +27,7 @@ export const generateReceiveMessagePack = (
   type: 'text' | 'image' | 'video' | 'system' = 'text',
   isGroup: 0 | 1 = 0,
 ) => {
-  const res: MessagePackReceive = {
+  const res: IMessagePackReceive = {
     id,
     message_type: type,
     content,

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LoginResponse, User} from '../types/network/types';
+import {ILoginResponse, IUser} from '../types/network/types';
 
 export const saveStorageData = async (key: string, value: any) => {
   try {
@@ -18,7 +18,7 @@ export const loadStorageData = async (key: string) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
 
-    return jsonValue != null ? (JSON.parse(jsonValue) as LoginResponse) : null;
+    return jsonValue != null ? (JSON.parse(jsonValue) as ILoginResponse) : null;
   } catch (e) {
     console.log('getStorageData error: ', e);
   }

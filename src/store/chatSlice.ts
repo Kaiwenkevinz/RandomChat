@@ -1,10 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from './store';
-import {ChatComponentProps, MessagePackReceive} from '../types/network/types';
+import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import {chatService} from '../network/lib/message';
 
 export interface ChatState {
-  data: ChatComponentProps[];
+  data: IChatRoom[];
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -22,11 +22,11 @@ const initialState: ChatState = {
 // async action
 // createAsyncThunk 创建一个 异步 action object
 // 它对应的 reducer 通过 extraReducers 设置，会自动处理 pending, fulfilled, rejected 状态
-export const getChatsAsync = createAsyncThunk<ChatComponentProps[], void>(
+export const getChatsAsync = createAsyncThunk<IChatRoom[], void>(
   'chat/fetchAllChatMessages',
   async () => {
     const response = await chatService.getAllChatMessages();
-    response.data.forEach((room: ChatComponentProps) => {
+    response.data.forEach((room: IChatRoom) => {
       if (!room.otherUserAvatarUrl || room.otherUserAvatarUrl === '') {
         room.otherUserAvatarUrl =
           'https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg';
@@ -47,7 +47,7 @@ export const chatSlice = createSlice({
       state.data = [];
       state.status = 'idle';
     },
-    appendNewMessage: (state, action: PayloadAction<MessagePackReceive>) => {
+    appendNewMessage: (state, action: PayloadAction<IMessagePackReceive>) => {
       const {sender_id: sendId, receiver_id: receiveId} = action.payload;
       const rooms = state.data;
       const targetRoom = rooms.find(room => {

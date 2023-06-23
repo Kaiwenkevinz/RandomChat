@@ -21,7 +21,7 @@ import {
 import {authService} from '../../../network/lib/auth';
 import {chatService} from '../../../network/lib/message';
 import {userService} from '../../../network/lib/user';
-import {User} from '../types';
+import {IUser} from '../types';
 
 describe('API 测试', () => {
   let mock: MockAdapter;
@@ -137,7 +137,7 @@ describe('API 测试', () => {
       const newUser = {
         ...mockUserProfile.mockResponse.data,
         username: 'newUsername',
-      } as User;
+      } as IUser;
       mock
         .onPost(API_UPDATE_USER_INFO, newUser)
         .reply(200, generageMockResponse());

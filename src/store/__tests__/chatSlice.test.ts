@@ -1,8 +1,8 @@
 import {axiosClient} from '../../network/axios.config';
 import {store} from '../store';
 import {
-  ChatComponentProps,
-  MessagePackReceive,
+  IChatRoom,
+  IMessagePackReceive,
 } from '../../types/network/types';
 import MockAdapter from 'axios-mock-adapter';
 import {
@@ -19,7 +19,7 @@ import {
 import {generateReceiveMessagePack} from '../../screens/chat-room/chatUtil';
 
 // TODO: 像这种共享 mock data 的写法，如果 test case 用到了其他文件的 mock data，下面的 test case 又共享 mock data，这样的话，如果 mock data 变了，下面的 test case 拿到的 mock data 也会变，不太好
-const chatRoomData: ChatComponentProps[] =
+const chatRoomData: IChatRoom[] =
   mockAllFriendAllChatMessages.mockResponse.data;
 
 const mockApiResponse = () => {
@@ -60,7 +60,7 @@ describe('Redux chat reducer', () => {
   it('should append 新消息到对应的聊天室', async () => {
     await store.dispatch(getChatsAsync());
 
-    const newMessage: MessagePackReceive = generateMockChatMessage(
+    const newMessage: IMessagePackReceive = generateMockChatMessage(
       '2a',
       'new message content',
     );

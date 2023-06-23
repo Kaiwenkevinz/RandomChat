@@ -7,7 +7,7 @@ export type MessagePackSend = {
   isGroup: 0 | 1;
 };
 
-export type MessagePackReceive = {
+export type IMessagePackReceive = {
   message_type: 'text' | 'image' | 'video' | 'system';
   id: string;
   content: string;
@@ -18,14 +18,14 @@ export type MessagePackReceive = {
   isSent?: boolean;
 };
 
-export type ChatComponentProps = {
+export type IChatRoom = {
   otherUserId: number;
   otherUserName: string;
   otherUserAvatarUrl: string | null;
-  messages: MessagePackReceive[];
+  messages: IMessagePackReceive[];
 };
 
-export interface User {
+export interface IUser {
   id: number;
   username?: string;
   age?: number;
@@ -42,9 +42,9 @@ export interface User {
   create_time?: string;
 }
 
-export interface LoginResponse {
+export interface ILoginResponse {
   token: string;
-  user: User;
+  user: IUser;
 }
 
 export interface Result<T = any> {

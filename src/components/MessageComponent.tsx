@@ -1,12 +1,12 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
 import {styles} from '../utils/styles';
-import {MessagePackReceive} from '../types/network/types';
+import {IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
 import UserAvatar from 'react-native-user-avatar';
 
-type MessageComponentProps = MessagePackReceive & {
+type MessageComponentProps = IMessagePackReceive & {
   otherUserAvatarUrl: string;
   userAvatarUrl: string;
 };

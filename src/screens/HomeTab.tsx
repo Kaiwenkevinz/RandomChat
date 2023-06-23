@@ -12,7 +12,7 @@ import {RootStackParamList} from '../types/navigation/types';
 import {addNewUserInfo, addToken} from '../store/userSlice';
 import {store} from '../store/store';
 import {initAuthInceptor} from '../network/axios.config';
-import {User} from '../types/network/types';
+import {IUser} from '../types/network/types';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -54,7 +54,7 @@ const HomeTab = () => {
         initAuthInceptor(token, userId);
 
         // add user info to redux store
-        store.dispatch(addNewUserInfo(user as User));
+        store.dispatch(addNewUserInfo(user as IUser));
         store.dispatch(addToken(token));
 
         setLoading(false);

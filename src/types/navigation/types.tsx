@@ -1,4 +1,4 @@
-import {User} from '../network/types';
+import {IUser} from '../network/types';
 
 /**
  * Define the types of navigation params here.
@@ -10,7 +10,7 @@ export type RootStackParamList = {
   Chats: undefined;
   Search: undefined;
   Profile: undefined;
-  ProfileEdit: User;
+  ProfileEdit: IUser;
   Contacts: undefined;
   ChatRoom: {
     otherUserId: number;

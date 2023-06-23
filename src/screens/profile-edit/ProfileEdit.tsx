@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 import {showToast, toastType} from '../../utils/toastUtil';
 import eventEmitter from '../../services/event-emitter';
 import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants';
-import {User} from '../../types/network/types';
+import {IUser} from '../../types/network/types';
 
 type ProfileEditProps = StackScreenProps<RootStackParamList, 'ProfileEdit'>;
 
@@ -45,7 +45,7 @@ export const Dropdown = (props: DropdownProps) => {
 const ProfileEdit = ({route}: ProfileEditProps) => {
   const navigation = useNavigation();
   const params = route.params;
-  const [userObj, setUserObj] = useState<User>({
+  const [userObj, setUserObj] = useState<IUser>({
     ...params,
   });
 

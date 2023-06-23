@@ -1,5 +1,5 @@
 import {prettyPrint} from './../../utils/printUtil';
-import {ChatComponentProps, Result} from './../../types/network/types';
+import {IChatRoom, Result} from './../../types/network/types';
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_UPLOAD_IMAGE,
@@ -10,7 +10,7 @@ import {api} from '../axios.config';
  * Fetch chat rooms
  */
 function getAllChatMessages() {
-  return api.post<Result<ChatComponentProps[]>>(
+  return api.post<Result<IChatRoom[]>>(
     API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   );
 }

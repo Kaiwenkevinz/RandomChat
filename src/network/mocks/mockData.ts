@@ -1,9 +1,9 @@
 import {
-  LoginResponse,
-  MessagePackReceive,
+  ILoginResponse,
+  IMessagePackReceive,
   MessagePackSend,
   Result,
-  User,
+  IUser,
 } from '../../types/network/types';
 
 export const generageMockResponse = <T>(data: T | null = null) =>
@@ -13,7 +13,7 @@ export const generageMockResponse = <T>(data: T | null = null) =>
     status: 'ok',
   } as Result<T>);
 
-export const mockUser: User = {
+export const mockUser: IUser = {
   id: 1,
   username: 'Kevin',
   gender: 'male',
@@ -34,7 +34,7 @@ export const mockLogin = {
     username: 'Kevin',
     password: '123456',
   },
-  mockResponse: generageMockResponse<LoginResponse>({
+  mockResponse: generageMockResponse<ILoginResponse>({
     user: mockUser,
     token: 'jwt1234567890',
   }),
@@ -55,11 +55,11 @@ export const mockRegister = {
     email: '123@email.com',
     code: 'e-m-a-i-l',
   },
-  mockResponse: generageMockResponse<User>(),
+  mockResponse: generageMockResponse<IUser>(),
 };
 
 export const mockUserProfile = {
-  mockResponse: generageMockResponse<User>(mockUser),
+  mockResponse: generageMockResponse<IUser>(mockUser),
 };
 
 export const generateMockChatMessage = (
@@ -76,7 +76,7 @@ export const generateMockChatMessage = (
     sender_id,
     receiver_id,
     send_time: '2023-04-08T08:07:23.000+00:00',
-  } as MessagePackReceive;
+  } as IMessagePackReceive;
 };
 
 export const mockAllFriendAllChatMessages = {
