@@ -6,8 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
 import {
   appendNewMessage,
+  operateUnreadRoomAsync,
   selectRooms,
-  updateRoomUnreadStatus,
 } from '../../store/chatSlice';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
@@ -71,9 +71,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   }, [navigation, title]);
 
   const setUnreadStatus = () => {
-    // 更新聊天室为已读状态
     store.dispatch(
-      updateRoomUnreadStatus({otherUserId, hasUnreadMessage: false}),
+      operateUnreadRoomAsync({option: 'delete', newData: otherUserId}),
     );
   };
 

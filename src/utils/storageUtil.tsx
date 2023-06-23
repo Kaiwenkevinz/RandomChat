@@ -1,25 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ILoginResponse, IUser} from '../types/network/types';
 
 export const saveStorageData = async (key: string, value: any) => {
   try {
     const jsonValue = JSON.stringify(value);
-    console.log(
-      '🚀 ~ file: storageUtil.tsx:6 ~ saveStorageData ~ jsonValue:',
-      jsonValue,
-    );
+    console.log('Save to Storage, key: ', key, ', value: ', jsonValue);
     await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
-    console.log('storeData error: ', e);
+    console.error('storeData error: ', e);
   }
 };
 
-export const loadStorageData = async (key: string) => {
+export const loadStorageData = async <T,>(key: string) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
+    console.log('Load from Storage, key: ', key, ', value: ', jsonValue);
 
-    return jsonValue != null ? (JSON.parse(jsonValue) as ILoginResponse) : null;
+    return jsonValue != null ? (JSON.parse(jsonValue) as T) : null;
   } catch (e) {
-    console.log('getStorageData error: ', e);
+    console.error('getStorageData error: ', e);
   }
 };

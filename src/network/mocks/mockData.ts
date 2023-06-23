@@ -89,7 +89,6 @@ export const mockAllFriendAllChatMessages = {
       otherUserName: 'Novu Hangouts',
       otherUserAvatarUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
-      hasUnreadMessage: false,
       messages: [
         generateMockChatMessage('1a', 'Hello, my name is Novu', 200, 1),
         generateMockChatMessage('1b', 'Hi Novu, my name is Kevin! 😇', 1, 200),
@@ -113,7 +112,6 @@ export const mockAllFriendAllChatMessages = {
       otherUserId: 300,
       otherUserName: 'Alex',
       otherUserAvatarUrl: null,
-      hasUnreadMessage: true,
       messages: [
         generateMockChatMessage('1a', 'Hello, 我是一条很长的他人的消息'),
       ],

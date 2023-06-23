@@ -4,8 +4,8 @@ import {useEffect} from 'react';
 import {store} from '../store/store';
 import {
   appendNewMessage,
+  operateUnreadRoomAsync,
   updateMessageStatus,
-  updateRoomUnreadStatus,
 } from '../store/chatSlice';
 import {useAppSelector} from './customReduxHooks';
 import {selectUser} from '../store/userSlice';
@@ -15,7 +15,6 @@ import {EVENT_SERVER_PUSH_MESSAGE} from '../services/event-emitter/constants';
 import {CONFIG} from '../config';
 
 const useChatWebSocket = (token: string) => {
-  // const websocket = useRef<WebSocket>(new WebSocket(WEB_SOCKET_URL)).current;
   const {id: userId} = useAppSelector(selectUser).user;
 
   const url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
@@ -56,6 +55,7 @@ const handleOnReceiveWebSocketMessage = (
     } else {
       otherUserId = message.toId;
     }
+    // 更新消息状态为已发送
     store.dispatch(updateMessageStatus({otherUserId, msgId: message.id}));
   } else {
     // 服务器 push 消息
@@ -71,14 +71,14 @@ const handleOnReceiveWebSocketMessage = (
     );
     // 添加新消息
     store.dispatch(appendNewMessage(messagePackReceive));
-    // 聊天室置为未读状态
+
     store.dispatch(
-      updateRoomUnreadStatus({
-        otherUserId: message.fromId,
-        hasUnreadMessage: true,
+      operateUnreadRoomAsync({
+        option: 'add',
+        newData: messagePackReceive.sender_id,
       }),
     );
-    // 如果在对应的聊天室，会把状态置为已读
+
     eventEmitter.emit(EVENT_SERVER_PUSH_MESSAGE, messagePackReceive);
   }
 };

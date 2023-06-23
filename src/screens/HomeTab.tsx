@@ -12,7 +12,7 @@ import {RootStackParamList} from '../types/navigation/types';
 import {addNewUserInfo, addToken} from '../store/userSlice';
 import {store} from '../store/store';
 import {initAuthInceptor} from '../network/axios.config';
-import {IUser} from '../types/network/types';
+import {ILoginResponse, IUser} from '../types/network/types';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -24,7 +24,7 @@ const HomeTab = () => {
     console.log('Home screen mounted');
 
     // get JWT from AsyncStorage
-    loadStorageData(LOCAL_STORAGE_KEY_AUTH)
+    loadStorageData<ILoginResponse>(LOCAL_STORAGE_KEY_AUTH)
       .then(data => {
         // token not exist, go to login
         if (data == null) {

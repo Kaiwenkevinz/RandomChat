@@ -4,10 +4,11 @@ import React from 'react';
 import {styles} from '../utils/styles';
 import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import UserAvatar from 'react-native-user-avatar';
+import {useAppSelector} from '../hooks/customReduxHooks';
 
 type ChatListComponentProps = Pick<
   IChatRoom,
-  'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl' | 'hasUnreadMessage'
+  'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
 > & {
   messages: IMessagePackReceive[];
 };
@@ -19,12 +20,14 @@ export const ChatListComponent = ({
   otherUserId,
   otherUserName,
   otherUserAvatarUrl,
-  hasUnreadMessage,
   messages,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
   const latestMessage = messages[messages.length - 1] || {content: ''};
   const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
+
+  const unreadRooms = useAppSelector(state => state.chat.unreadRooms);
+  const hasUnread = unreadRooms.findIndex(id => id === otherUserId) !== -1;
 
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
@@ -47,7 +50,7 @@ export const ChatListComponent = ({
       <View style={styles.crightContainer}>
         <View>
           <Text style={styles.cusername}>{otherUserName}</Text>
-          {hasUnreadMessage ? (
+          {hasUnread ? (
             <Text style={styles.cusername}>unread</Text>
           ) : (
             <Text style={styles.cusername}>read</Text>
