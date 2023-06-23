@@ -1,75 +1,94 @@
-import {renderHook, act, waitFor} from '@testing-library/react-native';
-
 import WS from 'jest-websocket-mock';
-import {WEB_SOCKET_URL} from '../constant';
-import {useChatWebSocket} from '../hooks/useChatWebSocket';
-import {IMessagePackReceive} from '../types/network/types';
+import {handleOnReceiveWebSocketMessage} from '../hooks/useChatWebSocket';
+import {generateSendMessagePack} from '../screens/chat-room/chatUtil';
+import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
+import {store} from '../store/store';
+import {getChatsAsync} from '../store/chatSlice';
+import MockAdapter from 'axios-mock-adapter';
+import {axiosClient} from '../network/axios.config';
+import {API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES} from '../network/constant';
+import {mockAllFriendAllChatMessages} from '../network/mocks/mockData';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({navigate: jest.fn()}),
 }));
 
-it('The mocked WebSocket server should be running', async () => {
-  const mockServer = new WS('ws://localhost:1234');
-  const client = new WebSocket('ws://localhost:1234');
-
-  await mockServer.connected;
-  client.send('hello');
-  await expect(mockServer).toReceiveMessage('hello');
-  expect(mockServer).toHaveReceivedMessages(['hello']);
-});
-
-describe('useWebSocket hook', () => {
-  let server: WS;
+describe('通过 Websocket 发送和接收聊天消息', () => {
+  let mockServer: WS;
 
   beforeEach(async () => {
-    server = new WS(WEB_SOCKET_URL);
-    new WebSocket(WEB_SOCKET_URL);
+    mockServer = new WS('ws://localhost:1234');
+    WebSocketSingleton.initWebsocket('ws://localhost:1234', 'fake-token');
 
-    await server.connected;
+    await mockServer.connected;
   });
 
   afterEach(() => {
     WS.clean();
+    WebSocketSingleton.closeAndReset();
   });
 
-  it('Once connection established, client sends on connected to server.', async () => {
-    renderHook(() => useChatWebSocket());
+  it('The mocked WebSocket server should be running', async () => {
+    const client = WebSocketSingleton.getWebsocket();
 
-    await expect(server).toReceiveMessage('WebSocket Client Connected');
-    expect(server).toHaveReceivedMessages(['WebSocket Client Connected']);
+    await mockServer.connected;
+    client?.send('hello');
+    await expect(mockServer).toReceiveMessage('hello');
+    expect(mockServer).toHaveReceivedMessages(['hello']);
   });
 
-  it('Client A send message to Server, Server receives and replay the same message back to client.', async () => {
-    const mockMessagePack: IMessagePackReceive = {
-      id: '1a',
-      content: 'Hello, my name is Novu',
-      send_time: 1684930783,
-      sender_id: 'Novu Hangouts',
-      receiver_id: 'Kevin',
-      isSent: false,
-    };
+  it('Server 收到消息体后 should 返回消息体给 Client', async () => {
+    const otherUserId = 200;
+    const userId = 1;
+    const content = 'Hello, 这是个测试消息';
+    const mockMessagePackSend = generateSendMessagePack(
+      content,
+      userId,
+      otherUserId,
+    );
 
-    // mock hook
-    const {result} = renderHook(() => useChatWebSocket());
-    const clientWebsocket = result.current.websocket;
-
-    // 测试自定义 hook 的功能
-    act(() => {
-      // 发送 消息包 到 Server
-      clientWebsocket.send(mockMessagePack);
-
-      // ack waiting queue 中应该有这个消息包
-      expect(messagesAckPendingMemo.has(mockMessagePack.id)).toBeTruthy();
-    });
+    WebSocketSingleton.getWebsocket()?.send(
+      JSON.stringify(mockMessagePackSend),
+    );
 
     // Server 收到 Client 发送的消息包
-    await expect(server).toReceiveMessage(JSON.stringify(mockMessagePack));
+    await expect(mockServer).toReceiveMessage(
+      JSON.stringify(mockMessagePackSend),
+    );
+  });
 
-    // Server 发送 WS_EVENT_MSG_ACK 到 Client
-    server.send(JSON.stringify(mockServerSendMsgPack));
+  it('Server push 新消息到 Client 后 should 触发 onMessage 回调, 并新增新消息到对应的聊天室', async () => {
+    // 初始化 client
+    const userId = 1;
+    const client = WebSocketSingleton.getWebsocket();
+    if (!client) {
+      throw new Error('client is null');
+    }
+    client.onmessage = (event: WebSocketMessageEvent) => {
+      handleOnReceiveWebSocketMessage(userId, event);
+      console.log('event.data', event.data);
+    };
 
-    // Client 收到消息包 ack，消息包从 ack waiting queue 中移除
-    expect(messagesAckPendingMemo.has(mockMessagePack.id)).toBeFalsy();
+    // 获取已有聊天记录
+    const mock = new MockAdapter(axiosClient);
+    mock
+      .onPost(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES)
+      .reply(200, mockAllFriendAllChatMessages.mockResponse);
+    await store.dispatch(getChatsAsync());
+
+    // 第一个聊天室的消息数量应该为 4
+    let firstChatRoom = store.getState().chat.data[0];
+    expect(firstChatRoom.messages.length).toBe(4);
+
+    // 模拟用户 200 给用户 1 发送消息
+    const fromId = 200;
+    const toId = userId;
+    const content = 'Hello, 这是个来自服务器的测试消息';
+    const mockMessagePackSend = generateSendMessagePack(content, fromId, toId);
+    mockServer.send(JSON.stringify(mockMessagePackSend));
+
+    // 第一个聊天室的消息数量应该为 5
+    firstChatRoom = store.getState().chat.data[0];
+    expect(firstChatRoom.messages.length).toBe(5);
   });
 });

@@ -7,7 +7,7 @@ import UserAvatar from 'react-native-user-avatar';
 
 type ChatListComponentProps = Pick<
   IChatRoom,
-  'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
+  'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl' | 'hasUnreadMessage'
 > & {
   messages: IMessagePackReceive[];
 };
@@ -19,6 +19,7 @@ export const ChatListComponent = ({
   otherUserId,
   otherUserName,
   otherUserAvatarUrl,
+  hasUnreadMessage,
   messages,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
@@ -46,6 +47,11 @@ export const ChatListComponent = ({
       <View style={styles.crightContainer}>
         <View>
           <Text style={styles.cusername}>{otherUserName}</Text>
+          {hasUnreadMessage ? (
+            <Text style={styles.cusername}>unread</Text>
+          ) : (
+            <Text style={styles.cusername}>read</Text>
+          )}
           <Text style={styles.cmessage}>
             {latestMessage.message_type === 'text'
               ? latestMessage.content

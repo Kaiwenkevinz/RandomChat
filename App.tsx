@@ -2,9 +2,13 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
 import Navigation from './src/navigation';
+import {CONFIG} from './src/config';
 
-// TODO: 只在 development 环境下使用 mock API
-require('./src/network/mocks/mockAPI');
+console.log('Config', CONFIG.TURN_ON_MOCK_API);
+
+if (process.env.NODE_ENV === 'development' && CONFIG.TURN_ON_MOCK_API) {
+  require('./src/network/mocks/mockAPI');
+}
 
 // TODO: Pagination or infinite scroll to prevent loading all messages at once
 // TODO: debounce button

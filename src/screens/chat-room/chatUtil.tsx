@@ -26,6 +26,7 @@ export const generateReceiveMessagePack = (
   otherUserId: number,
   type: 'text' | 'image' | 'video' | 'system' = 'text',
   isGroup: 0 | 1 = 0,
+  isSent: boolean = false,
 ) => {
   const res: IMessagePackReceive = {
     id,
@@ -33,7 +34,7 @@ export const generateReceiveMessagePack = (
     content,
     sender_id: userId,
     receiver_id: otherUserId,
-    isSent: false,
+    isSent,
     send_time: new Date().toISOString(),
     isGroup,
   };

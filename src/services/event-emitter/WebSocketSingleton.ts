@@ -6,10 +6,10 @@ export class WebSocketSingleton {
   public ws: WebSocket;
 
   private constructor(url: string, token: string) {
+    console.log('WebSocket url: ', url);
     this.ws = new WebSocket(url, null, {
       headers: {Authorization: `Bearer ${token}`},
     });
-    console.log('WebSocket url: ', url);
 
     this.ws.onopen = () => {
       console.log('WebSocket 连接已打开');
@@ -34,5 +34,10 @@ export class WebSocketSingleton {
 
   public static getWebsocket(): WebSocket | undefined {
     return WebSocketSingleton.instance?.ws;
+  }
+
+  public static closeAndReset(): void {
+    WebSocketSingleton.instance?.ws.close();
+    WebSocketSingleton.instance = null;
   }
 }

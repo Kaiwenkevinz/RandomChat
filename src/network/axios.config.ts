@@ -1,9 +1,9 @@
-import { prettyPrint } from './../utils/printUtil';
 import axios, {AxiosRequestConfig} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
+import {CONFIG} from '../config';
 
 const axiosClient = axios.create({
-  baseURL: 'http://10.68.62.219:8080', // TODO: hard code
+  baseURL: CONFIG.BASE_API_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

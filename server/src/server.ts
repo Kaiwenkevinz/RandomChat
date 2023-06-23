@@ -19,6 +19,19 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
       webSocket.send(strObj);
     }, 2000);
   });
+
+  const messageFromOther = {
+    type: 'text',
+    id: 'server-message-1',
+    content: 'Hello, 我是 server 转发来的其他人的消息',
+    fromId: 200,
+    toId: 1,
+    isGroup: 0,
+  };
+  setTimeout(() => {
+    console.log('Server 发送消息', messageFromOther);
+    webSocket.send(JSON.stringify(messageFromOther));
+  }, 5000);
 });
 
 webSocketServer.on('close', () => {

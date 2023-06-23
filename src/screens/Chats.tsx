@@ -47,13 +47,20 @@ const Chats = () => {
 };
 
 const renderChatComponent = (item: IChatRoom) => {
-  const {messages, otherUserId, otherUserName, otherUserAvatarUrl} = item;
+  const {
+    messages,
+    otherUserId,
+    otherUserName,
+    otherUserAvatarUrl,
+    hasUnreadMessage,
+  } = item;
 
   return (
     <ChatListComponent
       otherUserId={otherUserId}
       otherUserName={otherUserName}
       otherUserAvatarUrl={otherUserAvatarUrl}
+      hasUnreadMessage={hasUnreadMessage}
       messages={messages}
     />
   );

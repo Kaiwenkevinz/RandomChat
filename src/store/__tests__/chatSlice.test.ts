@@ -1,15 +1,13 @@
 import {axiosClient} from '../../network/axios.config';
 import {store} from '../store';
-import {
-  IChatRoom,
-  IMessagePackReceive,
-} from '../../types/network/types';
+import {IChatRoom, IMessagePackReceive} from '../../types/network/types';
 import MockAdapter from 'axios-mock-adapter';
 import {
   appendNewMessage,
   getChatsAsync,
   reset,
   updateMessageStatus,
+  updateRoomUnreadStatus,
 } from '../chatSlice';
 import {API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES} from '../../network/constant';
 import {
@@ -101,5 +99,21 @@ describe('Redux chat reducer', () => {
     newMessage = messages[messages.length - 1];
 
     expect(newMessage).not.toHaveProperty('isSent');
+  });
+
+  it('should 把相应聊天室的未读状态设为 false', async () => {
+    await store.dispatch(getChatsAsync());
+
+    // 第一个聊天室的未读状态为 true
+    expect(store.getState().chat.data[0].hasUnreadMessage).toBe(true);
+
+    // 把第一个聊天室的未读状态设为 false
+    const otherUserId = 200;
+    store.dispatch(
+      updateRoomUnreadStatus({otherUserId, hasUnreadMessage: false}),
+    );
+
+    // 第一个聊天室的未读状态为 false
+    expect(store.getState().chat.data[0].hasUnreadMessage).toBe(false);
   });
 });

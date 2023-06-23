@@ -13,6 +13,11 @@ export type SetMessagesStatusToSentType = {
   msgId: string;
 };
 
+export type SetChatRoomHasUnreadMessageType = {
+  otherUserId: number;
+  hasUnreadMessage: boolean;
+};
+
 // state
 const initialState: ChatState = {
   data: [],
@@ -47,6 +52,7 @@ export const chatSlice = createSlice({
       state.data = [];
       state.status = 'idle';
     },
+    // 添加新消息到对应的聊天室
     appendNewMessage: (state, action: PayloadAction<IMessagePackReceive>) => {
       const {sender_id: sendId, receiver_id: receiveId} = action.payload;
       const rooms = state.data;
@@ -62,17 +68,14 @@ export const chatSlice = createSlice({
         console.log('target room not found');
       }
     },
+    // 更新消息发送状态为已发送
     updateMessageStatus: (
       state,
       action: PayloadAction<SetMessagesStatusToSentType>,
     ) => {
       const {otherUserId, msgId} = action.payload;
       const rooms = state.data;
-      const targetRoom = rooms.find(room => {
-        if (room.otherUserId === otherUserId) {
-          return true;
-        }
-      });
+      const targetRoom = rooms.find(room => room.otherUserId === otherUserId);
       if (targetRoom) {
         const targetMessage = targetRoom.messages.find(message => {
           if (message.id === msgId) {
@@ -82,6 +85,18 @@ export const chatSlice = createSlice({
         if (targetMessage) {
           delete targetMessage.isSent;
         }
+      }
+    },
+    // 更新聊天室的消息已读未读为对应的状态
+    updateRoomUnreadStatus: (
+      state,
+      action: PayloadAction<SetChatRoomHasUnreadMessageType>,
+    ) => {
+      const {otherUserId, hasUnreadMessage} = action.payload;
+      const rooms = state.data;
+      const targetRoom = rooms.find(room => room.otherUserId === otherUserId);
+      if (targetRoom) {
+        targetRoom.hasUnreadMessage = hasUnreadMessage;
       }
     },
   },
@@ -105,6 +120,11 @@ export const chatSlice = createSlice({
 // 使用 useSelector() 获得 state
 export const selectRooms = (state: RootState) => state.chat;
 // 暴露 action
-export const {reset, appendNewMessage, updateMessageStatus} = chatSlice.actions;
+export const {
+  reset,
+  appendNewMessage,
+  updateMessageStatus,
+  updateRoomUnreadStatus,
+} = chatSlice.actions;
 // 暴露 reducer
 export default chatSlice.reducer;

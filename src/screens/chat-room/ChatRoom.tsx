@@ -4,7 +4,11 @@ import {styles} from '../../utils/styles';
 import {MessageComponent} from '../../components/MessageComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
-import {appendNewMessage, selectRooms} from '../../store/chatSlice';
+import {
+  appendNewMessage,
+  selectRooms,
+  updateRoomUnreadStatus,
+} from '../../store/chatSlice';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
@@ -13,8 +17,10 @@ import {generateReceiveMessagePack, generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
 import ImagePickerModal from './ImagePickerModal';
-import {MessagePackSend} from '../../types/network/types';
+import {IMessagePackReceive, MessagePackSend} from '../../types/network/types';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
+import eventEmitter from '../../services/event-emitter';
+import {EVENT_SERVER_PUSH_MESSAGE} from '../../services/event-emitter/constants';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -43,13 +49,33 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   // set the title of the chat room
   useEffect(() => {
-    navigation.setOptions({title});
     console.log('ChatRoom mounted');
+    navigation.setOptions({title});
+    setUnreadStatus();
+
+    eventEmitter.on(
+      EVENT_SERVER_PUSH_MESSAGE,
+      (messagePack: IMessagePackReceive) => {
+        // 判断消息是不是对方发给我的
+        if (messagePack.receiver_id !== userId) {
+          return;
+        }
+
+        setUnreadStatus();
+      },
+    );
 
     return () => {
       console.log('ChatRoom unmounted');
     };
   }, [navigation, title]);
+
+  const setUnreadStatus = () => {
+    // 更新聊天室为已读状态
+    store.dispatch(
+      updateRoomUnreadStatus({otherUserId, hasUnreadMessage: false}),
+    );
+  };
 
   const handleSendText = () => {
     realSendMessage('text', currentMessage);
