@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-navigation';
 import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
 import {ChatComponentProps} from '../types/network/types';
-import {useChatWebSocket} from '../hooks/useChatWebSocket';
+import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {getChatsAsync, selectRooms} from '../store/chatSlice';
 import {store} from '../store/store';
@@ -12,7 +12,8 @@ import {getProfileAsync} from '../store/userSlice';
 
 const Chats = () => {
   const token = useAppSelector(state => state.user.token);
-  const {websocket} = useChatWebSocket(token);
+  useInitWebSocket(token);
+
   const {data: rooms, status} = useAppSelector(selectRooms);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const Chats = () => {
         {rooms && rooms.length > 0 ? (
           <FlatList
             data={rooms}
-            renderItem={({item}) => renderChatComponent(item, websocket)} // TODO: websocket 提取出来
+            renderItem={({item}) => renderChatComponent(item)}
             keyExtractor={item => item.otherUserName}
           />
         ) : (
@@ -45,10 +46,7 @@ const Chats = () => {
   );
 };
 
-const renderChatComponent = (
-  item: ChatComponentProps,
-  websocket: WebSocket,
-) => {
+const renderChatComponent = (item: ChatComponentProps) => {
   const {messages, otherUserId, otherUserName, otherUserAvatarUrl} = item;
 
   return (
@@ -57,7 +55,6 @@ const renderChatComponent = (
       otherUserName={otherUserName}
       otherUserAvatarUrl={otherUserAvatarUrl}
       messages={messages}
-      websocket={websocket}
     />
   );
 };

@@ -10,7 +10,6 @@ type ChatListComponentProps = Pick<
   'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
 > & {
   messages: MessagePackReceive[];
-  websocket: WebSocket;
 };
 
 /**
@@ -21,7 +20,6 @@ export const ChatListComponent = ({
   otherUserName,
   otherUserAvatarUrl,
   messages,
-  websocket,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
   const latestMessage = messages[messages.length - 1] || {content: ''};
@@ -33,7 +31,6 @@ export const ChatListComponent = ({
       otherUserName,
       otherUserAvatarUrl,
       messages,
-      websocket,
     });
   };
 

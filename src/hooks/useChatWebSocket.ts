@@ -1,5 +1,6 @@
-import {MessagePackReceive, MessagePackSend} from './../types/network/types';
-import {useEffect, useRef} from 'react';
+import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
+import {MessagePackSend} from './../types/network/types';
+import {useEffect} from 'react';
 import {store} from '../store/store';
 import {updateMessageStatus} from '../store/chatSlice';
 import {useAppSelector} from './customReduxHooks';
@@ -10,25 +11,22 @@ const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;
 
   // TODO: 抽取
-  const URL = `ws://localhost:8080/chat/${userId}`;
-  const websocket = useRef<WebSocket>(
-    new WebSocket(URL, null, {
-      headers: {Authorization: `Bearer ${token}`},
-    }),
-  ).current;
-  console.log('websocket 连接 url:', URL);
+  const url = `ws://localhost:8080/chat/${userId}`;
 
   // init Websocket
   useEffect(() => {
-    websocket.onopen = () => {
-      console.log('WebSocket Client Connected');
-    };
+    WebSocketSingleton.initWebsocket(url, token);
+    const websocket = WebSocketSingleton.getWebsocket();
+
+    if (!websocket) {
+      console.error('websocket 未初始化');
+      return;
+    }
+
     websocket.onmessage = e => {
       handleOnReceiveWebSocketMessage(e);
     };
-    websocket.onclose = () => {
-      console.log('WebSocket Client Disconnected');
-    };
+
     return () => {
       websocket.close();
     };
@@ -47,11 +45,8 @@ const useChatWebSocket = (token: string) => {
     }
     const msgId = message.id;
 
-    // set message status to sent
     store.dispatch(updateMessageStatus({otherUserId, msgId}));
   };
-
-  return {websocket};
 };
 
 export {useChatWebSocket};

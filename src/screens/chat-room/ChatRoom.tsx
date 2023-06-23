@@ -14,17 +14,17 @@ import {store} from '../../store/store';
 import {selectUser} from '../../store/userSlice';
 import ImagePickerModal from './ImagePickerModal';
 import {MessagePackSend} from '../../types/network/types';
+import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
 const ChatRoom = ({route}: ChatRoomProps) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
 
   // get params from route
   const params = route.params;
-  const {otherUserId, otherUserName, otherUserAvatarUrl, websocket} = params;
+  const {otherUserId, otherUserName, otherUserAvatarUrl} = params;
 
   // the title of the chat room which shows timer countdown
   const title = `${otherUserName} (remaining: 9:59s)`;
@@ -61,7 +61,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   };
 
   const realSendMessage = (type: MessagePackSend['type'], content: string) => {
-    if (websocket.readyState !== WebSocket.OPEN) {
+    const websocket = WebSocketSingleton.getWebsocket();
+    if (!websocket || websocket.readyState !== WebSocket.OPEN) {
       showToast(toastType.ERROR, 'Error', 'Error! WebSocket not connected!');
       console.log('Error! WebSocket not connected!');
       return;
@@ -98,24 +99,20 @@ const ChatRoom = ({route}: ChatRoomProps) => {
             style={{flexGrow: 0}}
             inverted
             data={[...messages].reverse()}
-            renderItem={({item}) => {
-              console.log('item', item.message_type);
-
-              return (
-                <MessageComponent
-                  id={item.id}
-                  otherUserAvatarUrl={otherUserAvatarUrl}
-                  userAvatarUrl={userAvatarUrl}
-                  content={item.content}
-                  sender_id={item.sender_id}
-                  receiver_id={item.receiver_id}
-                  send_time={item.send_time}
-                  isSent={item.isSent}
-                  message_type={item.message_type}
-                  isGroup={item.isGroup}
-                />
-              );
-            }}
+            renderItem={({item}) => (
+              <MessageComponent
+                id={item.id}
+                otherUserAvatarUrl={otherUserAvatarUrl}
+                userAvatarUrl={userAvatarUrl}
+                content={item.content}
+                sender_id={item.sender_id}
+                receiver_id={item.receiver_id}
+                send_time={item.send_time}
+                isSent={item.isSent}
+                message_type={item.message_type}
+                isGroup={item.isGroup}
+              />
+            )}
             keyExtractor={item => item.id}
           />
         ) : (

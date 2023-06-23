@@ -1,23 +1,7 @@
-import {
-  configureStore,
-  ThunkAction,
-  Action,
-  getDefaultMiddleware,
-} from '@reduxjs/toolkit';
+import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import counterReducer from './counterSlice';
 import chatReducer from './chatSlice';
 import userReducer from './userSlice';
-
-const middlewares = getDefaultMiddleware({
-  // https://github.com/reduxjs/redux-toolkit/issues/415
-  immutableCheck: false,
-});
-
-if (__DEV__ && !process.env.JEST_WORKER_ID) {
-  console.log('Redux debugging is turned on.');
-  const createDebugger = require('redux-flipper').default;
-  middlewares.push(createDebugger());
-}
 
 export const store = configureStore({
   // 所有的 reducer 都要在这里注册
@@ -26,7 +10,6 @@ export const store = configureStore({
     chat: chatReducer,
     user: userReducer,
   },
-  middleware: middlewares,
 });
 
 // https://redux-toolkit.js.org/tutorials/typescript#define-typed-hooks

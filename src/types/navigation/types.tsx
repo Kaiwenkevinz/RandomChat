@@ -16,6 +16,5 @@ export type RootStackParamList = {
     otherUserId: number;
     otherUserName: string;
     otherUserAvatarUrl: string;
-    websocket: WebSocket;
   };
 };

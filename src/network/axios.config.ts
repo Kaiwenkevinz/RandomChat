@@ -1,6 +1,6 @@
+import { prettyPrint } from './../utils/printUtil';
 import axios, {AxiosRequestConfig} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
-import {prettyPrint} from '../utils/printUtil';
 
 const axiosClient = axios.create({
   baseURL: 'http://10.68.62.219:8080', // TODO: hard code
@@ -52,7 +52,7 @@ Data: ${JSON.stringify(req.data, null, 2)}
  * @param status 后端返回的 response.status 字段值
  */
 const handleErrorCode = (status: number, message: string) => {
-  console.log(`统一处理原生错误码, status: ${status}, message: ${message}`);
+  console.warn(`统一处理原生错误码, status: ${status}, message: ${message}`);
   switch (status) {
     case 401:
       showToast(toastType.ERROR, 'Error', '401: Unauthorized');
@@ -72,13 +72,13 @@ const handleErrorCode = (status: number, message: string) => {
  * @param msg 在 response.data 中的 msg 字段
  */
 const handleErrorCustomeCode = (status: string, msg: string) => {
-  console.log(`统一处理自定义错误码, status: ${status}, msg: ${msg}`);
+  console.warn(`统一处理自定义错误码, status: ${status}, msg: ${msg}`);
   switch (msg) {
     case 'No such user!':
       showToast(toastType.ERROR, 'Error', msg);
       break;
     default:
-      console.log('Unknown error: ', msg);
+      console.warn('Unknown error: ', msg);
   }
 };
 
@@ -87,7 +87,7 @@ axiosClient.interceptors.response.use(
     const data = res.data;
     const {status, msg} = data;
 
-    console.log('Response:', prettyPrint(data));
+    console.log('Response:', res);
 
     // 请求没问题，提取 data，往下继续传
     if (status === 'ok') {
@@ -103,7 +103,7 @@ axiosClient.interceptors.response.use(
     /**
      * 原生错误码会走这个回调
      */
-    const message = error.message;
+    const message = `${error.response.request.responseURL}, ${error.message}`;
     const status = error.response.status;
     handleErrorCode(status, message);
 
