@@ -1,10 +1,6 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  messageImage: {
-    width: 100,
-    height: 100,
-  },
   tinyLogo: {
     width: 50,
     height: 50,
@@ -17,12 +13,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#fff',
     fontWeight: '600',
-  },
-  chatscreen: {
-    backgroundColor: '#F7F7F7',
-    flex: 1,
-    margin: 10,
-    position: 'relative',
   },
   chatheading: {
     fontSize: 24,
@@ -43,16 +33,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  chatlistContainer: {
-    paddingHorizontal: 10,
-  },
-  chatemptyContainer: {
-    width: '100%',
-    height: '80%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  chatemptyText: {fontWeight: 'bold', fontSize: 24, paddingBottom: 30},
   messagingscreen: {
     flex: 1,
   },
@@ -79,92 +59,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-  },
-  modalbutton: {
-    width: '40%',
-    height: 45,
-    backgroundColor: 'green',
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#fff',
-  },
-  modalbuttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  modaltext: {
-    color: '#fff',
-  },
-  modalContainer: {
-    width: '100%',
-    borderTopColor: '#ddd',
-    borderTopWidth: 1,
-    elevation: 1,
-    height: 400,
-    backgroundColor: '#fff',
-    position: 'absolute',
-    bottom: 0,
-    zIndex: 10,
-    paddingVertical: 50,
-    paddingHorizontal: 20,
-  },
-  modalinput: {
-    borderWidth: 2,
-    padding: 15,
-  },
-  modalsubheading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  mmessageWrapper: {
-    width: '100%',
-    alignItems: 'flex-start',
-    marginBottom: 15,
-  },
-  mmessage: {
-    maxWidth: '50%',
-    backgroundColor: '#f5ccc2',
-    padding: 15,
-    borderRadius: 10,
-    marginRight: 10,
-    marginBottom: 2,
-  },
-  mvatar: {
-    marginRight: 5,
-  },
-
-  cchat: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 5,
-    backgroundColor: '#fff',
-    height: 80,
-    marginBottom: 10,
-  },
-  crightContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    flex: 1,
-  },
-  cavatar: {
-    marginRight: 15,
-  },
-  cusername: {
-    fontSize: 18,
-    marginBottom: 5,
-    fontWeight: 'bold',
-  },
-  cmessage: {
-    fontSize: 14,
-    opacity: 0.7,
-  },
-  ctime: {
-    fontSize: 12,
-    opacity: 0.5,
   },
 });

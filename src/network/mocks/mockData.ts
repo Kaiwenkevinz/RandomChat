@@ -106,6 +106,12 @@ export const mockAllFriendAllChatMessages = {
           1,
           'image',
         ),
+        generateMockChatMessage(
+          '3a',
+          '这是一很长条很长很长很长很长很长很长的消息',
+          1,
+          200,
+        ),
       ],
     },
     {

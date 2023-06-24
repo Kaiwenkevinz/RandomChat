@@ -1,6 +1,5 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import React from 'react';
-import {styles} from '../utils/styles';
 import {IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
@@ -26,30 +25,31 @@ export function MessageComponent({
   const sent = isSent === undefined || isSent;
 
   return (
-    <View>
+    <View style={styles.container}>
       <View
-        style={
-          isReceive
-            ? styles.mmessageWrapper
-            : [styles.mmessageWrapper, {alignItems: 'flex-end'}]
-        }>
-        <View
-          style={[
-            isReceive ? {flexDirection: 'row'} : {flexDirection: 'row-reverse'},
-            {alignItems: 'center'},
-          ]}>
-          <UserAvatar
-            bgColor="#fff"
-            size={50}
-            name={'Other User'}
-            src={isReceive ? otherUserAvatarUrl : userAvatarUrl}
-            style={styles.cavatar}
-          />
+        style={[
+          isReceive ? {flexDirection: 'row'} : {flexDirection: 'row-reverse'},
+          {alignItems: 'center'},
+        ]}>
+        <UserAvatar
+          bgColor="#F2F2F2"
+          size={50}
+          name={'Other User'}
+          src={isReceive ? otherUserAvatarUrl : userAvatarUrl}
+          styles={{marginHorizontal: 20}}
+        />
+        <View style={styles.messageAndTime}>
           <View
             style={
               isReceive
                 ? styles.mmessage
-                : [styles.mmessage, {backgroundColor: 'rgb(194, 243, 194)'}]
+                : [
+                    styles.mmessage,
+                    {
+                      backgroundColor: 'rgb(194, 243, 194)',
+                      alignSelf: 'flex-end',
+                    },
+                  ]
             }>
             {type === 'text' ? (
               <Text>{content}</Text>
@@ -64,9 +64,44 @@ export function MessageComponent({
             )}
             <Text>{sent ? 'Sent' : 'Sending'}</Text>
           </View>
+          <Text
+            style={[
+              styles.mtime,
+              isReceive
+                ? {flexDirection: 'row'}
+                : {flexDirection: 'row-reverse', textAlign: 'right'},
+            ]}>
+            {date.toLocaleString()}
+          </Text>
         </View>
-        <Text style={{marginLeft: 40}}>{date.toLocaleString()}</Text>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginBottom: 15,
+    marginHorizontal: 10,
+  },
+  messageAndTime: {
+    flex: 1,
+  },
+  mmessage: {
+    flex: 1,
+    maxWidth: '70%',
+    backgroundColor: '#f5ccc2',
+    padding: 12,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginBottom: 2,
+  },
+  mtime: {
+    marginHorizontal: 10,
+  },
+  messageImage: {
+    width: 100,
+    height: 100,
+  },
+});

@@ -1,7 +1,6 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-navigation';
-import {styles} from '../utils/styles';
 import {ChatListComponent} from '../components/ChatListComponent';
 import {IChatRoom} from '../types/network/types';
 import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
@@ -69,3 +68,20 @@ const renderChatComponent = (item: IChatRoom) => {
 };
 
 export default Chats;
+
+const styles = StyleSheet.create({
+  chatscreen: {
+    flex: 1,
+    margin: 10,
+  },
+  chatlistContainer: {
+    marginHorizontal: 10,
+  },
+  chatemptyContainer: {
+    width: '100%',
+    height: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chatemptyText: {fontWeight: 'bold', fontSize: 24, paddingBottom: 30},
+});
