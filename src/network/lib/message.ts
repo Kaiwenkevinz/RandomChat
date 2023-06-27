@@ -1,4 +1,3 @@
-import {prettyPrint} from './../../utils/printUtil';
 import {IChatRoom, Result} from './../../types/network/types';
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
@@ -10,9 +9,7 @@ import {api} from '../axios.config';
  * Fetch chat rooms
  */
 function getAllChatMessages() {
-  return api.post<Result<IChatRoom[]>>(
-    API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
-  );
+  return api.post<Result<IChatRoom[]>>(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES);
 }
 
 const uploadImage = async (uri: string, name: string) => {

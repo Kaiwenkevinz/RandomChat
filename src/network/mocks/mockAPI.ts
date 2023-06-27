@@ -3,6 +3,7 @@ import {axiosClient} from '../axios.config';
 import {
   generageMockResponse,
   mockAllFriendAllChatMessages,
+  mockFriendList,
   mockLogin,
   mockRegister,
   mockSendVerifyEmail,
@@ -11,6 +12,7 @@ import {
 } from './mockData';
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
+  API_GET_FRIEND_LIST,
   API_GET_USER_INFO,
   API_LOGIN,
   API_REGISTER,
@@ -48,6 +50,10 @@ mock.onAny().reply(config => {
   // 上传图片
   if (config.method === 'post' && config.url === API_UPLOAD_IMAGE) {
     return [200, mockUploadImageRepsonse];
+  }
+  // 好友列表
+  if (config.method === 'post' && config.url === API_GET_FRIEND_LIST) {
+    return [200, mockFriendList.mockResponse];
   }
 
   return [404];

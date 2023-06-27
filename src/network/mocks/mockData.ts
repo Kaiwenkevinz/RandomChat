@@ -137,3 +137,39 @@ export const mockSendNewMessage: MessagePackSend = {
 export const mockUploadImageRepsonse: Result<string> = generageMockResponse(
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZ89N0rGa9eYLJ4sK5rgg5IrIPtAa-pvXRANZ4JIG2b-D_83D7VElzIHfbh-SOOFbAic&usqp=CAU',
 );
+
+const generateMockFriend = (
+  id: number,
+  username: string,
+  avatar_url: string,
+): IUser => {
+  return {
+    id,
+    username,
+    gender: 'male',
+    age: 34,
+    hometown: 'Mars' + id,
+    major: 'Nutural Science' + id,
+    telephone_number: '123456789',
+    mail: id + '@email.com',
+    birthday: '1996-01-01',
+    school: 'Mars University' + id,
+    mbti: 'INTJ' + id,
+    avatar_url,
+  };
+};
+
+export const mockFriendList = {
+  mockResponse: generageMockResponse<IUser[]>([
+    generateMockFriend(
+      777,
+      'Alex',
+      'https://www.shutterstock.com/image-vector/man-character-face-avatar-glasses-260nw-562077406.jpg',
+    ),
+    generateMockFriend(
+      888,
+      'Yudia',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjxv0lgOtSOUpJs1kJnib1w_XYBOehqRnrC-CqLQ2trA&s',
+    ),
+  ]),
+};
