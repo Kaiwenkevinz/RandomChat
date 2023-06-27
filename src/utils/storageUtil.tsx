@@ -13,9 +13,10 @@ export const saveStorageData = async (key: string, value: any) => {
 export const loadStorageData = async <T,>(key: string) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    console.log('Load from Storage, key: ', key, ', value: ', jsonValue);
+    const obj = jsonValue != null ? (JSON.parse(jsonValue) as T) : null;
+    console.log('Load from Storage, key: ', key, ', value: ', obj);
 
-    return jsonValue != null ? (JSON.parse(jsonValue) as T) : null;
+    return obj;
   } catch (e) {
     console.error('getStorageData error: ', e);
   }

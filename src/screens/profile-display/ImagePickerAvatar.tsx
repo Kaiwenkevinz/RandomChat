@@ -8,6 +8,7 @@ import {chatService} from '../../network/lib/message';
 import {TouchableOpacity} from 'react-native';
 
 interface ImagePickerAvatarProps {
+  pickerDisabled: boolean;
   avatarUrl: string | undefined;
   imageName: string;
   onConfirm: (imageUrl: string) => void;
@@ -46,7 +47,9 @@ export const ImagePickerAvatar = (props: ImagePickerAvatarProps) => {
   };
 
   return (
-    <TouchableOpacity onPress={onImageLibraryPress}>
+    <TouchableOpacity
+      disabled={props.pickerDisabled}
+      onPress={onImageLibraryPress}>
       <UserAvatar bgColor="#fff" size={100} src={props.avatarUrl} />
     </TouchableOpacity>
   );

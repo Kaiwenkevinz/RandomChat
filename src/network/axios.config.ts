@@ -36,13 +36,16 @@ axiosClient.interceptors.request.use(req => {
     ...req.headers,
   };
 
-  const printable = `
-Request: ${method.toUpperCase() + ' ' + req.baseURL + req.url}
-${JSON.stringify(headers)}
-Param: ${JSON.stringify(req.params, null, 2)}
-Data: ${JSON.stringify(req.data, null, 2)}
-`;
-  console.log(printable);
+  const printableObj = {
+    headers,
+    param: req.params,
+    data: req.data,
+  };
+  console.log(
+    `Request: ${method.toUpperCase() + ' ' + req.baseURL + req.url}`,
+    '\n',
+    printableObj,
+  );
 
   return req;
 });
@@ -87,7 +90,16 @@ axiosClient.interceptors.response.use(
     const data = res.data;
     const {status, msg} = data;
 
-    console.log('Response:', res);
+    const printableObj = {
+      data: data.data,
+      status,
+      msg,
+    };
+    console.log(
+      `Response ${res.status}: ${res.request.responseURL}`,
+      '\n',
+      printableObj,
+    );
 
     // 请求没问题，提取 data，往下继续传
     if (status === 'ok') {

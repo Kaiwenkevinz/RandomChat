@@ -10,6 +10,7 @@ import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants'
 import {userService} from '../../network/lib/user';
 import {showToast, toastType} from '../../utils/toastUtil';
 import {ImagePickerAvatar} from './ImagePickerAvatar';
+import UserInfo from './UserInfo';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
@@ -31,8 +32,8 @@ const Profile = () => {
 
   const onHandleNewAvatar = (imageUrl: string) => {
     console.log('new avatar url: ', imageUrl);
-    user.avatar_url = imageUrl;
-    userService.updateUserProfile(user).then(
+    const newUser = {...user, avatar_url: imageUrl};
+    userService.updateUserProfile(newUser).then(
       () => {
         eventEmitter.emit(EVENT_UPDATE_USER_PROFILE);
         showToast(toastType.SUCCESS, '', 'Update avatar successfully');
@@ -49,33 +50,13 @@ const Profile = () => {
         <Text>Loading...</Text>
       ) : (
         <ScrollView style={styles.container}>
-          <View style={styles.infoContainer}>
-            <ImagePickerAvatar
-              avatarUrl={user.avatar_url}
-              imageName={`${user.id}_avatar`}
-              onConfirm={onHandleNewAvatar}
-            />
-            <Text style={styles.label}>Id:</Text>
-            <Text style={styles.value}>{user.id}</Text>
-            <Text style={styles.label}>Name:</Text>
-            <Text style={styles.value}>{user.username}</Text>
-            <Text style={styles.label}>Gender:</Text>
-            <Text style={styles.value}>{user.gender}</Text>
-            <Text style={styles.label}>Age:</Text>
-            <Text style={styles.value}>{user.age}</Text>
-            <Text style={styles.label}>Hometown:</Text>
-            <Text style={styles.value}>{user.hometown}</Text>
-            <Text style={styles.label}>Email:</Text>
-            <Text style={styles.value}>{user.mail}</Text>
-            <Text style={styles.label}>Major:</Text>
-            <Text style={styles.value}>{user.major}</Text>
-            <Text style={styles.label}>Birthday:</Text>
-            <Text style={styles.value}>{user.birthday}</Text>
-            <Text style={styles.label}>School:</Text>
-            <Text style={styles.value}>{user.school}</Text>
-            <Text style={styles.label}>MBTI:</Text>
-            <Text style={styles.value}>{user.mbti}</Text>
-          </View>
+          <ImagePickerAvatar
+            pickerDisabled={false}
+            avatarUrl={user.avatar_url}
+            imageName={`${user.id}_avatar`}
+            onConfirm={onHandleNewAvatar}
+          />
+          <UserInfo user={user} />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -94,19 +75,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-  },
-  infoContainer: {
-    flex: 1,
-    padding: 16,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  value: {
-    fontSize: 16,
-    marginBottom: 16,
+    paddingTop: 10,
   },
   button: {
     backgroundColor: '#007aff',
