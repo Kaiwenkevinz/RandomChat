@@ -60,17 +60,25 @@ export const ChatListComponent = ({
         />
         <View style={styles.cchatInfo}>
           <Text style={styles.cusername}>{otherUserName}</Text>
-          {/* {hasUnread ? (
-            <Text style={styles.cusername}>unread</Text>
-          ) : (
-            <Text style={styles.cusername}>read</Text>
-          )} */}
-          <Text style={styles.cmessage} numberOfLines={1} ellipsizeMode="tail">
+          <Text
+            style={[
+              hasUnread
+                ? {color: '#509AD6', fontWeight: 'bold'}
+                : {opacity: 0.7},
+              styles.cmessage,
+            ]}
+            numberOfLines={1}
+            ellipsizeMode="tail">
             {contentPreview}
           </Text>
         </View>
         <View>
           <Text style={styles.ctime}>{dateStr}</Text>
+          {hasUnread && (
+            <View style={styles.unreadIconContainer}>
+              <View style={styles.smallBlueDot} />
+            </View>
+          )}
         </View>
       </View>
     </Pressable>
@@ -94,6 +102,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
   },
+  unreadIconContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  smallBlueDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 5,
+    backgroundColor: '#509AD6',
+  },
   cusername: {
     flex: 1,
     fontSize: 18,
@@ -103,7 +122,6 @@ const styles = StyleSheet.create({
   cmessage: {
     flex: 1,
     fontSize: 14,
-    opacity: 0.7,
   },
   ctime: {
     marginTop: 10,

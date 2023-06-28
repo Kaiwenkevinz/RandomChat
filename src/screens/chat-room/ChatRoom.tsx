@@ -47,25 +47,24 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   const messages =
     rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
 
+  const onServerPushMessage = (messagePack: IMessagePackReceive) => {
+    // 判断消息是不是对方发给我的
+    if (messagePack.receiver_id !== userId) {
+      return;
+    }
+    setUnreadStatus();
+  };
+
   useEffect(() => {
     console.log('ChatRoom mounted');
     navigation.setOptions({title});
     setUnreadStatus();
 
-    eventEmitter.on(
-      EVENT_SERVER_PUSH_MESSAGE,
-      (messagePack: IMessagePackReceive) => {
-        // 判断消息是不是对方发给我的
-        if (messagePack.receiver_id !== userId) {
-          return;
-        }
-
-        setUnreadStatus();
-      },
-    );
+    eventEmitter.on(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
 
     return () => {
       console.log('ChatRoom unmounted');
+      eventEmitter.off(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
     };
   }, [navigation, title]);
 

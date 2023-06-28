@@ -70,7 +70,11 @@ export const operateUnreadRoomAsync = createAsyncThunk<
     return data;
   }
 
-  if (option === 'add' && newData) {
+  if (
+    option === 'add' &&
+    newData &&
+    data.findIndex(id => id === newData) === -1
+  ) {
     data.push(newData);
   } else if (option === 'delete' && newData) {
     // 删除指定的 unread room

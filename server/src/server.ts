@@ -28,10 +28,10 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
     toId: 1,
     isGroup: 0,
   };
-  setTimeout(() => {
+  setInterval(() => {
     console.log('Server 发送消息', messageFromOther);
     webSocket.send(JSON.stringify(messageFromOther));
-  }, 5000);
+  }, 2000);
 });
 
 webSocketServer.on('close', () => {
