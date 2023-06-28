@@ -4,8 +4,6 @@ import {store} from './src/store/store';
 import Navigation from './src/navigation';
 import {CONFIG} from './src/config';
 
-console.log('Config', CONFIG.TURN_ON_MOCK_API);
-
 if (process.env.NODE_ENV === 'development' && CONFIG.TURN_ON_MOCK_API) {
   require('./src/network/mocks/mockAPI');
 }

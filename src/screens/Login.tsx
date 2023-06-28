@@ -59,6 +59,7 @@ export default function Login(props: Props) {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.titleText}>Login</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -75,13 +76,16 @@ export default function Login(props: Props) {
       <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          props.navigation.navigate('Register');
-        }}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+      <Text style={{marginTop: 10}}>
+        Don't have an account?{' '}
+        <Text
+          style={{color: '#5086CE'}}
+          onPress={() => {
+            props.navigation.navigate('Register');
+          }}>
+          Sign up
+        </Text>
+      </Text>
     </View>
   );
 }
@@ -91,6 +95,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#fff',
+  },
+  titleText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 20,
   },
   input: {
     height: 50,

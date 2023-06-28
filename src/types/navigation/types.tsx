@@ -3,8 +3,15 @@ import {IUser} from '../network/types';
 /**
  * Define the types of navigation params here.
  */
+export interface IVerifyEmail {
+  username: string;
+  password: string;
+  email: string;
+}
+
 export type RootStackParamList = {
   Register: undefined;
+  VerifyEmail: IVerifyEmail;
   Login: undefined;
   HomeTab: undefined;
   Chats: undefined;

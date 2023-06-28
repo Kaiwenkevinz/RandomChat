@@ -6,20 +6,17 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {NavigationScreenProp} from 'react-navigation';
-import {authService} from '../network/lib/auth';
+import {useNavigation} from '@react-navigation/native';
+import {IVerifyEmail} from '../types/navigation/types';
 import {showToast, toastType} from '../utils/toastUtil';
 
-type Props = {
-  navigation: NavigationScreenProp<any, any>;
-};
+export default function Register() {
+  const navigation = useNavigation();
 
-export default function Register(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [reEnteredPassword, setPasswordAgain] = useState('');
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
 
   useEffect(() => {
     console.log('Register screen mounted');
@@ -29,30 +26,8 @@ export default function Register(props: Props) {
     };
   }, []);
 
-  const handleVerifyEmail = async () => {
-    console.log(`email: ${email}, code: ${code}`);
-
-    try {
-      await authService.sendVerifyEmail(username, email);
-      showToast(
-        toastType.SUCCESS,
-        'Success',
-        'Send code to email successfully',
-      );
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-  };
-
-  const handleRegister = async () => {
-    console.log(
-      `username: ${username}, password: ${password}, confirmPassword: ${reEnteredPassword}`,
-    );
-
-    // validate password and re-entered password
-    const isPasswordValid = password === reEnteredPassword;
-    if (!isPasswordValid) {
+  const handlePressCreateAccount = () => {
+    if (!password || password !== reEnteredPassword) {
       setPassword('');
       setPasswordAgain('');
       showToast(toastType.ERROR, 'Error', 'Password does not match');
@@ -60,28 +35,25 @@ export default function Register(props: Props) {
       return;
     }
 
-    try {
-      await authService.register(username, password);
-      showToast(toastType.SUCCESS, 'Success', 'Register successfully');
-      // go back to home screen
-      props.navigation.goBack();
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    const obj = {
+      username,
+      password,
+      email,
+    } as IVerifyEmail;
+    navigation.navigate('VerifyEmail', obj);
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Enter Username"
         value={username}
         onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Enter Password"
         secureTextEntry={true}
         value={password}
         onChangeText={setPassword}
@@ -95,28 +67,20 @@ export default function Register(props: Props) {
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder="Enter email"
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="code"
-        value={code}
-        onChangeText={setCode}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleVerifyEmail}>
-        <Text style={styles.buttonText}>Verify Email</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Register</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handlePressCreateAccount}>
+        <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // flexbox 布局容器
   container: {
     flex: 1,
     padding: 20,

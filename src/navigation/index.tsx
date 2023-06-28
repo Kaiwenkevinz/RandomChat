@@ -9,6 +9,7 @@ import Toast from 'react-native-toast-message';
 import HomeTab from '../screens/HomeTab';
 import ProfileEdit from '../screens/profile-edit/ProfileEdit';
 import FriendProfile from '../screens/FriendProfile';
+import VerifyEmail from '../screens/VerifyEmail';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -20,8 +21,13 @@ const Navigation = () => {
         initialRouteName={'HomeTab'}>
         <Stack.Screen
           name={'Register'}
-          options={{headerTitle: 'Register'}}
+          options={{headerShown: true, headerTitle: 'Sign Up'}}
           component={Register}
+        />
+        <Stack.Screen
+          name={'VerifyEmail'}
+          options={{headerTitle: 'Verify Email'}}
+          component={VerifyEmail}
         />
         <Stack.Screen
           name={'Login'}
