@@ -41,7 +41,7 @@ const Chats = () => {
             <FlatList
               data={rooms}
               renderItem={({item}) => renderChatComponent(item)}
-              keyExtractor={item => item.otherUserName}
+              keyExtractor={item => item.otherUserId.toString()}
             />
           ) : (
             <View style={styles.chatemptyContainer}>

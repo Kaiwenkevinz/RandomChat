@@ -107,7 +107,7 @@ export const mockAllFriendAllChatMessages = {
           'image',
         ),
         generateMockChatMessage(
-          '3a',
+          '4a',
           '这是一很长条很长很长很长很长很长很长的消息',
           1,
           200,
@@ -163,7 +163,7 @@ export const mockFriendList = {
   mockResponse: generageMockResponse<IUser[]>([
     generateMockFriend(
       777,
-      'Alex',
+      'Jack',
       'https://www.shutterstock.com/image-vector/man-character-face-avatar-glasses-260nw-562077406.jpg',
     ),
     generateMockFriend(

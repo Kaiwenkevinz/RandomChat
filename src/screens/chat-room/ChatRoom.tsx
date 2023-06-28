@@ -45,9 +45,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   // Select state from Redux store
   const {data: rooms} = useAppSelector(selectRooms);
   const messages =
-    rooms.find(room => room.otherUserName === otherUserName)?.messages || [];
+    rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
 
-  // set the title of the chat room
   useEffect(() => {
     console.log('ChatRoom mounted');
     navigation.setOptions({title});

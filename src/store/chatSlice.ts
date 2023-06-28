@@ -26,6 +26,12 @@ export type IOperateUnreadRoomsOptions = {
   newData: number | null;
 };
 
+interface IAppendNewRoomPayload {
+  otherUserId: number;
+  otherUserName: string;
+  otherUserAvatarUrl: string;
+}
+
 // state
 const initialState: ChatState = {
   data: [],
@@ -123,6 +129,28 @@ export const chatSlice = createSlice({
         }
       }
     },
+    // 添加新的聊天室
+    appendNewChatRoom: (
+      state,
+      action: PayloadAction<IAppendNewRoomPayload>,
+    ) => {
+      const {otherUserId, otherUserName, otherUserAvatarUrl} = action.payload;
+      const rooms = state.data;
+
+      // 如果已经存在这个聊天室，就不添加了
+      const targetRoom = rooms.find(room => room.otherUserId === otherUserId);
+      if (targetRoom) {
+        return;
+      }
+
+      const newRoom: IChatRoom = {
+        otherUserId,
+        otherUserName,
+        otherUserAvatarUrl,
+        messages: [],
+      };
+      rooms.push(newRoom);
+    },
   },
   extraReducers: builder => {
     builder
@@ -154,6 +182,7 @@ export const chatSlice = createSlice({
 // 使用 useSelector() 获得 state
 export const selectRooms = (state: RootState) => state.chat;
 // 暴露 action
-export const {reset, appendNewMessage, updateMessageStatus} = chatSlice.actions;
+export const {reset, appendNewMessage, updateMessageStatus, appendNewChatRoom} =
+  chatSlice.actions;
 // 暴露 reducer
 export default chatSlice.reducer;

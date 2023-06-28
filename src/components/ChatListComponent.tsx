@@ -12,6 +12,17 @@ type ChatListComponentProps = Pick<
   messages: IMessagePackReceive[];
 };
 
+const generateContentPreview = (message: IMessagePackReceive) => {
+  switch (message.message_type) {
+    case 'text':
+      return message.content;
+    case 'image':
+      return '[Image]';
+    default:
+      return '';
+  }
+};
+
 /**
  * Item component for Chat list
  */
@@ -28,12 +39,13 @@ export const ChatListComponent = ({
   const unreadRooms = useAppSelector(state => state.chat.unreadRooms);
   const hasUnread = unreadRooms.findIndex(id => id === otherUserId) !== -1;
 
+  const contentPreview = generateContentPreview(latestMessage);
+
   const handlePress = () => {
     navigation.navigate('ChatRoom', {
       otherUserId,
       otherUserName,
       otherUserAvatarUrl,
-      messages,
     });
   };
 
@@ -54,9 +66,7 @@ export const ChatListComponent = ({
             <Text style={styles.cusername}>read</Text>
           )} */}
           <Text style={styles.cmessage} numberOfLines={1} ellipsizeMode="tail">
-            {latestMessage.message_type === 'text'
-              ? latestMessage.content
-              : '[image]'}
+            {contentPreview}
           </Text>
         </View>
         <View>

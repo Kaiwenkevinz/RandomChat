@@ -3,11 +3,11 @@ import {store} from '../store';
 import {IChatRoom, IMessagePackReceive} from '../../types/network/types';
 import MockAdapter from 'axios-mock-adapter';
 import {
+  appendNewChatRoom,
   appendNewMessage,
   getChatsAsync,
   reset,
   updateMessageStatus,
-  updateRoomUnreadStatus,
 } from '../chatSlice';
 import {API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES} from '../../network/constant';
 import {
@@ -101,19 +101,22 @@ describe('Redux chat reducer', () => {
     expect(newMessage).not.toHaveProperty('isSent');
   });
 
-  it('should 把相应聊天室的未读状态设为 false', async () => {
-    await store.dispatch(getChatsAsync());
+  it('should 新增一个聊天室', () => {
+    const newChatRoom = {
+      otherUserId: 100,
+      otherUserAvatarUrl:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Young_girl_smiling_in_sunshine_%282%29.jpg/1200px-Young_girl_smiling_in_sunshine_%282%29.jpg',
+      otherUserName: 'Jade',
+    };
+    // chat room length should be 0
+    expect(store.getState().chat.data.length).toBe(0);
 
-    // 第一个聊天室的未读状态为 true
-    expect(store.getState().chat.data[0].hasUnreadMessage).toBe(true);
+    store.dispatch(appendNewChatRoom(newChatRoom));
+    // chat room length should be 1
+    expect(store.getState().chat.data.length).toBe(1);
 
-    // 把第一个聊天室的未读状态设为 false
-    const otherUserId = 200;
-    store.dispatch(
-      updateRoomUnreadStatus({otherUserId, hasUnreadMessage: false}),
-    );
-
-    // 第一个聊天室的未读状态为 false
-    expect(store.getState().chat.data[0].hasUnreadMessage).toBe(false);
+    store.dispatch(appendNewChatRoom(newChatRoom));
+    // chat room length should still be 1
+    expect(store.getState().chat.data.length).toBe(1);
   });
 });

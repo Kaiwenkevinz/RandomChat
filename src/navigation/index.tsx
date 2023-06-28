@@ -8,6 +8,7 @@ import Login from '../screens/Login';
 import Toast from 'react-native-toast-message';
 import HomeTab from '../screens/HomeTab';
 import ProfileEdit from '../screens/profile-edit/ProfileEdit';
+import FriendProfile from '../screens/FriendProfile';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -37,6 +38,11 @@ const Navigation = () => {
           name={'ProfileEdit'}
           options={{headerShown: true, headerBackTitle: 'Profile'}}
           component={ProfileEdit}
+        />
+        <Stack.Screen
+          name={'FriendProfile'}
+          options={{headerShown: true, headerBackTitle: 'Contacts'}}
+          component={FriendProfile}
         />
       </Stack.Navigator>
       <Toast />
