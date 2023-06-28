@@ -8,7 +8,7 @@ export type RootStackParamList = {
   Login: undefined;
   HomeTab: undefined;
   Chats: undefined;
-  Search: undefined;
+  Recommend: undefined;
   Profile: undefined;
   ProfileEdit: IUser;
   Contacts: undefined;

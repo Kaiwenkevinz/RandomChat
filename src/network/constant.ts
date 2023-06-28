@@ -13,6 +13,8 @@ export const API_GET_FRIEND_LIST = '/user/getFriendList';
 export const API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES = '/user/getChatInfo';
 // 上传图片
 export const API_UPLOAD_IMAGE = '/file/uploadImage';
+// 获取推荐好友列表
+export const API_GET_RECOMMEND_LIST = '/recommend/add';
 
 export const API_ERROR_MSG = {
   NO_SUCH_USER: 'No such user!',

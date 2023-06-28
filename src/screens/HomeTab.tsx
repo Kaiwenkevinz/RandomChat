@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Chats from './Chats';
 import Profile from './profile-display/Profile';
 import Contacts from './Contacts';
-import Search from './Search';
+import Recommend from './Recommend';
 import {loadStorageData} from '../utils/storageUtil';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
@@ -82,9 +82,9 @@ const HomeTab = () => {
             component={Chats}
           />
           <Tab.Screen
-            name={'Search'}
-            options={{title: 'Search'}}
-            component={Search}
+            name={'Recommend'}
+            options={{title: 'Recommend'}}
+            component={Recommend}
           />
           <Tab.Screen
             name={'Contacts'}

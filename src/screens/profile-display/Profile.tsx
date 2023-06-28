@@ -49,23 +49,25 @@ const Profile = () => {
       {status === 'loading' ? (
         <Text>Loading...</Text>
       ) : (
-        <ScrollView style={styles.container}>
-          <ImagePickerAvatar
-            pickerDisabled={false}
-            avatarUrl={user.avatar_url}
-            imageName={`${user.id}_avatar`}
-            onConfirm={onHandleNewAvatar}
-          />
-          <UserInfo user={user} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('ProfileEdit', {
-                ...user,
-              });
-            }}>
-            <Text style={styles.buttonText}>Edit Profile</Text>
-          </TouchableOpacity>
+        <ScrollView>
+          <View style={styles.container}>
+            <ImagePickerAvatar
+              pickerDisabled={false}
+              avatarUrl={user.avatar_url}
+              imageName={`${user.id}_avatar`}
+              onConfirm={onHandleNewAvatar}
+            />
+            <UserInfo user={user} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('ProfileEdit', {
+                  ...user,
+                });
+              }}>
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       )}
     </>

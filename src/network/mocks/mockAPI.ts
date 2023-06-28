@@ -13,6 +13,7 @@ import {
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_FRIEND_LIST,
+  API_GET_RECOMMEND_LIST,
   API_GET_USER_INFO,
   API_LOGIN,
   API_REGISTER,
@@ -23,7 +24,7 @@ import {
 
 console.log('API mocking is turned on.');
 
-const mock = new MockAdapter(axiosClient, {delayResponse: 0});
+const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
 
 // Register
 mock.onPost(API_SEND_EMAIL).reply(200, mockSendVerifyEmail.mockResponse);
@@ -53,6 +54,10 @@ mock.onAny().reply(config => {
   }
   // 好友列表
   if (config.method === 'post' && config.url === API_GET_FRIEND_LIST) {
+    return [200, mockFriendList.mockResponse];
+  }
+  // 推荐好友列表
+  if (config.method === 'post' && config.url === API_GET_RECOMMEND_LIST) {
     return [200, mockFriendList.mockResponse];
   }
 
