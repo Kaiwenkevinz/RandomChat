@@ -165,15 +165,9 @@ export const chatSlice = createSlice({
       .addCase(getChatsAsync.rejected, (state, _) => {
         state.status = 'failed';
       })
-      .addCase(operateUnreadRoomAsync.pending, state => {
-        state.status = 'loading';
-      })
       .addCase(operateUnreadRoomAsync.fulfilled, (state, action) => {
         state.unreadRooms = action.payload;
         state.status = 'idle';
-      })
-      .addCase(operateUnreadRoomAsync.rejected, (state, _) => {
-        state.status = 'failed';
       });
   },
 });
