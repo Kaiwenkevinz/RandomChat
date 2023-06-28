@@ -10,6 +10,7 @@ import HomeTab from '../screens/HomeTab';
 import ProfileEdit from '../screens/profile-edit/ProfileEdit';
 import FriendProfile from '../screens/FriendProfile';
 import VerifyEmail from '../screens/VerifyEmail';
+import ForgetPassword from '../screens/ForgetPassword';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -33,6 +34,11 @@ const Navigation = () => {
           name={'Login'}
           options={{headerTitle: 'Login'}}
           component={Login}
+        />
+        <Stack.Screen
+          name={'ForgetPassword'}
+          options={{headerShown: true, headerTitle: 'Forget Password'}}
+          component={ForgetPassword}
         />
         <Stack.Screen name={'HomeTab'} component={HomeTab} />
         <Stack.Screen

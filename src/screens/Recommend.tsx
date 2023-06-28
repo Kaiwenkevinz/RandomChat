@@ -10,9 +10,10 @@ const Recommend = () => {
 
   const getRecommendList = async () => {
     setIsLoading(true);
-    const res = await userService.getRecommendFriendList();
+    const res = await userService.getRecommendFriendList().finally(() => {
+      setIsLoading(false);
+    });
     setRecommendList(res.data);
-    setIsLoading(false);
   };
 
   return (

@@ -11,6 +11,7 @@ import {
   mockUserProfile,
 } from './mockData';
 import {
+  API_FORGET_PASSWORD,
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_FRIEND_LIST,
   API_GET_RECOMMEND_LIST,
@@ -59,6 +60,10 @@ mock.onAny().reply(config => {
   // 推荐好友列表
   if (config.method === 'post' && config.url === API_GET_RECOMMEND_LIST) {
     return [200, mockFriendList.mockResponse];
+  }
+  // 忘记密码
+  if (config.method === 'post' && config.url === API_FORGET_PASSWORD) {
+    return [200, generageMockResponse()];
   }
 
   return [404];

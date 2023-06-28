@@ -1,5 +1,7 @@
 // 登录
 export const API_LOGIN = '/login/go';
+// 忘记密码
+export const API_FORGET_PASSWORD = '/login/find-password';
 // 注册
 export const API_SEND_EMAIL = '/login/send-verifyemail';
 export const API_REGISTER = '/login/register';

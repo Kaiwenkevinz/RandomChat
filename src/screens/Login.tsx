@@ -9,15 +9,13 @@ import {NavigationScreenProp} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
-import {StackActions} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 
-type Props = {
-  navigation: NavigationScreenProp<any, any>;
-};
+export default function Login() {
+  const navigation = useNavigation();
 
-export default function Login(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,9 +28,6 @@ export default function Login(props: Props) {
   }, []);
 
   const onHandleLogin = async () => {
-    // 处理登录逻辑
-    console.log(`username: ${username}, password: ${password}`);
-
     if (!username || !password) {
       showToast(
         toastType.ERROR,
@@ -43,18 +38,15 @@ export default function Login(props: Props) {
       return;
     }
 
-    try {
-      // login and save jwt and user to AsyncStorage
-      const res = await authService.login(username, password);
-      const data = res.data;
-      await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
+    const res = await authService.login(username, password);
+    const data = res.data;
+    await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
-      // go to home screen
-      props.navigation.dispatch(StackActions.replace('HomeTab'));
-    } catch (error) {
-      console.log('🚀unhandled from login', error);
-      return;
-    }
+    navigation.dispatch(StackActions.replace('HomeTab'));
+  };
+
+  const handleForgetPassword = () => {
+    navigation.navigate('ForgetPassword');
   };
 
   return (
@@ -73,6 +65,9 @@ export default function Login(props: Props) {
         value={password}
         onChangeText={setPassword}
       />
+      <Text style={styles.forgetPasswordText} onPress={handleForgetPassword}>
+        forget password?
+      </Text>
       <TouchableOpacity style={styles.button} onPress={onHandleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -100,6 +95,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginVertical: 20,
+  },
+  forgetPasswordText: {
+    textAlign: 'right',
+    marginTop: 5,
+    marginBottom: 16,
+    color: '#5086CE',
   },
   input: {
     height: 50,

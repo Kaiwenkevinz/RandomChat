@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Register: undefined;
   VerifyEmail: IVerifyEmail;
   Login: undefined;
+  ForgetPassword: undefined;
   HomeTab: undefined;
   Chats: undefined;
   Recommend: undefined;

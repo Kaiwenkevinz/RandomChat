@@ -1,7 +1,12 @@
 import {ILoginResponse} from './../../types/network/types';
 import {Result, IUser} from '../../types/network/types';
 import {api} from '../axios.config';
-import {API_LOGIN, API_REGISTER, API_SEND_EMAIL} from '../constant';
+import {
+  API_FORGET_PASSWORD,
+  API_LOGIN,
+  API_REGISTER,
+  API_SEND_EMAIL,
+} from '../constant';
 
 function register(
   username: string,
@@ -31,8 +36,16 @@ function login(username: string, password: string) {
   });
 }
 
+function forgetPassword(username: string, email: string) {
+  return api.post<Result>(API_FORGET_PASSWORD, {
+    username,
+    email,
+  });
+}
+
 export const authService = {
   register,
   sendVerifyEmail,
   login,
+  forgetPassword,
 };
