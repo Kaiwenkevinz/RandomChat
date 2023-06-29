@@ -54,6 +54,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
   const [genderValue, setGenderValue] = useState(genderItems[0].value);
   const [schoolValue, setSchoolValue] = useState(schoolItems[0].value);
   const [majorValue, setMajorValue] = useState(majorItems[0].value);
+  const [age, setAge] = useState(userObj.age?.toString() || '0');
 
   const handleOnPress = () => {
     const newUserObj = {
@@ -61,6 +62,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
       gender: genderValue,
       school: schoolValue,
       major: majorValue,
+      age: parseInt(age, 10) || 0,
     };
     setLoading(true);
     userService
@@ -97,10 +99,8 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
         <TextInput
           keyboardType="numeric"
           style={styles.input}
-          value={userObj.age?.toString()}
-          onChangeText={e => {
-            setUserObj({...userObj, age: parseInt(e, 10)});
-          }}
+          value={age}
+          onChangeText={setAge}
         />
 
         <Text style={styles.label}>Gender</Text>

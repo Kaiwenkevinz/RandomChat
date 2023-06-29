@@ -1,3 +1,4 @@
+// TODO: maybe 不需要单例模式，因为 A module code is evaluated only the first time when imported
 /**
  * WebSocket 单例
  */

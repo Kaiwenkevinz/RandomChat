@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {NavigationScreenProp} from 'react-navigation';
 import React, {useEffect, useState} from 'react';
 import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
@@ -76,7 +75,7 @@ export default function Login() {
         <Text
           style={{color: '#5086CE'}}
           onPress={() => {
-            props.navigation.navigate('Register');
+            navigation.navigate('Register');
           }}>
           Sign up
         </Text>

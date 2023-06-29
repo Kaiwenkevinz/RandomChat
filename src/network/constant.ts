@@ -14,7 +14,11 @@ export const API_GET_FRIEND_LIST = '/user/getFriendList';
 // 获取与所有好友的所有聊天记录
 export const API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES = '/user/getChatInfo';
 // 上传图片
-export const API_UPLOAD_IMAGE = '/file/uploadImage';
+export const API_UPLOAD_IMAGE = '/file/get';
+// 获取图片
+export const API_GET_IMAGE = '/file/post';
+// 上传头像
+export const API_UPLOAD_AVATAR = '/file/get-avatar';
 // 获取推荐好友列表
 export const API_GET_RECOMMEND_LIST = '/recommend/add';
 

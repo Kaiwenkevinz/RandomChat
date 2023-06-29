@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Pressable, View, Text, StyleSheet} from 'react-native';
 import {IUser} from '../types/network/types';
-import UserAvatar from 'react-native-user-avatar';
+import CircleImage from './CircleImage';
 
 interface FriendListProps {
   user: IUser;
@@ -18,13 +18,7 @@ const ContactListComponent = ({user}: FriendListProps) => {
   return (
     <Pressable onPress={handlePress}>
       <View style={styles.container}>
-        <UserAvatar
-          bgColor="#fff"
-          size={50}
-          name={user.username}
-          src={user.avatar_url}
-          style={styles.avatar}
-        />
+        <CircleImage size={50} avatarUrl={user.avatar_url} borderColor="#fff" />
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{user.username}</Text>
           <Text style={styles.info}>{`${user.hometown} | ${user.major}`}</Text>

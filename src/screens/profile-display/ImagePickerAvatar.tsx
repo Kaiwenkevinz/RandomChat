@@ -1,11 +1,11 @@
 /* eslint-disable react/react-in-jsx-scope */
-import UserAvatar from 'react-native-user-avatar';
 import {
   ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {chatService} from '../../network/lib/message';
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import CircleImage from '../../components/CircleImage';
 
 interface ImagePickerAvatarProps {
   pickerDisabled: boolean;
@@ -15,6 +15,7 @@ interface ImagePickerAvatarProps {
 }
 
 export const ImagePickerAvatar = (props: ImagePickerAvatarProps) => {
+  // TODO: 选择图片的逻辑可以抽取出来
   const onImageLibraryPress = async () => {
     const options = {
       selectionLimit: 1,
@@ -35,22 +36,30 @@ export const ImagePickerAvatar = (props: ImagePickerAvatarProps) => {
       console.log('uri is undefined, 不应该 happen');
     }
 
-    // upload uri to server, get url of image
-    const resp = await chatService.uploadImage(
+    const url = await chatService.uploadImage(
       uri,
-      `${props.imageName}_${Date.now()}`,
+      `${props.imageName}_${Date.now()}.jpg`,
+      'avatar',
     );
-    const imageUrl = resp.data;
 
     // image url 传给外层使用者处理
-    props.onConfirm(imageUrl);
+    props.onConfirm(url);
   };
 
   return (
     <TouchableOpacity
       disabled={props.pickerDisabled}
       onPress={onImageLibraryPress}>
-      <UserAvatar bgColor="#fff" size={100} src={props.avatarUrl} />
+      <View style={styles.imageContainer}>
+        <CircleImage avatarUrl={props.avatarUrl} />
+      </View>
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+});

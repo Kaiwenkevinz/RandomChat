@@ -15,7 +15,11 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import {chatService} from '../../network/lib/message';
+import {
+  chatService,
+  uploadAvatar,
+  uploadImage,
+} from '../../network/lib/message';
 
 interface ImagePickerModalProps {
   isVisible: boolean;
@@ -46,15 +50,27 @@ const ImagePickerModal = (props: ImagePickerModalProps) => {
 
     props.onClose();
 
-    // upload uri to server, get url of image
     const resp = await chatService.uploadImage(
       uri,
       `${props.imageName}_${Date.now()}`,
+      'image',
     );
-    const imageUrl = resp.data;
-
     // image url 传给外层使用者处理
-    props.onConfirmImage(imageUrl);
+    props.onConfirmImage(resp.data);
+
+    // try {
+    //   // upload uri to server, get url of image
+    //   const resp = await chatService.uploadImage(
+    //     uri,
+    //     `${props.imageName}_${Date.now()}`,
+    //   );
+    //   const imageUrl = resp.data;
+
+    //   // image url 传给外层使用者处理
+    //   props.onConfirmImage(imageUrl);
+    // } catch (err) {
+    //   console.log('upload image failed, err: ', err);
+    // }
   };
 
   const onCameraPress = async () => {

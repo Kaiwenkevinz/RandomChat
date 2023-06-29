@@ -59,7 +59,6 @@ const handleErrorCode = (status: number, message: string) => {
   switch (status) {
     case 401:
       showToast(toastType.ERROR, 'Error', '401: Unauthorized');
-      // TODO: 跳转到登录页
       break;
     case 500:
       showToast(toastType.ERROR, 'Error', '500: Internal Server Error');
@@ -118,6 +117,10 @@ axiosClient.interceptors.response.use(
     const message = `${error.response.request.responseURL}, ${error.message}`;
     const status = error.response.status;
     handleErrorCode(status, message);
+
+    if (status === 401) {
+      return Promise.reject(status);
+    }
 
     return Promise.reject(new Error(message));
   },

@@ -46,6 +46,10 @@ export const getChatsAsync = createAsyncThunk<IChatRoom[], void>(
   'chat/fetchAllChatMessages',
   async () => {
     const response = await chatService.getAllChatMessages();
+    if (!response.data) {
+      return [];
+    }
+
     response.data.forEach((room: IChatRoom) => {
       if (!room.otherUserAvatarUrl || room.otherUserAvatarUrl === '') {
         room.otherUserAvatarUrl =

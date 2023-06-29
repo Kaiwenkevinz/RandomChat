@@ -15,17 +15,19 @@ function register(
   code: string,
 ) {
   return api.post<Result<IUser>>(API_REGISTER, {
-    username,
-    password, // TODO: encrypt password
-    email,
     code,
+    user: {
+      username,
+      password, // TODO: encrypt password
+      mail: email,
+    },
   });
 }
 
 function sendVerifyEmail(username: string, email: string) {
   return api.post<Result>(API_SEND_EMAIL, {
     username,
-    email,
+    mail: email,
   });
 }
 
@@ -37,10 +39,16 @@ function login(username: string, password: string) {
 }
 
 function forgetPassword(username: string, email: string) {
-  return api.post<Result>(API_FORGET_PASSWORD, {
-    username,
-    email,
-  });
+  return api.post<Result>(
+    API_FORGET_PASSWORD,
+    {},
+    {
+      params: {
+        username,
+        mail: email,
+      },
+    },
+  );
 }
 
 export const authService = {

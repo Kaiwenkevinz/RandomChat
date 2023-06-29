@@ -1,9 +1,10 @@
-import {View, Text, Pressable, StyleSheet} from 'react-native';
+import {View, Text, Pressable, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import UserAvatar from 'react-native-user-avatar';
 import {useAppSelector} from '../hooks/customReduxHooks';
+import CircleImage from './CircleImage';
 
 type ChatListComponentProps = Pick<
   IChatRoom,
@@ -52,11 +53,10 @@ export const ChatListComponent = ({
   return (
     <Pressable onPress={handlePress}>
       <View style={styles.crightContainer}>
-        <UserAvatar
-          bgColor="#fff"
+        <CircleImage
           size={50}
-          name={otherUserName}
-          src={otherUserAvatarUrl}
+          avatarUrl={otherUserAvatarUrl}
+          borderColor="#fff"
         />
         <View style={styles.cchatInfo}>
           <Text style={styles.cusername}>{otherUserName}</Text>

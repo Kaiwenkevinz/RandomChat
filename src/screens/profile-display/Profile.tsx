@@ -1,4 +1,4 @@
-import {Text, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, View, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {store} from '../../store/store';
 import {getProfileAsync, selectUser} from '../../store/userSlice';
@@ -11,10 +11,11 @@ import {userService} from '../../network/lib/user';
 import {showToast, toastType} from '../../utils/toastUtil';
 import {ImagePickerAvatar} from './ImagePickerAvatar';
 import UserInfo from './UserInfo';
+import {chatService} from '../../network/lib/message';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
-  const {user, status} = userStore;
+  const {user, status, token} = userStore;
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -31,17 +32,25 @@ const Profile = () => {
   }, []);
 
   const onHandleNewAvatar = (imageUrl: string) => {
-    console.log('new avatar url: ', imageUrl);
-    const newUser = {...user, avatar_url: imageUrl};
-    userService.updateUserProfile(newUser).then(
-      () => {
-        eventEmitter.emit(EVENT_UPDATE_USER_PROFILE);
-        showToast(toastType.SUCCESS, '', 'Update avatar successfully');
-      },
-      err => {
-        showToast(toastType.ERROR, '', err.message);
-      },
-    );
+    console.log('new avatar url: ', chatService.getImageUrl(imageUrl));
+    const newUser = {
+      ...user,
+      avatar_url: chatService.getImageUrl(imageUrl),
+    };
+    userService
+      .updateUserProfile(newUser)
+      .then(
+        () => {
+          eventEmitter.emit(EVENT_UPDATE_USER_PROFILE);
+          showToast(toastType.SUCCESS, '', 'Update avatar successfully');
+        },
+        err => {
+          showToast(toastType.ERROR, '', err.message);
+        },
+      )
+      .catch(err => {
+        console.log('onHandleNewAvatar err: ', err);
+      });
   };
 
   return (

@@ -4,6 +4,7 @@ import {IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
 import UserAvatar from 'react-native-user-avatar';
+import CircleImage from './CircleImage';
 
 type MessageComponentProps = IMessagePackReceive & {
   otherUserAvatarUrl: string;
@@ -31,12 +32,10 @@ export function MessageComponent({
           isReceive ? {flexDirection: 'row'} : {flexDirection: 'row-reverse'},
           {alignItems: 'center'},
         ]}>
-        <UserAvatar
-          bgColor="#F2F2F2"
+        <CircleImage
           size={50}
-          name={'Other User'}
-          src={isReceive ? otherUserAvatarUrl : userAvatarUrl}
-          styles={{marginHorizontal: 20}}
+          avatarUrl={isReceive ? otherUserAvatarUrl : userAvatarUrl}
+          borderColor="#fff"
         />
         <View style={styles.messageAndTime}>
           <View
