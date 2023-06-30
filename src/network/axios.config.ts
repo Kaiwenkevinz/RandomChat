@@ -1,6 +1,9 @@
 import axios, {AxiosRequestConfig} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
 import {CONFIG} from '../config';
+import {goToLogin} from '../navigation/NavigationService';
+import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {removeStorageData} from '../utils/storageUtil';
 
 const axiosClient = axios.create({
   baseURL: CONFIG.BASE_API_URL,
@@ -59,6 +62,8 @@ const handleErrorCode = (status: number, message: string) => {
   switch (status) {
     case 401:
       showToast(toastType.ERROR, 'Error', '401: Unauthorized');
+      removeStorageData(LOCAL_STORAGE_KEY_AUTH);
+      goToLogin();
       break;
     case 500:
       showToast(toastType.ERROR, 'Error', '500: Internal Server Error');
@@ -117,10 +122,6 @@ axiosClient.interceptors.response.use(
     const message = `${error.response.request.responseURL}, ${error.message}`;
     const status = error.response.status;
     handleErrorCode(status, message);
-
-    if (status === 401) {
-      return Promise.reject(status);
-    }
 
     return Promise.reject(new Error(message));
   },

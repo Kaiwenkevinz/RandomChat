@@ -10,16 +10,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import images from '../../../assets';
-import {
-  ImageLibraryOptions,
-  launchCamera,
-  launchImageLibrary,
-} from 'react-native-image-picker';
-import {
-  chatService,
-  uploadAvatar,
-  uploadImage,
-} from '../../network/lib/message';
+import {ImageLibraryOptions, launchCamera} from 'react-native-image-picker';
+import {chatService} from '../../network/lib/message';
+import {ImageUtil} from '../../utils/imageUtil';
 
 interface ImagePickerModalProps {
   isVisible: boolean;
@@ -27,50 +20,20 @@ interface ImagePickerModalProps {
   onConfirmImage: (imageUrl: string) => void;
   imageName: string;
 }
+
 const ImagePickerModal = (props: ImagePickerModalProps) => {
   const onImageLibraryPress = async () => {
-    const options = {
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: false,
-    } as ImageLibraryOptions;
-
-    const result = await launchImageLibrary(options);
-    if (result.didCancel || !result.assets || result.assets.length === 0) {
-      console.log('用户取消了图片选择, 原因: ', result.errorCode);
-
-      return;
-    }
-
-    let uri = result.assets[0].uri;
-    if (uri === undefined) {
-      uri = '';
-      console.log('uri is undefined, 不应该 happen');
-    }
+    const uri = await ImageUtil.openSingleImageLibrary();
 
     props.onClose();
 
-    const resp = await chatService.uploadImage(
+    const url = await chatService.uploadImage(
       uri,
       `${props.imageName}_${Date.now()}`,
       'image',
     );
-    // image url 传给外层使用者处理
-    props.onConfirmImage(resp.data);
 
-    // try {
-    //   // upload uri to server, get url of image
-    //   const resp = await chatService.uploadImage(
-    //     uri,
-    //     `${props.imageName}_${Date.now()}`,
-    //   );
-    //   const imageUrl = resp.data;
-
-    //   // image url 传给外层使用者处理
-    //   props.onConfirmImage(imageUrl);
-    // } catch (err) {
-    //   console.log('upload image failed, err: ', err);
-    // }
+    props.onConfirmImage(url);
   };
 
   const onCameraPress = async () => {

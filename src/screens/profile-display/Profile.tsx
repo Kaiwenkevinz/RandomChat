@@ -1,4 +1,4 @@
-import {Text, StyleSheet, TouchableOpacity, View, Image} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {store} from '../../store/store';
 import {getProfileAsync, selectUser} from '../../store/userSlice';
@@ -12,10 +12,13 @@ import {showToast, toastType} from '../../utils/toastUtil';
 import {ImagePickerAvatar} from './ImagePickerAvatar';
 import UserInfo from './UserInfo';
 import {chatService} from '../../network/lib/message';
+import {removeStorageData} from '../../utils/storageUtil';
+import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
+import {goToLogin} from '../../navigation/NavigationService';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
-  const {user, status, token} = userStore;
+  const {user, status} = userStore;
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -60,6 +63,14 @@ const Profile = () => {
       ) : (
         <ScrollView>
           <View style={styles.container}>
+            <TouchableOpacity
+              style={[styles.button, {margin: 20}]}
+              onPress={() => {
+                removeStorageData(LOCAL_STORAGE_KEY_AUTH);
+                goToLogin();
+              }}>
+              <Text style={styles.buttonText}>Log Out</Text>
+            </TouchableOpacity>
             <ImagePickerAvatar
               pickerDisabled={false}
               avatarUrl={user.avatar_url}

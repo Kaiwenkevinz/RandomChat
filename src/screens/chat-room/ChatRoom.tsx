@@ -79,7 +79,15 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     setCurrentMessage('');
   };
 
+  /**
+   * 发送图片
+   * @param imageUrl 图片在服务器的完整 url
+   */
   const handleSendImage = (imageUrl: string) => {
+    if (!imageUrl) {
+      showToast(toastType.ERROR, 'Error', 'Error! Fail to upload image!');
+      return;
+    }
     realSendMessage('image', imageUrl);
   };
 

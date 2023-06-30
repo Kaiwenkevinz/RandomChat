@@ -20,6 +20,13 @@ function getAllChatMessages() {
 }
 
 //TODO: 移出 message.ts
+/**
+ * 上传图片
+ * @param uri 图片本机 uri
+ * @param name
+ * @param options 聊天图片 | 头像
+ * @returns 图片在服务器的 url
+ */
 const uploadImage = async (
   uri: string,
   name: string,
@@ -48,26 +55,32 @@ const uploadImage = async (
 
   console.log('上传文件名: ', name);
 
-  const response = await RNFetchBlob.fetch(
-    'POST',
-    CONFIG.BASE_API_URL + uploadUrl,
-    {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data',
-    },
-    [
+  try {
+    const response = await RNFetchBlob.fetch(
+      'POST',
+      CONFIG.BASE_API_URL + uploadUrl,
       {
-        name: 'data',
-        filename: name,
-        data: wrapRes,
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
       },
-    ],
-  ).then(res => res.json());
+      [
+        {
+          name: 'data',
+          filename: name,
+          data: wrapRes,
+        },
+      ],
+    ).then(res => res.json());
 
-  const url = response.msg;
-  console.log('上传图片成功, url: ', url);
+    const url = response.msg;
+    console.log('上传图片成功, url: ', url);
 
-  return url;
+    return url;
+  } catch (err) {
+    console.warn('上传图片失败，原因: ', err);
+  }
+
+  return '';
 };
 
 //TODO: 移出 message.ts

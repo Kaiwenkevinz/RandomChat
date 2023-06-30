@@ -21,3 +21,12 @@ export const loadStorageData = async <T,>(key: string) => {
     console.error('getStorageData error: ', e);
   }
 };
+
+export const removeStorageData = async (key: string) => {
+  try {
+    console.log('Remove storage, key: ', key);
+    await AsyncStorage.removeItem(key);
+  } catch (e) {
+    console.error('removeStorageData error: ', e);
+  }
+};

@@ -1,8 +1,7 @@
-import {View, Text, Pressable, StyleSheet, Image} from 'react-native';
+import {View, Text, Pressable, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {IChatRoom, IMessagePackReceive} from '../types/network/types';
-import UserAvatar from 'react-native-user-avatar';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import CircleImage from './CircleImage';
 

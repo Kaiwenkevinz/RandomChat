@@ -1,6 +1,6 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {SafeAreaView, StackActions} from 'react-navigation';
+import {SafeAreaView} from 'react-navigation';
 import {ChatListComponent} from '../components/ChatListComponent';
 import {IChatRoom} from '../types/network/types';
 import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
@@ -12,11 +12,8 @@ import {
 } from '../store/chatSlice';
 import {store} from '../store/store';
 import {getProfileAsync} from '../store/userSlice';
-import {useNavigation} from '@react-navigation/native';
-import {userService} from '../network/lib/user';
 
 const Chats = () => {
-  const navigation = useNavigation();
   const token = useAppSelector(state => state.user.token);
   useInitWebSocket(token);
 
@@ -24,13 +21,6 @@ const Chats = () => {
 
   useEffect(() => {
     console.log('Chats mounted');
-
-    userService.getUserProfile().catch(err => {
-      if (err === 401) {
-        navigation.dispatch(StackActions.popToTop());
-        navigation.navigate('Login');
-      }
-    });
 
     store.dispatch(getChatsAsync());
     store.dispatch(getProfileAsync());

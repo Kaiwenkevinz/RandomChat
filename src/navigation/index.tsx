@@ -11,12 +11,16 @@ import ProfileEdit from '../screens/profile-edit/ProfileEdit';
 import FriendProfile from '../screens/FriendProfile';
 import VerifyEmail from '../screens/VerifyEmail';
 import ForgetPassword from '../screens/ForgetPassword';
+import NavigationService from './NavigationService';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Navigation = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={(navigatorRef: any) => {
+        NavigationService.setTopLevelNavigator(navigatorRef);
+      }}>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
         initialRouteName={'HomeTab'}>
