@@ -1,10 +1,4 @@
-import {
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Text, TextInput, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
@@ -17,6 +11,7 @@ import {showToast, toastType} from '../../utils/toastUtil';
 import eventEmitter from '../../services/event-emitter';
 import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants';
 import {IUser} from '../../types/network/types';
+import DebounceButton from '../../components/DebounceButton';
 
 type ProfileEditProps = StackScreenProps<RootStackParamList, 'ProfileEdit'>;
 
@@ -145,9 +140,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
       </ScrollView>
 
       <View style={{backgroundColor: '#fff'}}>
-        <TouchableOpacity style={styles.button} onPress={handleOnPress}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
+        <DebounceButton text={'Save'} handleOnPress={handleOnPress} />
       </View>
     </>
   );
@@ -173,19 +166,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 12,
     fontSize: 16,
-  },
-  button: {
-    backgroundColor: '#007aff',
-    paddingVertical: 16,
-    borderRadius: 5,
-    marginHorizontal: 20,
-    marginBottom: 12,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 

@@ -1,6 +1,5 @@
-import {View, FlatList, TextInput, Pressable, Text} from 'react-native';
+import {View, FlatList, TextInput, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {styles} from '../../utils/styles';
 import {MessageComponent} from '../../components/MessageComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
@@ -21,6 +20,7 @@ import {IMessagePackReceive, MessagePackSend} from '../../types/network/types';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
 import eventEmitter from '../../services/event-emitter';
 import {EVENT_SERVER_PUSH_MESSAGE} from '../../services/event-emitter/constants';
+import DebounceButton from '../../components/DebounceButton';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -157,20 +157,15 @@ const ChatRoom = ({route}: ChatRoomProps) => {
           value={currentMessage}
           onChangeText={v => setCurrentMessage(v)}
         />
-        <Pressable
-          style={styles.messagingbuttonContainer}
-          onPress={handleSendText}>
-          <View>
-            <Text style={{color: '#f2f0f1', fontSize: 14}}>SEND</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          style={styles.messagingbuttonContainer}
-          onPress={() => setModalVisible(true)}>
-          <View>
-            <Text style={{color: '#f2f0f1', fontSize: 12}}>Send Image</Text>
-          </View>
-        </Pressable>
+        <View style={{marginRight: 10}}>
+          <DebounceButton text={'Send'} handleOnPress={handleSendText} />
+        </View>
+        <View style={{marginRight: 10}}>
+          <DebounceButton
+            text={'Send Image'}
+            handleOnPress={() => setModalVisible(true)}
+          />
+        </View>
       </View>
 
       <ImagePickerModal
@@ -182,5 +177,27 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  messagingscreen: {
+    flex: 1,
+  },
+  messaginginputContainer: {
+    width: '100%',
+    minHeight: 50,
+    backgroundColor: 'white',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  messaginginput: {
+    padding: 15,
+    flex: 1,
+    marginRight: 10,
+    borderRadius: 20,
+    backgroundColor: '#F7F7F7',
+  },
+});
 
 export default ChatRoom;

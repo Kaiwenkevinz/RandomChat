@@ -1,8 +1,9 @@
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import React, {useState} from 'react';
 import ContactListComponent from '../components/ContactListComponent';
 import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
+import DebounceButton from '../components/DebounceButton';
 
 const Recommend = () => {
   const [loading, setIsLoading] = useState(false);
@@ -18,9 +19,10 @@ const Recommend = () => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.button} onPress={getRecommendList}>
-        <Text style={styles.buttonText}>Get Recommendation</Text>
-      </TouchableOpacity>
+      <DebounceButton
+        text={'Get Recommendation'}
+        handleOnPress={getRecommendList}
+      />
       {loading ? (
         <Text>Loading...</Text>
       ) : (
@@ -32,20 +34,5 @@ const Recommend = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#007aff',
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
 
 export default Recommend;
