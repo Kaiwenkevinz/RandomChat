@@ -3,8 +3,13 @@ import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {ScrollView} from 'react-native-gesture-handler';
-import RNPickerSelect from 'react-native-picker-select';
-import {genderItems, majorItems, schoolItems} from './constant';
+import {
+  genderItems,
+  homeTownItems,
+  majorItems,
+  mbtiItems,
+  schoolItems,
+} from './constant';
 import {userService} from '../../network/lib/user';
 import {useNavigation} from '@react-navigation/native';
 import {showToast, toastType} from '../../utils/toastUtil';
@@ -12,30 +17,10 @@ import eventEmitter from '../../services/event-emitter';
 import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants';
 import {IUser} from '../../types/network/types';
 import DebounceButton from '../../components/DebounceButton';
+import {Dropdown} from '../../components/Dropdown';
+import DatePicker from 'react-native-date-picker';
 
 type ProfileEditProps = StackScreenProps<RootStackParamList, 'ProfileEdit'>;
-
-// TODO: 抽取 Dropdown 组件
-interface DropdownProps {
-  onValueChange: (value: string) => void;
-  items: {label: string; value: string}[];
-  value: string;
-}
-
-export const Dropdown = (props: DropdownProps) => {
-  const {onValueChange, items, value} = props;
-
-  return (
-    <RNPickerSelect
-      style={pickerSelectStyles}
-      onValueChange={v => {
-        onValueChange(v);
-      }}
-      value={value}
-      items={items}
-    />
-  );
-};
 
 const ProfileEdit = ({route}: ProfileEditProps) => {
   const navigation = useNavigation();
@@ -46,10 +31,15 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
 
   const [loading, setLoading] = useState(false);
 
+  const [mbtiValue, setMbtiValue] = useState(mbtiItems[0].value);
+  const [homeTownValue, setHomeTownValue] = useState(homeTownItems[0].value);
   const [genderValue, setGenderValue] = useState(genderItems[0].value);
   const [schoolValue, setSchoolValue] = useState(schoolItems[0].value);
   const [majorValue, setMajorValue] = useState(majorItems[0].value);
   const [age, setAge] = useState(userObj.age?.toString() || '0');
+
+  const [birthday, setBirthday] = useState(new Date());
+  const [birthdayPickerOpen, setBirthdayPickerOpen] = useState(false);
 
   const handleOnPress = () => {
     const newUserObj = {
@@ -58,6 +48,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
       school: schoolValue,
       major: majorValue,
       age: parseInt(age, 10) || 0,
+      birthday: birthday.toISOString(),
     };
     setLoading(true);
     userService
@@ -90,6 +81,35 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
           }}
         />
 
+        <Text style={styles.label}>Birthday</Text>
+        <Text
+          style={styles.input}
+          onPress={() => {
+            setBirthdayPickerOpen(true);
+          }}>
+          {birthday.toLocaleDateString()}
+        </Text>
+        <DatePicker
+          modal
+          mode="date"
+          open={birthdayPickerOpen}
+          date={birthday}
+          onConfirm={date => {
+            setBirthdayPickerOpen(false);
+            setBirthday(date);
+          }}
+          onCancel={() => {
+            setBirthdayPickerOpen(false);
+          }}
+        />
+
+        <Text style={styles.label}>MBTI</Text>
+        <Dropdown
+          onValueChange={setMbtiValue}
+          items={mbtiItems}
+          value={mbtiValue}
+        />
+
         <Text style={styles.label}>Age</Text>
         <TextInput
           keyboardType="numeric"
@@ -103,6 +123,13 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
           onValueChange={setGenderValue}
           items={genderItems}
           value={genderValue}
+        />
+
+        <Text style={styles.label}>Home Town</Text>
+        <Dropdown
+          onValueChange={setHomeTownValue}
+          items={homeTownItems}
+          value={homeTownValue}
         />
 
         <Text style={styles.label}>Phone Number</Text>
@@ -166,29 +193,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 12,
     fontSize: 16,
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    height: 50,
-    fontSize: 16,
-    backgroundColor: '#f7f7f7',
-    borderRadius: 5,
-    paddingHorizontal: 12,
-    marginBottom: 20,
-  },
-  inputAndroid: {
-    height: 50,
-    fontSize: 16,
-    backgroundColor: '#f7f7f7',
-    borderRadius: 5,
-    paddingHorizontal: 12,
-    marginBottom: 20,
-  },
-  placeholder: {
-    color: '#9EA0A4',
-    fontWeight: 'bold',
   },
 });
 

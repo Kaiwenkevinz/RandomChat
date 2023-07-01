@@ -20,3 +20,19 @@ export const majorItems = [
   {label: 'Law', value: 'Law'},
   {label: 'Medicine', value: 'Medicine'},
 ];
+
+export const mbtiItems = [
+  {label: 'ESTP', value: 'ESTP'},
+  {label: 'ESFP', value: 'ESFP'},
+  {label: 'ISTP', value: 'ISTP'},
+  {label: 'ISFP', value: 'ISFP'},
+  {label: 'ESTJ', value: 'ESTJ'},
+  {label: 'ISTJ', value: 'ISTJ'},
+];
+
+export const homeTownItems = [
+  {label: 'Mainland', value: 'Mainland'},
+  {label: 'Hong Kong', value: 'Hong Kong'},
+  {label: 'Mars', value: 'Mars'},
+  {label: 'Moon', value: 'Moon'},
+];
