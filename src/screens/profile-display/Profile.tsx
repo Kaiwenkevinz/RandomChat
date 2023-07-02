@@ -16,6 +16,7 @@ import {removeStorageData} from '../../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
 import {goToLogin} from '../../navigation/NavigationService';
 import {LoadingView} from '../../components/LoadingView.tsx';
+import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
@@ -84,6 +85,7 @@ const Profile = () => {
               style={[styles.button, {margin: 20}]}
               onPress={() => {
                 removeStorageData(LOCAL_STORAGE_KEY_AUTH);
+                WebSocketSingleton.closeAndReset();
                 goToLogin();
               }}>
               <Text style={styles.buttonText}>Log Out</Text>

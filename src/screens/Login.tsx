@@ -38,12 +38,16 @@ export default function Login() {
       return;
     }
 
-    const res = await authService.login(username, password);
-    const data = res.data;
-    await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
+    try {
+      const res = await authService.login(username, password);
+      const data = res.data;
+      await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
-    navigation.dispatch(StackActions.replace('HomeTab'));
-    goToChats;
+      navigation.dispatch(StackActions.replace('HomeTab'));
+      goToChats();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleForgetPassword = () => {

@@ -7,7 +7,7 @@ interface UserInfoProps {
 }
 
 const UserInfo = ({user}: UserInfoProps) => {
-  const tags = user.tags?.split(';');
+  const tags = user.role?.split(';');
 
   return (
     <View>
@@ -17,13 +17,15 @@ const UserInfo = ({user}: UserInfoProps) => {
         <Text style={styles.label}>Name:</Text>
         <Text style={styles.value}>{user.username}</Text>
         <Text style={styles.label}>Tags:</Text>
-        <View style={styles.tagContainer}>
-          {tags?.map((tag, idx) => (
-            <Text key={idx} style={styles.tag}>
-              {tag}
-            </Text>
-          ))}
-        </View>
+        {tags && tags.length > 0 && (
+          <View style={styles.tagContainer}>
+            {tags?.map((tag, idx) => (
+              <Text key={idx} style={styles.tag}>
+                {tag}
+              </Text>
+            ))}
+          </View>
+        )}
         <Text style={styles.label}>Gender:</Text>
         <Text style={styles.value}>{user.gender}</Text>
         <Text style={styles.label}>Age:</Text>

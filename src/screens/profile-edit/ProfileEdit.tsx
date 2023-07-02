@@ -39,8 +39,8 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
   const [majorValue, setMajorValue] = useState(majorItems[0].value);
   const [age, setAge] = useState(userObj.age?.toString() || '0');
   const [tags, setTags] = useState<string[]>(() => {
-    if (userObj.tags) {
-      return userObj.tags.split(';');
+    if (userObj.role) {
+      return userObj.role.split(';');
     }
     return [];
   });
@@ -50,7 +50,7 @@ const ProfileEdit = ({route}: ProfileEditProps) => {
   const handleOnPress = () => {
     const newUserObj: IUser = {
       ...userObj,
-      tags: tags.join(';'),
+      role: tags.join(';'),
       gender: genderValue,
       school: schoolValue,
       major: majorValue,

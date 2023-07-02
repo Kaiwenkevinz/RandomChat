@@ -60,10 +60,16 @@ const VerifyEmail = ({route}: VerifyEmailProps) => {
 
   const handleRegister = async () => {
     globalLoading.show();
-    await authService.register(username, password, email, code);
-    globalLoading.hide();
-    showToast(toastType.SUCCESS, 'Success', 'Register successfully');
-    navigation.dispatch(StackActions.popToTop());
+    try {
+      await authService.register(username, password, email, code);
+      showToast(toastType.SUCCESS, 'Success', 'Register successfully');
+      navigation.dispatch(StackActions.popToTop());
+    } catch (e) {
+      showToast(toastType.ERROR, 'Error', '');
+      console.warn('Register error: ', e);
+    } finally {
+      globalLoading.hide();
+    }
   };
 
   return (

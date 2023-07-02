@@ -5,19 +5,29 @@ import {IUser} from '../types/network/types';
 import {FlatList} from 'react-native-gesture-handler';
 import ContactListComponent from '../components/ContactListComponent';
 import {LoadingView} from '../components/LoadingView.tsx';
+import eventEmitter from '../services/event-emitter';
 
 const Contacts = () => {
   const [loading, setIsLoading] = useState(true);
   const [friendList, setFriendList] = useState<IUser[]>([]);
 
   const getFriendList = async () => {
-    const res = await userService.getFriendList();
-    setFriendList(res.data);
-    setIsLoading(false);
+    setIsLoading(true);
+    try {
+      const res = await userService.getFriendList();
+      setFriendList(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     getFriendList();
+    eventEmitter.on('EVENT_UPDATE_FRIENDS', () => {
+      getFriendList();
+    });
   }, []);
 
   return (

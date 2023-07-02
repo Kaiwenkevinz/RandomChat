@@ -48,7 +48,7 @@ const Navigation = () => {
         <Stack.Screen name={'HomeTab'} component={HomeTab} />
         <Stack.Screen
           name={'ChatRoom'}
-          options={{headerShown: true}}
+          options={{headerShown: true, headerBackTitle: 'Chats'}}
           component={ChatRoom}
         />
         <Stack.Screen

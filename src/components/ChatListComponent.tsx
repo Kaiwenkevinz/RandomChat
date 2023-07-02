@@ -35,9 +35,9 @@ export const ChatListComponent = ({
   const navigation = useNavigation();
   const latestMessage = messages[messages.length - 1] || {content: ''};
   const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
-
-  const unreadRooms = useAppSelector(state => state.chat.unreadRooms);
-  const hasUnread = unreadRooms.findIndex(id => id === otherUserId) !== -1;
+  
+  const readRooms = useAppSelector(state => state.chat.readRooms);
+  const isRead = readRooms.findIndex(id => id === otherUserId) !== -1;
 
   const contentPreview = generateContentPreview(latestMessage);
 
@@ -61,9 +61,7 @@ export const ChatListComponent = ({
           <Text style={styles.cusername}>{otherUserName}</Text>
           <Text
             style={[
-              hasUnread
-                ? {color: '#509AD6', fontWeight: 'bold'}
-                : {opacity: 0.7},
+              !isRead ? {color: '#509AD6', fontWeight: 'bold'} : {opacity: 0.7},
               styles.cmessage,
             ]}
             numberOfLines={1}
@@ -73,7 +71,7 @@ export const ChatListComponent = ({
         </View>
         <View>
           <Text style={styles.ctime}>{dateStr}</Text>
-          {hasUnread && (
+          {!isRead && (
             <View style={styles.unreadIconContainer}>
               <View style={styles.smallBlueDot} />
             </View>

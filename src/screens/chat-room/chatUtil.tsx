@@ -4,6 +4,8 @@ import uuid from 'react-native-uuid';
 export const generateSendMessagePack = (
   content: string,
   userId: number,
+  userAvatarUrl: string,
+  userName: string,
   otherUserId: number,
   type: 'text' | 'image' | 'video' | 'system' = 'text',
 ) => {
@@ -12,6 +14,8 @@ export const generateSendMessagePack = (
     id: uuid.v4().toString(),
     content,
     fromId: userId,
+    sender_name: userAvatarUrl,
+    sender_avatar_url: userName,
     toId: otherUserId,
     isGroup: 0,
   };
@@ -24,6 +28,8 @@ export const generateReceiveMessagePack = (
   content: string,
   userId: number,
   otherUserId: number,
+  otherUserAvatarUrl: string,
+  otherUserName: string,
   type: 'text' | 'image' | 'video' | 'system' = 'text',
   isGroup: 0 | 1 = 0,
   isSent: boolean = false,
@@ -33,6 +39,8 @@ export const generateReceiveMessagePack = (
     message_type: type,
     content,
     sender_id: userId,
+    sender_avatar_url: otherUserAvatarUrl,
+    sender_name: otherUserName,
     receiver_id: otherUserId,
     isSent,
     send_time: new Date().toISOString(),

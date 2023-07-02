@@ -3,6 +3,8 @@ export type MessagePackSend = {
   id: string;
   content: string;
   fromId: number;
+  sender_name: string;
+  sender_avatar_url: string;
   toId: number;
   isGroup: 0 | 1;
 };
@@ -12,6 +14,8 @@ export type IMessagePackReceive = {
   id: string;
   content: string;
   sender_id: number;
+  sender_avatar_url: string;
+  sender_name: string;
   receiver_id: number;
   isGroup: 0 | 1;
   send_time: string;
@@ -27,7 +31,7 @@ export type IChatRoom = {
 
 export interface IUser {
   id: number;
-  tags?: string;
+  role?: string; // 标签
   username?: string;
   age?: number;
   avatar_url?: string;

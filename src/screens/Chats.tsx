@@ -7,12 +7,13 @@ import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {
   getChatsAsync,
-  operateUnreadRoomAsync,
+  operateReadRoomAsync,
   selectRooms,
 } from '../store/chatSlice';
 import {store} from '../store/store';
 import {getProfileAsync} from '../store/userSlice';
 import {LoadingView} from '../components/LoadingView.tsx';
+import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 
 const Chats = () => {
   const token = useAppSelector(state => state.user.token);
@@ -25,10 +26,11 @@ const Chats = () => {
 
     store.dispatch(getChatsAsync());
     store.dispatch(getProfileAsync());
-    store.dispatch(operateUnreadRoomAsync({option: 'read', newData: null}));
+    store.dispatch(operateReadRoomAsync({option: 'read', newData: null}));
 
     return () => {
       console.log('Chats unmounted');
+      WebSocketSingleton.closeAndReset();
     };
   }, []);
 

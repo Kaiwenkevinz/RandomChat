@@ -5,6 +5,9 @@ import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
 import DebounceButton from '../components/DebounceButton';
 import {LoadingView} from '../components/LoadingView.tsx';
+import {showToast, toastType} from '../utils/toastUtil';
+import eventEmitter from '../services/event-emitter';
+import {EVENT_UPDATE_FRIENDS} from '../services/event-emitter/constants';
 
 const Recommend = () => {
   const [loading, setIsLoading] = useState(false);
@@ -15,11 +18,17 @@ const Recommend = () => {
     setIsLoading(true);
     setBtnText('Getting Recommendation...');
 
-    const res = await userService.getRecommendFriendList();
-    setIsLoading(false);
-    setBtnText('Get Recommendation');
-
-    setRecommendList(res.data);
+    try {
+      const res = await userService.getRecommendFriendList();
+      setBtnText('Get Recommendation');
+      setRecommendList(res.data);
+      eventEmitter.emit(EVENT_UPDATE_FRIENDS);
+    } catch (error) {
+      showToast(toastType.ERROR, 'Error getting recommendation', '');
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

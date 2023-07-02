@@ -2,12 +2,13 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from './store';
 import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import {chatService} from '../network/lib/message';
-import {LOCAL_STORAGE_KEY_UNREAD_ROOMS} from '../constant';
+import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../constant';
 import {loadStorageData, saveStorageData} from '../utils/storageUtil';
+import {showToast, toastType} from '../utils/toastUtil';
 
 export interface ChatState {
   data: IChatRoom[];
-  unreadRooms: number[];
+  readRooms: number[];
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -35,7 +36,7 @@ interface IAppendNewRoomPayload {
 // state
 const initialState: ChatState = {
   data: [],
-  unreadRooms: [],
+  readRooms: [],
   status: 'idle',
 };
 
@@ -61,11 +62,11 @@ export const getChatsAsync = createAsyncThunk<IChatRoom[], void>(
   },
 );
 
-export const operateUnreadRoomAsync = createAsyncThunk<
+export const operateReadRoomAsync = createAsyncThunk<
   number[],
   IOperateUnreadRoomsOptions
->('chat/operateUnreadRoomsAsync', async ({option, newData}) => {
-  let data = await loadStorageData<number[]>(LOCAL_STORAGE_KEY_UNREAD_ROOMS);
+>('chat/operateReadRoomsAsync', async ({option, newData}) => {
+  let data = await loadStorageData<number[]>(LOCAL_STORAGE_KEY_READ_ROOMS);
   if (!data) {
     data = [];
   }
@@ -81,13 +82,12 @@ export const operateUnreadRoomAsync = createAsyncThunk<
   ) {
     data.push(newData);
   } else if (option === 'delete' && newData) {
-    // 删除指定的 unread room
     const index = data.findIndex(id => id === newData);
     if (index !== -1) {
       data.splice(index, 1);
     }
   }
-  await saveStorageData(LOCAL_STORAGE_KEY_UNREAD_ROOMS, data);
+  await saveStorageData(LOCAL_STORAGE_KEY_READ_ROOMS, data);
 
   return data;
 });
@@ -113,9 +113,18 @@ export const chatSlice = createSlice({
       });
 
       if (targetRoom) {
+        // 已存在聊天室，直接添加消息
         targetRoom.messages.push(action.payload);
       } else {
-        console.log('target room not found');
+        // 新的聊天室，添加聊天室和消息
+        const newRoom: IChatRoom = {
+          otherUserId: sendId,
+          otherUserName: action.payload.sender_name,
+          otherUserAvatarUrl: action.payload.sender_avatar_url,
+          messages: [action.payload],
+        };
+        rooms.push(newRoom);
+        showToast(toastType.INFO, 'New Friend', 'You have a new friend!');
       }
     },
     // 更新消息发送状态为已发送
@@ -173,8 +182,8 @@ export const chatSlice = createSlice({
       .addCase(getChatsAsync.rejected, (state, _) => {
         state.status = 'failed';
       })
-      .addCase(operateUnreadRoomAsync.fulfilled, (state, action) => {
-        state.unreadRooms = action.payload;
+      .addCase(operateReadRoomAsync.fulfilled, (state, action) => {
+        state.readRooms = action.payload;
       });
   },
 });

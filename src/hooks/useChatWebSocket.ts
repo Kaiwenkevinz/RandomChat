@@ -4,7 +4,7 @@ import {useEffect} from 'react';
 import {store} from '../store/store';
 import {
   appendNewMessage,
-  operateUnreadRoomAsync,
+  operateReadRoomAsync,
   updateMessageStatus,
 } from '../store/chatSlice';
 import {useAppSelector} from './customReduxHooks';
@@ -65,6 +65,8 @@ const handleOnReceiveWebSocketMessage = (
       message.content,
       message.fromId,
       message.toId,
+      message.sender_avatar_url,
+      message.sender_name,
       message.type,
       message.isGroup,
       true,
@@ -73,8 +75,8 @@ const handleOnReceiveWebSocketMessage = (
     store.dispatch(appendNewMessage(messagePackReceive));
 
     store.dispatch(
-      operateUnreadRoomAsync({
-        option: 'add',
+      operateReadRoomAsync({
+        option: 'delete',
         newData: messagePackReceive.sender_id,
       }),
     );

@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
 import {
   appendNewMessage,
-  operateUnreadRoomAsync,
+  operateReadRoomAsync,
   selectRooms,
 } from '../../store/chatSlice';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -41,6 +41,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   const user = useAppSelector(selectUser).user;
   const userId = user.id;
   const userAvatarUrl = user?.avatar_url || '';
+  const userName = user?.username || '';
 
   // Select state from Redux store
   const {data: rooms} = useAppSelector(selectRooms);
@@ -48,17 +49,14 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
 
   const onServerPushMessage = (messagePack: IMessagePackReceive) => {
-    // 判断消息是不是对方发给我的
-    if (messagePack.receiver_id !== userId) {
-      return;
-    }
-    setUnreadStatus();
+    // 收到新消息时正好在对应的聊天室，聊天室为已读状态
+    addRoomToRead();
   };
 
   useEffect(() => {
     console.log('ChatRoom mounted');
     navigation.setOptions({title});
-    setUnreadStatus();
+    addRoomToRead();
 
     eventEmitter.on(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
 
@@ -68,10 +66,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     };
   }, [navigation, title]);
 
-  const setUnreadStatus = () => {
-    store.dispatch(
-      operateUnreadRoomAsync({option: 'delete', newData: otherUserId}),
-    );
+  const addRoomToRead = () => {
+    store.dispatch(operateReadRoomAsync({option: 'add', newData: otherUserId}));
   };
 
   const handleSendText = () => {
@@ -103,6 +99,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     const messagePackToSend = generateSendMessagePack(
       content,
       userId,
+      userAvatarUrl,
+      userName,
       otherUserId,
       type,
     );
@@ -111,6 +109,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       messagePackToSend.content,
       messagePackToSend.fromId,
       messagePackToSend.toId,
+      messagePackToSend.sender_name,
+      messagePackToSend.sender_avatar_url,
       messagePackToSend.type,
     );
 
@@ -134,6 +134,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
               <MessageComponent
                 id={item.id}
                 otherUserAvatarUrl={otherUserAvatarUrl}
+                sender_avatar_url={item.sender_avatar_url}
+                sender_name={item.sender_name}
                 userAvatarUrl={userAvatarUrl}
                 content={item.content}
                 sender_id={item.sender_id}
