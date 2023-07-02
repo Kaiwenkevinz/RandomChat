@@ -12,6 +12,7 @@ import {
 } from '../store/chatSlice';
 import {store} from '../store/store';
 import {getProfileAsync} from '../store/userSlice';
+import {LoadingView} from '../components/LoadingView.tsx';
 
 const Chats = () => {
   const token = useAppSelector(state => state.user.token);
@@ -34,7 +35,7 @@ const Chats = () => {
   return (
     <SafeAreaView style={styles.chatscreen}>
       {status === 'loading' ? (
-        <Text>Loading...</Text>
+        <LoadingView />
       ) : (
         <View style={styles.chatlistContainer}>
           {rooms && rooms.length > 0 ? (

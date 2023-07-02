@@ -15,6 +15,7 @@ import {chatService} from '../../network/lib/message';
 import {removeStorageData} from '../../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
 import {goToLogin} from '../../navigation/NavigationService';
+import {LoadingView} from '../../components/LoadingView.tsx';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
@@ -59,18 +60,10 @@ const Profile = () => {
   return (
     <>
       {status === 'loading' ? (
-        <Text>Loading...</Text>
+        <LoadingView />
       ) : (
         <ScrollView>
           <View style={styles.container}>
-            <TouchableOpacity
-              style={[styles.button, {margin: 20}]}
-              onPress={() => {
-                removeStorageData(LOCAL_STORAGE_KEY_AUTH);
-                goToLogin();
-              }}>
-              <Text style={styles.buttonText}>Log Out</Text>
-            </TouchableOpacity>
             <ImagePickerAvatar
               pickerDisabled={false}
               avatarUrl={user.avatar_url}
@@ -86,6 +79,14 @@ const Profile = () => {
                 });
               }}>
               <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, {margin: 20}]}
+              onPress={() => {
+                removeStorageData(LOCAL_STORAGE_KEY_AUTH);
+                goToLogin();
+              }}>
+              <Text style={styles.buttonText}>Log Out</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

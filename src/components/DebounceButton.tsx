@@ -4,14 +4,21 @@ import {useDebounce} from '../hooks/useDebounce';
 
 interface Props {
   text: string;
+  disabled?: boolean;
   handleOnPress: () => void;
 }
 
-const DebounceButton = ({handleOnPress, text}: Props) => {
+const DebounceButton = ({handleOnPress, disabled, text}: Props) => {
   const debouncedPress = useDebounce(handleOnPress, 1000);
+  if (!disabled) {
+    disabled = false;
+  }
 
   return (
-    <TouchableOpacity style={styles.button} onPress={debouncedPress}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={debouncedPress}
+      disabled={disabled}>
       <Text style={styles.buttonText}>{text}</Text>
     </TouchableOpacity>
   );

@@ -27,6 +27,7 @@ export type IChatRoom = {
 
 export interface IUser {
   id: number;
+  tags?: string;
   username?: string;
   age?: number;
   avatar_url?: string;

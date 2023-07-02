@@ -7,6 +7,8 @@ interface UserInfoProps {
 }
 
 const UserInfo = ({user}: UserInfoProps) => {
+  const tags = user.tags?.split(';');
+
   return (
     <View>
       <View style={styles.container}>
@@ -14,6 +16,14 @@ const UserInfo = ({user}: UserInfoProps) => {
         <Text style={styles.value}>{user.id}</Text>
         <Text style={styles.label}>Name:</Text>
         <Text style={styles.value}>{user.username}</Text>
+        <Text style={styles.label}>Tags:</Text>
+        <View style={styles.tagContainer}>
+          {tags?.map((tag, idx) => (
+            <Text key={idx} style={styles.tag}>
+              {tag}
+            </Text>
+          ))}
+        </View>
         <Text style={styles.label}>Gender:</Text>
         <Text style={styles.value}>{user.gender}</Text>
         <Text style={styles.label}>Age:</Text>
@@ -48,6 +58,22 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 16,
     marginBottom: 16,
+  },
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    rowGap: 10,
+    marginBottom: 10,
+  },
+  tag: {
+    color: '#FFFFFF', // 白色文本
+    fontSize: 14, // 字体大小
+    fontWeight: 'bold', // 粗体字
+    backgroundColor: '#007AFF', // 蓝色背景
+    borderRadius: 4, // 圆角边框
+    paddingHorizontal: 8, // 左右留白
+    paddingVertical: 4, // 上下留白
+    marginHorizontal: 4, // 左右留白
   },
   button: {
     backgroundColor: '#007aff',

@@ -4,34 +4,40 @@ import ContactListComponent from '../components/ContactListComponent';
 import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
 import DebounceButton from '../components/DebounceButton';
+import {LoadingView} from '../components/LoadingView.tsx';
 
 const Recommend = () => {
   const [loading, setIsLoading] = useState(false);
   const [recommendList, setRecommendList] = useState<IUser[]>([]);
+  const [btnText, setBtnText] = useState('Get Recommendation');
 
   const getRecommendList = async () => {
     setIsLoading(true);
-    const res = await userService.getRecommendFriendList().finally(() => {
-      setIsLoading(false);
-    });
+    setBtnText('Getting Recommendation...');
+
+    const res = await userService.getRecommendFriendList();
+    setIsLoading(false);
+    setBtnText('Get Recommendation');
+
     setRecommendList(res.data);
   };
 
   return (
-    <View>
+    <>
       <DebounceButton
-        text={'Get Recommendation'}
+        disabled={loading}
+        text={btnText}
         handleOnPress={getRecommendList}
       />
       {loading ? (
-        <Text>Loading...</Text>
+        <LoadingView />
       ) : (
         <FlatList
           data={recommendList}
           renderItem={({item}) => <ContactListComponent user={item} />}
         />
       )}
-    </View>
+    </>
   );
 };
 

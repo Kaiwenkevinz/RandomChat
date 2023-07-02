@@ -11,6 +11,7 @@ import {authService} from '../network/lib/auth';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {goToChats} from '../navigation/NavigationService';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -42,6 +43,7 @@ export default function Login() {
     await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
     navigation.dispatch(StackActions.replace('HomeTab'));
+    goToChats;
   };
 
   const handleForgetPassword = () => {

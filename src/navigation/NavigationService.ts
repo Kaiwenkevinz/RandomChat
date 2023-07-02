@@ -12,6 +12,10 @@ export function goToLogin() {
   navigate('Login');
 }
 
+export function goToChats() {
+  navigate('Chats');
+}
+
 export default {
   navigate,
   setTopLevelNavigator,

@@ -9,6 +9,7 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {authService} from '../network/lib/auth';
 import {showToast, toastType} from '../utils/toastUtil';
+import {globalLoading} from '../components/GlobalLoading';
 
 const ForgetPassword = () => {
   const navigation = useNavigation();
@@ -21,7 +22,9 @@ const ForgetPassword = () => {
       return;
     }
 
+    globalLoading.show();
     await authService.forgetPassword(username, email);
+    globalLoading.hide();
     showToast(
       toastType.SUCCESS,
       'Success',

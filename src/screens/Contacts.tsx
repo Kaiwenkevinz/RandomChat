@@ -4,6 +4,7 @@ import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
 import {FlatList} from 'react-native-gesture-handler';
 import ContactListComponent from '../components/ContactListComponent';
+import {LoadingView} from '../components/LoadingView.tsx';
 
 const Contacts = () => {
   const [loading, setIsLoading] = useState(true);
@@ -20,9 +21,9 @@ const Contacts = () => {
   }, []);
 
   return (
-    <View>
+    <>
       {loading ? (
-        <Text>Loading...</Text>
+        <LoadingView />
       ) : (
         <View>
           <FlatList
@@ -31,7 +32,7 @@ const Contacts = () => {
           />
         </View>
       )}
-    </View>
+    </>
   );
 };
 

@@ -175,7 +175,6 @@ export const chatSlice = createSlice({
       })
       .addCase(operateUnreadRoomAsync.fulfilled, (state, action) => {
         state.unreadRooms = action.payload;
-        state.status = 'idle';
       });
   },
 });

@@ -12,6 +12,7 @@ import FriendProfile from '../screens/FriendProfile';
 import VerifyEmail from '../screens/VerifyEmail';
 import ForgetPassword from '../screens/ForgetPassword';
 import NavigationService from './NavigationService';
+import GlobalLoading, {globalLoadingRef} from '../components/GlobalLoading';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -62,6 +63,7 @@ const Navigation = () => {
         />
       </Stack.Navigator>
       <Toast />
+      <GlobalLoading ref={globalLoadingRef} />
     </NavigationContainer>
   );
 };

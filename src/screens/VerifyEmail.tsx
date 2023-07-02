@@ -11,6 +11,7 @@ import {RootStackParamList} from '../types/navigation/types';
 import {StackActions, useNavigation} from '@react-navigation/native';
 import {authService} from '../network/lib/auth';
 import {showToast, toastType} from '../utils/toastUtil';
+import {globalLoading} from '../components/GlobalLoading';
 
 type VerifyEmailProps = StackScreenProps<RootStackParamList, 'VerifyEmail'>;
 
@@ -32,7 +33,9 @@ const VerifyEmail = ({route}: VerifyEmailProps) => {
   }, [disabled]);
 
   const handleResendCode = async () => {
+    globalLoading.show();
     await authService.sendVerifyEmail(username, email);
+    globalLoading.hide();
     setDisabled(true);
   };
 
@@ -56,7 +59,9 @@ const VerifyEmail = ({route}: VerifyEmailProps) => {
   };
 
   const handleRegister = async () => {
+    globalLoading.show();
     await authService.register(username, password, email, code);
+    globalLoading.hide();
     showToast(toastType.SUCCESS, 'Success', 'Register successfully');
     navigation.dispatch(StackActions.popToTop());
   };
