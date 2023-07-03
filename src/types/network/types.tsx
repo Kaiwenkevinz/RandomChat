@@ -26,12 +26,14 @@ export type IChatRoom = {
   otherUserId: number;
   otherUserName: string;
   otherUserAvatarUrl: string | null;
+  score: number;
   messages: IMessagePackReceive[];
 };
 
 export interface IUser {
   id: number;
   role?: string; // 标签
+  score?: number;
   username?: string;
   age?: number;
   avatar_url?: string;

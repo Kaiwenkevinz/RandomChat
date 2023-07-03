@@ -17,11 +17,11 @@ export class WebSocketSingleton {
     };
 
     this.ws.onclose = event => {
-      console.warn('WebSocket 连接已关闭：', event.code, event.reason);
+      console.log('WebSocket 连接已关闭：', event.code, event.reason);
     };
 
     this.ws.onerror = error => {
-      console.error('WebSocket 错误：', error.message);
+      console.log('WebSocket 错误：', error.message);
     };
   }
 
@@ -38,6 +38,9 @@ export class WebSocketSingleton {
   }
 
   public static closeAndReset(): void {
+    if (WebSocketSingleton.getWebsocket()?.readyState === WebSocket.CLOSED) {
+      return;
+    }
     WebSocketSingleton.instance?.ws.close();
     WebSocketSingleton.instance = null;
   }

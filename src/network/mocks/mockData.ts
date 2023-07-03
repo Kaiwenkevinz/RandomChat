@@ -86,6 +86,7 @@ export const mockAllFriendAllChatMessages = {
   },
   mockResponse: generageMockResponse([
     {
+      score: 99999,
       otherUserId: 200,
       otherUserName: 'Novu Hangouts',
       otherUserAvatarUrl:
@@ -116,6 +117,7 @@ export const mockAllFriendAllChatMessages = {
       ],
     },
     {
+      score: 1500,
       otherUserId: 300,
       otherUserName: 'Alex',
       otherUserAvatarUrl: null,
@@ -130,6 +132,8 @@ export const mockSendNewMessage: MessagePackSend = {
   id: 'new-message-id',
   type: 'text',
   content: 'This is new message from user id 200',
+  sender_avatar_url: 'https://picsum.photos/200/300',
+  sender_name: 'Novu Hangouts',
   fromId: 200,
   toId: 1,
   isGroup: 0,
@@ -143,10 +147,12 @@ const generateMockFriend = (
   id: number,
   username: string,
   avatar_url: string,
+  score: number,
 ): IUser => {
   return {
     id,
     username,
+    score,
     gender: 'male',
     age: 34,
     hometown: 'Mars' + id,
@@ -166,11 +172,13 @@ export const mockFriendList = {
       777,
       'Jack',
       'https://www.shutterstock.com/image-vector/man-character-face-avatar-glasses-260nw-562077406.jpg',
+      100,
     ),
     generateMockFriend(
       888,
       'Yudia',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjxv0lgOtSOUpJs1kJnib1w_XYBOehqRnrC-CqLQ2trA&s',
+      99999,
     ),
   ]),
 };

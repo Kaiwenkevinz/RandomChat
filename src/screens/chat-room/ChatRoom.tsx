@@ -19,7 +19,10 @@ import ImagePickerModal from './ImagePickerModal';
 import {IMessagePackReceive, MessagePackSend} from '../../types/network/types';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
 import eventEmitter from '../../services/event-emitter';
-import {EVENT_SERVER_PUSH_MESSAGE} from '../../services/event-emitter/constants';
+import {
+  EVENT_SERVER_PUSH_MESSAGE,
+  EVENT_SERVER_REFRESH_SCORE,
+} from '../../services/event-emitter/constants';
 import DebounceButton from '../../components/DebounceButton';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
@@ -30,10 +33,17 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   // get params from route
   const params = route.params;
-  const {otherUserId, otherUserName, otherUserAvatarUrl} = params;
+  const {
+    otherUserId,
+    otherUserName,
+    otherUserAvatarUrl,
+    score,
+    scoreThreshold,
+  } = params;
 
-  // the title of the chat room which shows timer countdown
-  const title = `${otherUserName} (remaining: 9:59s)`;
+  const scoreStr =
+    score >= scoreThreshold ? 'permanent' : `score: ${score.toString()}`;
+  const title = `${otherUserName} (${scoreStr})`;
 
   // the message that is currently being typed
   const [currentMessage, setCurrentMessage] = useState<string>('');
@@ -53,16 +63,22 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     addRoomToRead();
   };
 
+  const onServerRefreshScore = () => {
+    navigation.goBack();
+  };
+
   useEffect(() => {
     console.log('ChatRoom mounted');
     navigation.setOptions({title});
     addRoomToRead();
 
     eventEmitter.on(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
+    eventEmitter.on(EVENT_SERVER_REFRESH_SCORE, onServerRefreshScore);
 
     return () => {
       console.log('ChatRoom unmounted');
       eventEmitter.off(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
+      eventEmitter.off(EVENT_SERVER_REFRESH_SCORE, onServerRefreshScore);
     };
   }, [navigation, title]);
 

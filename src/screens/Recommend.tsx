@@ -4,7 +4,7 @@ import ContactListComponent from '../components/ContactListComponent';
 import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
 import DebounceButton from '../components/DebounceButton';
-import {LoadingView} from '../components/LoadingView.tsx';
+import {LoadingView} from '../components/LoadingView';
 import {showToast, toastType} from '../utils/toastUtil';
 import eventEmitter from '../services/event-emitter';
 import {EVENT_UPDATE_FRIENDS} from '../services/event-emitter/constants';

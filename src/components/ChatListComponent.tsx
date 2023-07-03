@@ -4,13 +4,7 @@ import React from 'react';
 import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import CircleImage from './CircleImage';
-
-type ChatListComponentProps = Pick<
-  IChatRoom,
-  'otherUserId' | 'otherUserName' | 'otherUserAvatarUrl'
-> & {
-  messages: IMessagePackReceive[];
-};
+import TagComponent from './TagComponent/TagComponent';
 
 const generateContentPreview = (message: IMessagePackReceive) => {
   switch (message.message_type) {
@@ -23,10 +17,14 @@ const generateContentPreview = (message: IMessagePackReceive) => {
   }
 };
 
+type ChatListComponentProps = IChatRoom & {scoreThreshold: number};
+
 /**
  * Item component for Chat list
  */
 export const ChatListComponent = ({
+  scoreThreshold,
+  score,
   otherUserId,
   otherUserName,
   otherUserAvatarUrl,
@@ -35,7 +33,7 @@ export const ChatListComponent = ({
   const navigation = useNavigation();
   const latestMessage = messages[messages.length - 1] || {content: ''};
   const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
-  
+
   const readRooms = useAppSelector(state => state.chat.readRooms);
   const isRead = readRooms.findIndex(id => id === otherUserId) !== -1;
 
@@ -46,6 +44,8 @@ export const ChatListComponent = ({
       otherUserId,
       otherUserName,
       otherUserAvatarUrl,
+      score,
+      scoreThreshold,
     });
   };
 
@@ -58,7 +58,16 @@ export const ChatListComponent = ({
           borderColor="#fff"
         />
         <View style={styles.cchatInfo}>
-          <Text style={styles.cusername}>{otherUserName}</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.cusername} numberOfLines={1}>
+              {otherUserName}
+            </Text>
+            {score > scoreThreshold ? (
+              <TagComponent text={'\u{2B50}'} backgroundColor="#fff" />
+            ) : (
+              <TagComponent text={score.toString()} />
+            )}
+          </View>
           <Text
             style={[
               !isRead ? {color: '#509AD6', fontWeight: 'bold'} : {opacity: 0.7},
@@ -112,11 +121,11 @@ const styles = StyleSheet.create({
   },
   cusername: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
     alignItems: 'center',
-    fontWeight: 'bold',
   },
   cmessage: {
+    marginTop: 5,
     flex: 1,
     fontSize: 14,
   },
@@ -125,5 +134,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 12,
     opacity: 0.5,
+    marginLeft: 2,
   },
 });

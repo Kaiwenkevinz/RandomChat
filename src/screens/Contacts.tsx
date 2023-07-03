@@ -4,8 +4,9 @@ import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
 import {FlatList} from 'react-native-gesture-handler';
 import ContactListComponent from '../components/ContactListComponent';
-import {LoadingView} from '../components/LoadingView.tsx';
+import {LoadingView} from '../components/LoadingView';
 import eventEmitter from '../services/event-emitter';
+import {EVENT_SERVER_REFRESH_SCORE} from '../services/event-emitter/constants';
 
 const Contacts = () => {
   const [loading, setIsLoading] = useState(true);
@@ -26,6 +27,9 @@ const Contacts = () => {
   useEffect(() => {
     getFriendList();
     eventEmitter.on('EVENT_UPDATE_FRIENDS', () => {
+      getFriendList();
+    });
+    eventEmitter.on(EVENT_SERVER_REFRESH_SCORE, () => {
       getFriendList();
     });
   }, []);

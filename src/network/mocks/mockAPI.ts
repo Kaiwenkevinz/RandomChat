@@ -15,6 +15,7 @@ import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_FRIEND_LIST,
   API_GET_RECOMMEND_LIST,
+  API_GET_SCORE_THRESHOLD,
   API_GET_USER_INFO,
   API_LOGIN,
   API_REGISTER,
@@ -23,9 +24,9 @@ import {
   API_UPLOAD_IMAGE,
 } from '../constant';
 
-console.log('API mocking is turned on.');
+console.warn('API mocking is turned on.');
 
-const mock = new MockAdapter(axiosClient, {delayResponse: 2000});
+const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
 
 // Register
 mock.onPost(API_SEND_EMAIL).reply(200, mockSendVerifyEmail.mockResponse);
@@ -64,6 +65,10 @@ mock.onAny().reply(config => {
   // 忘记密码
   if (config.method === 'post' && config.url === API_FORGET_PASSWORD) {
     return [200, generageMockResponse()];
+  }
+  // 亲密度阈值
+  if (config.method === 'post' && config.url === API_GET_SCORE_THRESHOLD) {
+    return [200, generageMockResponse(10000)];
   }
 
   return [404];

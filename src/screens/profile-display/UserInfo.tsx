@@ -1,6 +1,7 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {IUser} from '../../types/network/types';
+import TagComponent from '../../components/TagComponent/TagComponent';
 
 interface UserInfoProps {
   user: IUser;
@@ -20,9 +21,7 @@ const UserInfo = ({user}: UserInfoProps) => {
         {tags && tags.length > 0 && (
           <View style={styles.tagContainer}>
             {tags?.map((tag, idx) => (
-              <Text key={idx} style={styles.tag}>
-                {tag}
-              </Text>
+              <TagComponent key={idx} text={tag} />
             ))}
           </View>
         )}
@@ -66,16 +65,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     rowGap: 10,
     marginBottom: 10,
-  },
-  tag: {
-    color: '#FFFFFF', // 白色文本
-    fontSize: 14, // 字体大小
-    fontWeight: 'bold', // 粗体字
-    backgroundColor: '#007AFF', // 蓝色背景
-    borderRadius: 4, // 圆角边框
-    paddingHorizontal: 8, // 左右留白
-    paddingVertical: 4, // 上下留白
-    marginHorizontal: 4, // 左右留白
   },
   button: {
     backgroundColor: '#007aff',
