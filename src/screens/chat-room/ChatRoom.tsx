@@ -33,13 +33,11 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   // get params from route
   const params = route.params;
-  const {
-    otherUserId,
-    otherUserName,
-    otherUserAvatarUrl,
-    score,
-    scoreThreshold,
-  } = params;
+  const {otherUserId, otherUserName, otherUserAvatarUrl} = params;
+
+  const scoreThreshold = useAppSelector(state => state.user.scoreThreshold);
+  const scoreMemo = useAppSelector(state => state.user.scoreMemo);
+  const score = scoreMemo[otherUserId] || 0;
 
   const scoreStr =
     score >= scoreThreshold ? 'permanent' : `score: ${score.toString()}`;

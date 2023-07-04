@@ -23,6 +23,8 @@ export const API_UPLOAD_AVATAR = '/file/get-avatar';
 export const API_GET_RECOMMEND_LIST = '/recommend/add';
 // 获取亲密度阈值
 export const API_GET_SCORE_THRESHOLD = '/getLimit';
+// 获取所有好友亲密度
+export const API_GET_SCORES = '/score/getList';
 
 export const API_ERROR_MSG = {
   NO_SUCH_USER: 'No such user!',

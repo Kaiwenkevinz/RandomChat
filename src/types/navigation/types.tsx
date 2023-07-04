@@ -24,8 +24,6 @@ export type RootStackParamList = {
     otherUserId: number;
     otherUserName: string;
     otherUserAvatarUrl: string;
-    score: number;
-    scoreThreshold: number;
   };
   FriendProfile: IUser;
 };

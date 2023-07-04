@@ -1,11 +1,15 @@
 import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {IUser} from '../types/network/types';
+import {IScoreMap, IUser} from '../types/network/types';
 import {RootState} from './store';
 import {userService} from '../network/lib/user';
+import {LOCAL_STORAGE_KEY_SCORE_THRESHOLD} from '../constant';
+import {loadStorageData} from '../utils/storageUtil';
 
 type UserState = {
   user: IUser;
   token: string;
+  scoreThreshold: number;
+  scoreMemo: IScoreMap;
   status: 'idle' | 'loading' | 'failed';
 };
 
@@ -13,8 +17,32 @@ type UserState = {
 const initialState: UserState = {
   user: {} as IUser,
   token: '',
+  scoreThreshold: 10000,
+  scoreMemo: {} as IScoreMap,
   status: 'idle',
 };
+
+export const getScoreThresholdAsync = createAsyncThunk<number, void>(
+  'user/getScoreThreshold',
+  async () => {
+    let resp = await userService.getScoreThreshold();
+
+    return resp.data;
+  },
+);
+
+export const getScoreMemoAsync = createAsyncThunk<IScoreMap, void>(
+  'user/getScoreMemo',
+  async () => {
+    const response = await userService.getScoreOfFriends();
+    const obj: IScoreMap = {};
+    response.data.forEach(item => {
+      obj[item.userId] = item.score;
+    });
+
+    return obj;
+  },
+);
 
 export const getProfileAsync = createAsyncThunk<IUser, void>(
   'user/getUserProfile',
@@ -51,6 +79,12 @@ export const userSlice = createSlice({
       })
       .addCase(getProfileAsync.rejected, (state, _) => {
         state.status = 'failed';
+      })
+      .addCase(getScoreMemoAsync.fulfilled, (state, action) => {
+        state.scoreMemo = action.payload;
+      })
+      .addCase(getScoreThresholdAsync.fulfilled, (state, action) => {
+        state.scoreThreshold = action.payload;
       });
   },
 });

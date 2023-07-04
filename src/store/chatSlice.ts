@@ -1,10 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from './store';
-import {IChatRoom, IMessagePackReceive} from '../types/network/types';
-import {chatService} from '../network/lib/message';
 import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../constant';
+import {chatService} from '../network/lib/message';
+import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import {loadStorageData, saveStorageData} from '../utils/storageUtil';
 import {showToast, toastType} from '../utils/toastUtil';
+import {RootState} from './store';
 
 export interface ChatState {
   data: IChatRoom[];

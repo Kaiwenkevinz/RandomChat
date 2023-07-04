@@ -6,6 +6,7 @@ import {
   mockFriendList,
   mockLogin,
   mockRegister,
+  mockScores,
   mockSendVerifyEmail,
   mockUploadImageRepsonse,
   mockUserProfile,
@@ -15,6 +16,7 @@ import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_FRIEND_LIST,
   API_GET_RECOMMEND_LIST,
+  API_GET_SCORES,
   API_GET_SCORE_THRESHOLD,
   API_GET_USER_INFO,
   API_LOGIN,
@@ -68,7 +70,11 @@ mock.onAny().reply(config => {
   }
   // 亲密度阈值
   if (config.method === 'post' && config.url === API_GET_SCORE_THRESHOLD) {
-    return [200, generageMockResponse(10000)];
+    return [200, generageMockResponse(10010)];
+  }
+  // 所有好友亲密度
+  if (config.method === 'post' && config.url === API_GET_SCORES) {
+    return [200, mockScores.mockResponse];
   }
 
   return [404];

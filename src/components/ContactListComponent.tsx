@@ -3,13 +3,24 @@ import React from 'react';
 import {Pressable, View, Text, StyleSheet} from 'react-native';
 import {IUser} from '../types/network/types';
 import CircleImage from './CircleImage';
+import {useAppSelector} from '../hooks/customReduxHooks';
+import ScoreTag from './ScoreTag';
 
 interface FriendListProps {
   user: IUser;
+  fromRecommendation?: boolean;
 }
 
-const ContactListComponent = ({user}: FriendListProps) => {
+const ContactListComponent = ({user, fromRecommendation}: FriendListProps) => {
   const navigation = useNavigation();
+
+  if (!fromRecommendation) {
+    fromRecommendation = false;
+  }
+
+  const scoreThreshold = useAppSelector(state => state.user.scoreThreshold);
+  const scoreMemo = useAppSelector(state => state.user.scoreMemo);
+  const score = scoreMemo[user.id] || 0;
 
   const handlePress = () => {
     navigation.navigate('FriendProfile', user);
@@ -20,7 +31,12 @@ const ContactListComponent = ({user}: FriendListProps) => {
       <View style={styles.container}>
         <CircleImage size={50} avatarUrl={user.avatar_url} borderColor="#fff" />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{user.username}</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.name}>{user.username}</Text>
+            {fromRecommendation && (
+              <ScoreTag score={score} threshold={scoreThreshold} />
+            )}
+          </View>
           <Text style={styles.info}>{`${user.hometown} | ${user.major}`}</Text>
         </View>
       </View>

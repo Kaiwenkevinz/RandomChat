@@ -1,5 +1,5 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {ChatListComponent} from '../components/ChatListComponent';
 import {IChatRoom} from '../types/network/types';
@@ -16,30 +16,16 @@ import {LoadingView} from '../components/LoadingView';
 import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import eventEmitter from '../services/event-emitter';
 import {EVENT_SERVER_REFRESH_SCORE} from '../services/event-emitter/constants';
-import {loadStorageData} from '../utils/storageUtil';
-import {LOCAL_STORAGE_KEY_SCORE_THRESHOLD} from '../constant';
 
 const Chats = () => {
   const token = useAppSelector(state => state.user.token);
   useInitWebSocket(token);
 
   const {data: rooms, status} = useAppSelector(selectRooms);
-  const [scoreThreshold, setScoreThreshold] = useState<number>(0);
-
-  const getScoreThreshold = async () => {
-    const res = await loadStorageData<number>(
-      LOCAL_STORAGE_KEY_SCORE_THRESHOLD,
-    );
-    if (!res) {
-      return;
-    }
-    setScoreThreshold(res);
-  };
 
   useEffect(() => {
     console.log('Chats mounted');
 
-    getScoreThreshold();
     store.dispatch(getChatsAsync());
     store.dispatch(getProfileAsync());
     store.dispatch(operateReadRoomAsync({option: 'read', newData: null}));
@@ -63,7 +49,7 @@ const Chats = () => {
           {rooms && rooms.length > 0 ? (
             <FlatList
               data={rooms}
-              renderItem={({item}) => renderChatComponent(item, scoreThreshold)}
+              renderItem={({item}) => renderChatComponent(item)}
               keyExtractor={item => item.otherUserId.toString()}
             />
           ) : (
@@ -77,14 +63,11 @@ const Chats = () => {
   );
 };
 
-const renderChatComponent = (item: IChatRoom, scoreThreshold: number) => {
-  const {score, messages, otherUserId, otherUserName, otherUserAvatarUrl} =
-    item;
+const renderChatComponent = (item: IChatRoom) => {
+  const {messages, otherUserId, otherUserName, otherUserAvatarUrl} = item;
 
   return (
     <ChatListComponent
-      scoreThreshold={scoreThreshold}
-      score={score}
       otherUserId={otherUserId}
       otherUserName={otherUserName}
       otherUserAvatarUrl={otherUserAvatarUrl}

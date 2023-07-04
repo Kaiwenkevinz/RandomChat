@@ -4,6 +4,8 @@ import {
   MessagePackSend,
   Result,
   IUser,
+  IScoreMap,
+  IScoreResponse,
 } from '../../types/network/types';
 
 export const generageMockResponse = <T>(data: T | null = null) =>
@@ -86,7 +88,6 @@ export const mockAllFriendAllChatMessages = {
   },
   mockResponse: generageMockResponse([
     {
-      score: 99999,
       otherUserId: 200,
       otherUserName: 'Novu Hangouts',
       otherUserAvatarUrl:
@@ -117,7 +118,6 @@ export const mockAllFriendAllChatMessages = {
       ],
     },
     {
-      score: 1500,
       otherUserId: 300,
       otherUserName: 'Alex',
       otherUserAvatarUrl: null,
@@ -147,12 +147,10 @@ const generateMockFriend = (
   id: number,
   username: string,
   avatar_url: string,
-  score: number,
 ): IUser => {
   return {
     id,
     username,
-    score,
     gender: 'male',
     age: 34,
     hometown: 'Mars' + id,
@@ -169,16 +167,21 @@ const generateMockFriend = (
 export const mockFriendList = {
   mockResponse: generageMockResponse<IUser[]>([
     generateMockFriend(
-      777,
+      300,
       'Jack',
       'https://www.shutterstock.com/image-vector/man-character-face-avatar-glasses-260nw-562077406.jpg',
-      100,
     ),
     generateMockFriend(
-      888,
+      200,
       'Yudia',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjxv0lgOtSOUpJs1kJnib1w_XYBOehqRnrC-CqLQ2trA&s',
-      99999,
     ),
+  ]),
+};
+
+export const mockScores = {
+  mockResponse: generageMockResponse<IScoreResponse[]>([
+    {userId: 200, score: 19900},
+    {userId: 300, score: 2000},
   ]),
 };

@@ -42,7 +42,7 @@ const Contacts = () => {
         <View>
           <FlatList
             data={friendList}
-            renderItem={({item}) => <ContactListComponent user={item} />}
+            renderItem={({item}) => <ContactListComponent user={item} fromRecommendation={true} />}
           />
         </View>
       )}

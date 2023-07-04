@@ -1,8 +1,9 @@
-import {Result, IUser} from '../../types/network/types';
+import {Result, IUser, IScoreResponse} from '../../types/network/types';
 import {api} from '../axios.config';
 import {
   API_GET_FRIEND_LIST,
   API_GET_RECOMMEND_LIST,
+  API_GET_SCORES,
   API_GET_SCORE_THRESHOLD,
   API_GET_USER_INFO,
   API_UPDATE_USER_INFO,
@@ -28,7 +29,12 @@ function getScoreThreshold() {
   return api.post<Result<number>>(API_GET_SCORE_THRESHOLD);
 }
 
+function getScoreOfFriends() {
+  return api.post<Result<IScoreResponse[]>>(API_GET_SCORES);
+}
+
 export const userService = {
+  getScoreOfFriends,
   getScoreThreshold,
   getUserProfile,
   updateUserProfile,

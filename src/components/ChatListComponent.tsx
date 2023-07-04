@@ -5,6 +5,7 @@ import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import CircleImage from './CircleImage';
 import TagComponent from './TagComponent/TagComponent';
+import ScoreTag from './ScoreTag';
 
 const generateContentPreview = (message: IMessagePackReceive) => {
   switch (message.message_type) {
@@ -17,20 +18,23 @@ const generateContentPreview = (message: IMessagePackReceive) => {
   }
 };
 
-type ChatListComponentProps = IChatRoom & {scoreThreshold: number};
+type ChatListComponentProps = IChatRoom;
 
 /**
  * Item component for Chat list
  */
 export const ChatListComponent = ({
-  scoreThreshold,
-  score,
   otherUserId,
   otherUserName,
   otherUserAvatarUrl,
   messages,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
+
+  const scoreThreshold = useAppSelector(state => state.user.scoreThreshold);
+  const scoreMemo = useAppSelector(state => state.user.scoreMemo);
+  const score = scoreMemo[otherUserId] || 0;
+
   const latestMessage = messages[messages.length - 1] || {content: ''};
   const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
 
@@ -44,8 +48,6 @@ export const ChatListComponent = ({
       otherUserId,
       otherUserName,
       otherUserAvatarUrl,
-      score,
-      scoreThreshold,
     });
   };
 
@@ -62,11 +64,7 @@ export const ChatListComponent = ({
             <Text style={styles.cusername} numberOfLines={1}>
               {otherUserName}
             </Text>
-            {score > scoreThreshold ? (
-              <TagComponent text={'\u{2B50}'} backgroundColor="#fff" />
-            ) : (
-              <TagComponent text={score.toString()} />
-            )}
+            <ScoreTag score={score} threshold={scoreThreshold} />
           </View>
           <Text
             style={[
