@@ -4,7 +4,6 @@ import React from 'react';
 import {IChatRoom, IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import CircleImage from './CircleImage';
-import TagComponent from './TagComponent/TagComponent';
 import ScoreTag from './ScoreTag';
 
 const generateContentPreview = (message: IMessagePackReceive) => {

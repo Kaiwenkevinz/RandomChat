@@ -41,7 +41,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   const score = scoreMemo[otherUserId] || 0;
 
   const scoreStr =
-    score >= scoreThreshold ? 'permanent' : `score: ${score.toString()}`;
+    score >= scoreThreshold ? '\u{2B50}' : `score: ${score.toString()}`;
   const title = `${otherUserName} (${scoreStr})`;
 
   // the message that is currently being typed
@@ -138,7 +138,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       <View
         style={[
           styles.messagingscreen,
-          {paddingVertical: 15, paddingHorizontal: 10},
+          {paddingTop: 5, paddingHorizontal: 10},
         ]}>
         {messages && messages.length > 0 ? (
           <FlatList

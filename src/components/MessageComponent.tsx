@@ -1,9 +1,10 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
-import React from 'react';
+import {View, Text, Image, StyleSheet, Pressable, Modal} from 'react-native';
+import React, {useState} from 'react';
 import {IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
 import CircleImage from './CircleImage';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 type MessageComponentProps = IMessagePackReceive & {
   otherUserAvatarUrl: string;
@@ -26,6 +27,18 @@ export function MessageComponent({
 
   const userStore = useAppSelector(selectUser);
   const token = userStore.token;
+
+  const [imageViewVisible, setImageViewVisible] = useState(false);
+
+  const images = [
+    {
+      url: content,
+    },
+  ];
+
+  const handleImagePress = () => {
+    setImageViewVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -55,18 +68,20 @@ export function MessageComponent({
             {type === 'text' ? (
               <Text>{content}</Text>
             ) : (
-              <Image
-                source={{
-                  uri: content,
-                  headers: {
-                    Authorization: `Bearer ${token}}`,
-                  },
-                }}
-                resizeMode="center"
-                style={styles.messageImage}
-              />
+              <Pressable onPress={handleImagePress}>
+                <Image
+                  source={{
+                    uri: content,
+                    headers: {
+                      Authorization: `Bearer ${token}}`,
+                    },
+                  }}
+                  resizeMode="center"
+                  style={styles.messageImage}
+                />
+              </Pressable>
             )}
-            <Text>{sent ? 'Sent' : 'Sending'}</Text>
+            {!isReceive && <Text>{sent ? 'Sent' : 'Sending'}</Text>}
           </View>
           <Text
             style={[
@@ -79,6 +94,12 @@ export function MessageComponent({
           </Text>
         </View>
       </View>
+      <Modal visible={imageViewVisible} transparent={true}>
+        <ImageViewer
+          imageUrls={images}
+          onClick={() => setImageViewVisible(false)}
+        />
+      </Modal>
     </View>
   );
 }
@@ -90,11 +111,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   messageAndTime: {
-    flex: 1,
+    // flex: 1,
   },
   mmessage: {
     flex: 1,
-    maxWidth: '70%',
+    maxWidth: '80%',
     backgroundColor: '#f5ccc2',
     padding: 12,
     borderRadius: 10,
@@ -105,6 +126,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   messageImage: {
+    alignSelf: 'center',
+    // flex: 1,
     width: 100,
     height: 100,
   },

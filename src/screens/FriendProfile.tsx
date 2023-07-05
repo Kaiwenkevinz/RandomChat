@@ -46,8 +46,6 @@ const FriendProfile = ({route}: FriendProfileProps) => {
     console.log('WebSocket send: ', msgObj);
     WebSocketSingleton.getWebsocket()?.send(JSON.stringify(msgObj));
 
-    // 退回到最上层的 Navigator, 然后跳转到 Chats
-    navigation.dispatch(StackActions.popToTop());
     navigation.navigate('Chats');
     navigation.navigate('ChatRoom', newChatRoom);
   };

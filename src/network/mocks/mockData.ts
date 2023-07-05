@@ -4,7 +4,6 @@ import {
   MessagePackSend,
   Result,
   IUser,
-  IScoreMap,
   IScoreResponse,
 } from '../../types/network/types';
 
@@ -94,7 +93,7 @@ export const mockAllFriendAllChatMessages = {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
       messages: [
         generateMockChatMessage('1a', 'Hello, my name is Novu', 200, 1),
-        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin! 😇', 1, 200),
+        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin!', 1, 200),
         generateMockChatMessage(
           '2a',
           'https://picsum.photos/200/300',
