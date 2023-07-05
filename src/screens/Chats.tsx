@@ -11,7 +11,11 @@ import {
   selectRooms,
 } from '../store/chatSlice';
 import {store} from '../store/store';
-import {getProfileAsync} from '../store/userSlice';
+import {
+  getProfileAsync,
+  getScoreMemoAsync,
+  getScoreThresholdAsync,
+} from '../store/userSlice';
 import {LoadingView} from '../components/LoadingView';
 import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import eventEmitter from '../services/event-emitter';
@@ -27,7 +31,6 @@ const Chats = () => {
     console.log('Chats mounted');
 
     store.dispatch(getChatsAsync());
-    store.dispatch(getProfileAsync());
     store.dispatch(operateReadRoomAsync({option: 'read', newData: null}));
 
     eventEmitter.on(EVENT_SERVER_REFRESH_SCORE, () => {

@@ -12,6 +12,11 @@ export function goToLogin() {
   navigate('Login');
 }
 
+export function goToHomeTab() {
+  navigate('HomeTab');
+  goToChats();
+}
+
 export function goToChats() {
   navigate('Chats');
 }

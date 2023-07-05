@@ -17,8 +17,6 @@ import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import {generateSendMessagePack} from './chat-room/chatUtil';
 import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
-import {loadStorageData} from '../utils/storageUtil';
-import {LOCAL_STORAGE_KEY_SCORE_THRESHOLD} from '../constant';
 
 type FriendProfileProps = StackScreenProps<RootStackParamList, 'FriendProfile'>;
 
@@ -29,30 +27,24 @@ const FriendProfile = ({route}: FriendProfileProps) => {
   const user = useAppSelector(selectUser).user;
 
   const handlePress = async () => {
-    const threshold = await loadStorageData<number>(
-      LOCAL_STORAGE_KEY_SCORE_THRESHOLD,
-    );
     const newChatRoom = {
       otherUserId: friend.id,
       otherUserName: friend.username ? friend.username : '',
       otherUserAvatarUrl: friend.avatar_url ? friend.avatar_url : '',
-      score: 500, // TODO: 默认值写死了
-      scoreThreshold: threshold ? threshold : 10000,
     };
 
     store.dispatch(appendNewChatRoom(newChatRoom));
-    WebSocketSingleton.getWebsocket()?.send(
-      JSON.stringify(
-        generateSendMessagePack(
-          '',
-          user.id,
-          '',
-          user.username || '',
-          friend.id,
-          'system',
-        ),
-      ),
+
+    const msgObj = generateSendMessagePack(
+      '',
+      user.id,
+      '',
+      user.username || '',
+      friend.id,
+      'system',
     );
+    console.log('WebSocket send: ', msgObj);
+    WebSocketSingleton.getWebsocket()?.send(JSON.stringify(msgObj));
 
     // 退回到最上层的 Navigator, 然后跳转到 Chats
     navigation.dispatch(StackActions.popToTop());

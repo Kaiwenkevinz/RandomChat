@@ -24,6 +24,9 @@ export function MessageComponent({
   const date = new Date(timestamp);
   const sent = isSent === undefined || isSent;
 
+  const userStore = useAppSelector(selectUser);
+  const token = userStore.token;
+
   return (
     <View style={styles.container}>
       <View
@@ -55,6 +58,9 @@ export function MessageComponent({
               <Image
                 source={{
                   uri: content,
+                  headers: {
+                    Authorization: `Bearer ${token}}`,
+                  },
                 }}
                 resizeMode="center"
                 style={styles.messageImage}

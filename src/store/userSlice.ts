@@ -2,8 +2,6 @@ import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {IScoreMap, IUser} from '../types/network/types';
 import {RootState} from './store';
 import {userService} from '../network/lib/user';
-import {LOCAL_STORAGE_KEY_SCORE_THRESHOLD} from '../constant';
-import {loadStorageData} from '../utils/storageUtil';
 
 type UserState = {
   user: IUser;

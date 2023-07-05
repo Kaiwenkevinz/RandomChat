@@ -13,6 +13,7 @@ import VerifyEmail from '../screens/VerifyEmail';
 import ForgetPassword from '../screens/ForgetPassword';
 import NavigationService from './NavigationService';
 import GlobalLoading, {globalLoadingRef} from '../components/GlobalLoading';
+import {SplashScreen} from '../screens/SplashScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -24,7 +25,8 @@ const Navigation = () => {
       }}>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={'HomeTab'}>
+        initialRouteName={'SplashScreen'}>
+        <Stack.Screen name={'SplashScreen'} component={SplashScreen} />
         <Stack.Screen
           name={'Register'}
           options={{headerShown: true, headerTitle: 'Sign Up'}}

@@ -29,7 +29,7 @@ const ImagePickerModal = (props: ImagePickerModalProps) => {
 
     const url = await chatService.uploadImage(
       uri,
-      `${props.imageName}_${Date.now()}`,
+      `${props.imageName}_${Date.now()}.jpg`,
       'image',
     );
 

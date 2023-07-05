@@ -28,6 +28,8 @@ export class WebSocketSingleton {
   public static initWebsocket(url: string, token: string): WebSocketSingleton {
     if (!WebSocketSingleton.instance) {
       WebSocketSingleton.instance = new WebSocketSingleton(url, token);
+    } else {
+      console.log('WebSocket 已初始化');
     }
 
     return WebSocketSingleton.instance;
@@ -38,9 +40,6 @@ export class WebSocketSingleton {
   }
 
   public static closeAndReset(): void {
-    if (WebSocketSingleton.getWebsocket()?.readyState === WebSocket.CLOSED) {
-      return;
-    }
     WebSocketSingleton.instance?.ws.close();
     WebSocketSingleton.instance = null;
   }

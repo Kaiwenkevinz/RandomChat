@@ -16,7 +16,6 @@ import {removeStorageData} from '../../utils/storageUtil';
 import {
   LOCAL_STORAGE_KEY_AUTH,
   LOCAL_STORAGE_KEY_READ_ROOMS,
-  LOCAL_STORAGE_KEY_SCORE_THRESHOLD,
 } from '../../constant';
 import {goToLogin} from '../../navigation/NavigationService';
 import {LoadingView} from '../../components/LoadingView';
@@ -90,7 +89,6 @@ const Profile = () => {
               onPress={() => {
                 removeStorageData(LOCAL_STORAGE_KEY_AUTH);
                 removeStorageData(LOCAL_STORAGE_KEY_READ_ROOMS);
-                removeStorageData(LOCAL_STORAGE_KEY_SCORE_THRESHOLD);
                 WebSocketSingleton.closeAndReset();
                 goToLogin();
               }}>

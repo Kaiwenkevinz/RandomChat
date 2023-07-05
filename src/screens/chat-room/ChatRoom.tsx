@@ -24,6 +24,7 @@ import {
   EVENT_SERVER_REFRESH_SCORE,
 } from '../../services/event-emitter/constants';
 import DebounceButton from '../../components/DebounceButton';
+import {chatService} from '../../network/lib/message';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -98,7 +99,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       showToast(toastType.ERROR, 'Error', 'Error! Fail to upload image!');
       return;
     }
-    realSendMessage('image', imageUrl);
+    realSendMessage('image', chatService.getImageUrl(imageUrl));
   };
 
   const realSendMessage = (type: MessagePackSend['type'], content: string) => {
@@ -123,8 +124,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       messagePackToSend.content,
       messagePackToSend.fromId,
       messagePackToSend.toId,
-      messagePackToSend.sender_name,
       messagePackToSend.sender_avatar_url,
+      messagePackToSend.sender_name,
       messagePackToSend.type,
     );
 

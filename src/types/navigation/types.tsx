@@ -10,6 +10,7 @@ export interface IVerifyEmail {
 }
 
 export type RootStackParamList = {
+  SplashScreen: undefined;
   Register: undefined;
   VerifyEmail: IVerifyEmail;
   Login: undefined;

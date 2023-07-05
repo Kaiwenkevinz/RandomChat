@@ -21,8 +21,8 @@ import {showToast, toastType} from '../utils/toastUtil';
 const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;
 
-  const url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
-  // const url = `ws://localhost:8080/chat/${userId}`;
+  // const url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
+  const url = `ws://localhost:8080/chat/${userId}`;
 
   // init Websocket
   useEffect(() => {
@@ -88,6 +88,7 @@ const handleOnReceiveWebSocketMessage = (
   e: WebSocketMessageEvent,
 ) => {
   const message: MessagePackSend = JSON.parse(e.data);
+  console.log('Received WebSocket message: ', message);
 
   if (message.type === 'system') {
     console.log('系统消息', message);

@@ -6,6 +6,7 @@ import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 import {removeStorageData} from '../utils/storageUtil';
 
 const axiosClient = axios.create({
+  timeout: 5000,
   baseURL: CONFIG.BASE_API_URL,
   headers: {
     Accept: 'application/json',
@@ -119,11 +120,18 @@ axiosClient.interceptors.response.use(
     /**
      * 原生错误码会走这个回调
      */
-    const message = `${error.response.request.responseURL}, ${error.message}`;
-    const status = error.response.status;
-    handleErrorCode(status, message);
+    if (error.message) {
+      showToast(toastType.ERROR, 'Error', error.message);
+      console.warn('axios 原生错误:', error);
 
-    return Promise.reject(new Error(message));
+      return Promise.reject(new Error(error.message));
+    } else {
+      const message = `${error.response.request.responseURL}, ${error.message}`;
+      const status = error.response.status;
+      handleErrorCode(status, message);
+
+      return Promise.reject(new Error(message));
+    }
   },
 );
 

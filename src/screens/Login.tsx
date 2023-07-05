@@ -12,6 +12,7 @@ import {StackActions, useNavigation} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 import {goToChats} from '../navigation/NavigationService';
+import {globalLoading} from '../components/GlobalLoading';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -39,9 +40,11 @@ export default function Login() {
     }
 
     try {
+      globalLoading.show();
       const res = await authService.login(username, password);
       const data = res.data;
       await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
+      globalLoading.hide();
 
       navigation.dispatch(StackActions.replace('HomeTab'));
       goToChats();

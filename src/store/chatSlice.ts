@@ -31,7 +31,6 @@ interface IAppendNewRoomPayload {
   otherUserId: number;
   otherUserName: string;
   otherUserAvatarUrl: string;
-  score: number;
 }
 
 // state
@@ -152,8 +151,7 @@ export const chatSlice = createSlice({
       state,
       action: PayloadAction<IAppendNewRoomPayload>,
     ) => {
-      const {otherUserId, otherUserName, otherUserAvatarUrl, score} =
-        action.payload;
+      const {otherUserId, otherUserName, otherUserAvatarUrl} = action.payload;
       const rooms = state.data;
 
       // 如果已经存在这个聊天室，就不添加了
@@ -166,7 +164,6 @@ export const chatSlice = createSlice({
         otherUserId,
         otherUserName,
         otherUserAvatarUrl,
-        score,
         messages: [],
       };
       rooms.push(newRoom);
