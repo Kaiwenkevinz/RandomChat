@@ -11,8 +11,8 @@ import {
 import React from 'react';
 import images from '../../../assets';
 import {ImageLibraryOptions, launchCamera} from 'react-native-image-picker';
-import {chatService} from '../../network/lib/message';
 import {ImageUtil} from '../../utils/imageUtil';
+import {imageService} from '../../network/lib/imageService';
 
 interface ImagePickerModalProps {
   isVisible: boolean;
@@ -27,7 +27,7 @@ const ImagePickerModal = (props: ImagePickerModalProps) => {
 
     props.onClose();
 
-    const url = await chatService.uploadImage(
+    const url = await imageService.uploadImage(
       uri,
       `${props.imageName}_${Date.now()}.jpg`,
       'image',

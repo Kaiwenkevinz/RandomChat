@@ -1,7 +1,12 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../constant';
 import {chatService} from '../network/lib/message';
-import {IChatRoom, IMessagePackReceive} from '../types/network/types';
+import {
+  IChatRoom,
+  IMessagePackReceive,
+  IPagination,
+  Result,
+} from '../types/network/types';
 import {loadStorageData, saveStorageData} from '../utils/storageUtil';
 import {showToast, toastType} from '../utils/toastUtil';
 import {RootState} from './store';
@@ -9,7 +14,8 @@ import {RootState} from './store';
 export interface ChatState {
   data: IChatRoom[];
   readRooms: number[];
-  status: 'idle' | 'loading' | 'failed';
+  chatStatus: 'idle' | 'loading' | 'failed';
+  messageHistoryStatus: 'idle' | 'loading' | 'failed';
 }
 
 export type SetMessagesStatusToSentType = {
@@ -37,7 +43,8 @@ interface IAppendNewRoomPayload {
 const initialState: ChatState = {
   data: [],
   readRooms: [],
-  status: 'idle',
+  chatStatus: 'idle',
+  messageHistoryStatus: 'idle',
 };
 
 // async action
@@ -92,6 +99,31 @@ export const operateReadRoomAsync = createAsyncThunk<
   return data;
 });
 
+/**
+ * 聊天记录分页获取
+ */
+interface IGetMessageHistoryReturn {
+  result: Result<IPagination<IMessagePackReceive[]>>;
+  otherUserId: number;
+}
+export interface IGetMessageHistoryParams {
+  otherUserId: number;
+  page: number;
+  pageSize: number;
+}
+export const getMessageHistoryAsync = createAsyncThunk<
+  IGetMessageHistoryReturn,
+  IGetMessageHistoryParams
+>('chat/getMessageHistoryAsync', async ({otherUserId, page, pageSize}) => {
+  const response = await chatService.getMessageHistory(
+    otherUserId,
+    page,
+    pageSize,
+  );
+
+  return {result: response, otherUserId};
+});
+
 // reducers and actions
 // slice 是 reducers 和 action creator 的集合
 export const chatSlice = createSlice({
@@ -100,7 +132,7 @@ export const chatSlice = createSlice({
   reducers: {
     reset: state => {
       state.data = [];
-      state.status = 'idle';
+      state.chatStatus = 'idle';
     },
     // 添加新消息到对应的聊天室
     appendNewMessage: (state, action: PayloadAction<IMessagePackReceive>) => {
@@ -171,19 +203,47 @@ export const chatSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      // 所有聊天室的最新一部分聊天记录
       .addCase(getChatsAsync.pending, state => {
-        state.status = 'loading';
+        state.chatStatus = 'loading';
       })
       .addCase(getChatsAsync.fulfilled, (state, action) => {
-        // 在 getChatsAsync 完成后，拿到结果并更新 store
-        state.status = 'idle';
+        state.chatStatus = 'idle';
         state.data = action.payload;
       })
       .addCase(getChatsAsync.rejected, (state, _) => {
-        state.status = 'failed';
+        state.chatStatus = 'failed';
       })
+
+      // 已读聊天室
       .addCase(operateReadRoomAsync.fulfilled, (state, action) => {
         state.readRooms = action.payload;
+      })
+
+      // 聊天记录分页查询
+      .addCase(getMessageHistoryAsync.pending, state => {
+        state.messageHistoryStatus = 'loading';
+      })
+      .addCase(getMessageHistoryAsync.fulfilled, (state, action) => {
+        // 聊天记录
+        const data = action.payload.result.data.data;
+        const otherUserId = action.payload.otherUserId;
+
+        if (data.length === 0) {
+          return;
+        }
+
+        const targetRoom = state.data.find(
+          room => room.otherUserId === otherUserId,
+        );
+        if (targetRoom) {
+          targetRoom.messages = [...data, ...targetRoom.messages];
+        }
+
+        state.messageHistoryStatus = 'idle';
+      })
+      .addCase(getMessageHistoryAsync.rejected, (state, _) => {
+        state.messageHistoryStatus = 'failed';
       });
   },
 });

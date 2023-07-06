@@ -61,6 +61,13 @@ export interface ILoginResponse {
   user: IUser;
 }
 
+export interface IPagination<T> {
+  total: number;
+  page: number;
+  pageSize: number;
+  data: T;
+}
+
 export interface Result<T = any> {
   status: string; // 服务器返回的约定字段，'ok' | 'error'
   msg: string;

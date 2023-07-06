@@ -1,18 +1,10 @@
-import {
-  View,
-  FlatList,
-  TextInput,
-  StyleSheet,
-  Text,
-  ActivityIndicator,
-} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import {View, FlatList, TextInput, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {MessageComponent} from '../../components/MessageComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
 import {
   appendNewMessage,
-  getMessageHistoryAsync,
   operateReadRoomAsync,
   selectRooms,
 } from '../../store/chatSlice';
@@ -36,43 +28,29 @@ import {imageService} from '../../network/lib/imageService';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
-const ChatRoom = ({route}: ChatRoomProps) => {
+const ChatRoomWithoutPagination = ({route}: ChatRoomProps) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
   // get params from route
   const params = route.params;
   const {otherUserId, otherUserName, otherUserAvatarUrl} = params;
-  const isLoading =
-    useAppSelector(state => state.chat.messageHistoryStatus) === 'loading';
 
-  /**
-   * 分页相关
-   */
-  const pageRef = useRef(1);
-  const totalRef = useRef(Infinity);
-  const SIZE = 10;
-
-  /**
-   * user info
-   */
-  const user = useAppSelector(selectUser).user;
-  const userId = user.id;
-  const userAvatarUrl = user?.avatar_url || '';
-  const userName = user?.username || '';
-
-  /**
-   * 亲密度展示
-   */
   const scoreThreshold = useAppSelector(state => state.user.scoreThreshold);
   const scoreMemo = useAppSelector(state => state.user.scoreMemo);
   const score = scoreMemo[otherUserId] || 0;
+
   const scoreStr =
     score >= scoreThreshold ? '\u{2B50}' : `score: ${score.toString()}`;
   const title = `${otherUserName} (${scoreStr})`;
 
   // the message that is currently being typed
   const [currentMessage, setCurrentMessage] = useState<string>('');
+
+  const user = useAppSelector(selectUser).user;
+  const userId = user.id;
+  const userAvatarUrl = user?.avatar_url || '';
+  const userName = user?.username || '';
 
   // Select state from Redux store
   const {data: rooms} = useAppSelector(selectRooms);
@@ -102,26 +80,6 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       eventEmitter.off(EVENT_SERVER_REFRESH_SCORE, onServerRefreshScore);
     };
   }, [navigation, title]);
-
-  const handleOnEndReached = async () => {
-    // 正在加载，或者没有更多数据了，则不再加载更多数据
-    if (isLoading || messages.length >= totalRef.current) {
-      return;
-    }
-
-    const resp = await store
-      .dispatch(
-        getMessageHistoryAsync({
-          otherUserId,
-          page: pageRef.current,
-          pageSize: SIZE,
-        }),
-      )
-      .unwrap();
-
-    totalRef.current = resp.result.data.total;
-    pageRef.current += 1;
-  };
 
   const addRoomToRead = () => {
     store.dispatch(operateReadRoomAsync({option: 'add', newData: otherUserId}));
@@ -184,11 +142,6 @@ const ChatRoom = ({route}: ChatRoomProps) => {
         ]}>
         {messages && messages.length > 0 ? (
           <FlatList
-            onEndReachedThreshold={0.5}
-            onEndReached={handleOnEndReached}
-            ListFooterComponent={
-              isLoading ? <ActivityIndicator size="small" /> : null
-            }
             style={{flex: 1}}
             contentContainerStyle={{
               flexGrow: 1,
@@ -268,4 +221,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChatRoom;
+export default ChatRoomWithoutPagination;

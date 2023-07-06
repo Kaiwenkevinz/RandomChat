@@ -11,7 +11,6 @@ import {userService} from '../../network/lib/user';
 import {showToast, toastType} from '../../utils/toastUtil';
 import {ImagePickerAvatar} from './ImagePickerAvatar';
 import UserInfo from './UserInfo';
-import {chatService} from '../../network/lib/message';
 import {removeStorageData} from '../../utils/storageUtil';
 import {
   LOCAL_STORAGE_KEY_AUTH,
@@ -20,6 +19,7 @@ import {
 import {goToLogin} from '../../navigation/NavigationService';
 import {LoadingView} from '../../components/LoadingView';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
+import {imageService} from '../../network/lib/imageService';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);
@@ -40,10 +40,10 @@ const Profile = () => {
   }, []);
 
   const onHandleNewAvatar = (imageUrl: string) => {
-    console.log('new avatar url: ', chatService.getImageUrl(imageUrl));
+    console.log('new avatar url: ', imageService.getImageUrl(imageUrl));
     const newUser = {
       ...user,
-      avatar_url: chatService.getImageUrl(imageUrl),
+      avatar_url: imageService.getImageUrl(imageUrl),
     };
     userService
       .updateUserProfile(newUser)

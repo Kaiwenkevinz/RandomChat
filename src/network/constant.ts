@@ -25,6 +25,8 @@ export const API_GET_RECOMMEND_LIST = '/recommend/add';
 export const API_GET_SCORE_THRESHOLD = '/score/limit';
 // 获取所有好友亲密度
 export const API_GET_SCORES = '/score/getlist';
+// 分页获取和某个好友的聊天记录
+export const API_GET_MESSAGE_HISTORY = '/user/getMessageHistory';
 
 export const API_ERROR_MSG = {
   NO_SUCH_USER: 'No such user!',

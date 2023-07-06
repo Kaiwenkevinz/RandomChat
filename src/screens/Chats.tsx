@@ -25,7 +25,7 @@ const Chats = () => {
   const token = useAppSelector(state => state.user.token);
   useInitWebSocket(token);
 
-  const {data: rooms, status} = useAppSelector(selectRooms);
+  const {data: rooms, chatStatus: status} = useAppSelector(selectRooms);
 
   useEffect(() => {
     console.log('Chats mounted');

@@ -1,8 +1,8 @@
 /* eslint-disable react/react-in-jsx-scope */
-import {chatService} from '../../network/lib/message';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import CircleImage from '../../components/CircleImage';
 import {ImageUtil} from '../../utils/imageUtil';
+import {imageService} from '../../network/lib/imageService';
 
 /**
  * 选择头像的组件
@@ -30,7 +30,7 @@ export const ImagePickerAvatar = ({
       return;
     }
 
-    const url = await chatService.uploadImage(
+    const url = await imageService.uploadImage(
       uri,
       `${imageName}_${Date.now()}.jpg`,
       'avatar',

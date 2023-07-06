@@ -1,6 +1,6 @@
+import {IPagination, IMessagePackReceive} from './../../types/network/types';
 import {
   ILoginResponse,
-  IMessagePackReceive,
   MessagePackSend,
   Result,
   IUser,
@@ -81,6 +81,57 @@ export const generateMockChatMessage = (
   } as IMessagePackReceive;
 };
 
+/**
+ * 生成十条聊天记录
+ */
+const generateMockMessageHistory = (
+  myId: number,
+  otherId: number,
+  page: number,
+  size: number,
+) => {
+  const res = [];
+  for (let i = 0; i < 50; i++) {
+    let from;
+    let to;
+    let fromName;
+    let otherName;
+    if (i % 2 === 0) {
+      from = myId;
+      to = otherId;
+      fromName = 'Kevin';
+      otherName = 'Alex';
+    } else {
+      from = otherId;
+      to = myId;
+      fromName = 'Alex';
+      otherName = 'Kevin';
+    }
+    res.push(
+      generateMockChatMessage(
+        `${i}`,
+        `Hi ${otherName}. I am ${i} th message. I am ${fromName}`,
+        from,
+        to,
+      ),
+    );
+  }
+
+  const data = res.slice(page * size, page * size + size);
+  const paginationObj: IPagination<IMessagePackReceive[]> = {
+    total: 30,
+    pageSize: 10,
+    page: 1,
+    data,
+  };
+
+  return paginationObj;
+};
+
+export const mockMessageHistory = {
+  mockResponse: generageMockResponse(generateMockMessageHistory(1, 300, 1, 10)),
+};
+
 export const mockAllFriendAllChatMessages = {
   mockRequestBody: {
     id: 1,
@@ -121,7 +172,8 @@ export const mockAllFriendAllChatMessages = {
       otherUserName: 'Alex',
       otherUserAvatarUrl: null,
       messages: [
-        generateMockChatMessage('1a', 'Hello, 我是一条很长的他人的消息'),
+        generateMockChatMessage('1a', 'Hello, 我Kevin', 1, 300),
+        generateMockChatMessage('1b', 'Hello, 我Alex', 300, 1),
       ],
     },
   ]),

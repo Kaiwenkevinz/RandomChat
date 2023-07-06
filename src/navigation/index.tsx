@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import ChatRoom from '../screens/chat-room/ChatRoom';
 import {RootStackParamList} from '../types/navigation/types';
 import Register from '../screens/Register';
 import Login from '../screens/Login';
@@ -14,6 +13,7 @@ import ForgetPassword from '../screens/ForgetPassword';
 import NavigationService from './NavigationService';
 import GlobalLoading, {globalLoadingRef} from '../components/GlobalLoading';
 import {SplashScreen} from '../screens/SplashScreen';
+import ChatRoom from '../screens/chat-room/ChatRoom';
 
 const Stack = createStackNavigator<RootStackParamList>();
 

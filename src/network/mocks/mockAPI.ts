@@ -5,6 +5,7 @@ import {
   mockAllFriendAllChatMessages,
   mockFriendList,
   mockLogin,
+  mockMessageHistory,
   mockRegister,
   mockScores,
   mockSendVerifyEmail,
@@ -15,6 +16,7 @@ import {
   API_FORGET_PASSWORD,
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_FRIEND_LIST,
+  API_GET_MESSAGE_HISTORY,
   API_GET_RECOMMEND_LIST,
   API_GET_SCORES,
   API_GET_SCORE_THRESHOLD,
@@ -28,7 +30,7 @@ import {
 
 console.warn('API mocking is turned on.');
 
-const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
+const mock = new MockAdapter(axiosClient, {delayResponse: 2000});
 
 // Register
 mock.onPost(API_SEND_EMAIL).reply(200, mockSendVerifyEmail.mockResponse);
@@ -75,6 +77,10 @@ mock.onAny().reply(config => {
   // 所有好友亲密度
   if (config.method === 'post' && config.url === API_GET_SCORES) {
     return [200, mockScores.mockResponse];
+  }
+  // 分页获取聊天历史信息
+  if (config.method === 'post' && config.url === API_GET_MESSAGE_HISTORY) {
+    return [200, mockMessageHistory.mockResponse];
   }
 
   return [404];
