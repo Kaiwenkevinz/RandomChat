@@ -1,359 +1,576 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`测试 UserInfo 组件的 UI should 展示所给 user 数据相对应的 user 信息 1`] = `
-<View>
-  <View
-    style={
-      {
-        "flex": 1,
-        "padding": 16,
-      }
+<View
+  style={
+    {
+      "flex": 1,
+      "padding": 16,
     }
-  >
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+  }
+>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Name:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Name:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        Kevin
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      Kevin
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Tags:
-      </Text>
+      }
+    >
+      Tags:
+    </Text>
+    <View
+      style={
+        {
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "marginBottom": 10,
+          "rowGap": 10,
+        }
+      }
+    >
       <View
         style={
-          {
-            "flexDirection": "row",
-            "flexWrap": "wrap",
-            "marginBottom": 10,
-            "rowGap": 10,
-          }
+          [
+            {
+              "backgroundColor": "#007AFF",
+              "borderRadius": 4,
+              "marginHorizontal": 4,
+              "paddingHorizontal": 8,
+              "paddingVertical": 4,
+            },
+            {},
+          ]
         }
       >
-        <View
+        <Text
           style={
             [
               {
-                "backgroundColor": "#007AFF",
-                "borderRadius": 4,
-                "marginHorizontal": 4,
-                "paddingHorizontal": 8,
-                "paddingVertical": 4,
+                "color": "#FFFFFF",
+                "fontSize": 14,
+                "fontWeight": "bold",
+                "textAlign": "center",
               },
               {},
             ]
           }
         >
-          <Text
-            style={
-              [
-                {
-                  "color": "#FFFFFF",
-                  "fontSize": 14,
-                  "fontWeight": "bold",
-                  "textAlign": "center",
-                },
-                {},
-              ]
-            }
-          >
-            tag1
-          </Text>
-        </View>
-        <View
+          tag1
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#007AFF",
+              "borderRadius": 4,
+              "marginHorizontal": 4,
+              "paddingHorizontal": 8,
+              "paddingVertical": 4,
+            },
+            {},
+          ]
+        }
+      >
+        <Text
           style={
             [
               {
-                "backgroundColor": "#007AFF",
-                "borderRadius": 4,
-                "marginHorizontal": 4,
-                "paddingHorizontal": 8,
-                "paddingVertical": 4,
+                "color": "#FFFFFF",
+                "fontSize": 14,
+                "fontWeight": "bold",
+                "textAlign": "center",
               },
               {},
             ]
           }
         >
-          <Text
-            style={
-              [
-                {
-                  "color": "#FFFFFF",
-                  "fontSize": 14,
-                  "fontWeight": "bold",
-                  "textAlign": "center",
-                },
-                {},
-              ]
-            }
-          >
-            tag2
-          </Text>
-        </View>
-        <View
+          tag2
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#007AFF",
+              "borderRadius": 4,
+              "marginHorizontal": 4,
+              "paddingHorizontal": 8,
+              "paddingVertical": 4,
+            },
+            {},
+          ]
+        }
+      >
+        <Text
           style={
             [
               {
-                "backgroundColor": "#007AFF",
-                "borderRadius": 4,
-                "marginHorizontal": 4,
-                "paddingHorizontal": 8,
-                "paddingVertical": 4,
+                "color": "#FFFFFF",
+                "fontSize": 14,
+                "fontWeight": "bold",
+                "textAlign": "center",
               },
               {},
             ]
           }
         >
-          <Text
-            style={
-              [
-                {
-                  "color": "#FFFFFF",
-                  "fontSize": 14,
-                  "fontWeight": "bold",
-                  "textAlign": "center",
-                },
-                {},
-              ]
-            }
-          >
-            tag3
-          </Text>
-        </View>
+          tag3
+        </Text>
       </View>
     </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        MBTI:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      MBTI:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        INTJ
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      INTJ
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Gender:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Gender:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        male
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      male
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Age:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Age:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        25
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      25
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Hometown:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Hometown:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        Mars
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      Mars
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Email:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Email:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        123@email.com
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      123@email.com
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Major:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Major:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        Nutural Science
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      Nutural Science
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Birthday:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Birthday:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        1996-01-01
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      1996-01-01
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        School:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      School:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        Mars University
-      </Text>
-    </View>
-    <View>
-      <Text
-        style={
-          {
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "marginBottom": 4,
-          }
+      }
+    >
+      Mars University
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
         }
-      >
-        Phone Number:
-      </Text>
-      <Text
-        style={
-          {
-            "fontSize": 16,
-            "marginBottom": 16,
-          }
+      }
+    >
+      Phone Number:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
         }
-      >
-        123456789
-      </Text>
-    </View>
+      }
+    >
+      123456789
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`测试 UserInfo 组件的 UI 当某个信息为空字符或 undefined 时, should not 展示这条信息 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+      "padding": 16,
+    }
+  }
+>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Name:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      Kevin
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      MBTI:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      INTJ
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Gender:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      male
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Age:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      25
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Email:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      123@email.com
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Major:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      Nutural Science
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Birthday:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      1996-01-01
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      School:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      Mars University
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "marginBottom": 4,
+        }
+      }
+    >
+      Phone Number:
+    </Text>
+    <Text
+      style={
+        {
+          "fontSize": 16,
+          "marginBottom": 16,
+        }
+      }
+    >
+      123456789
+    </Text>
   </View>
 </View>
 `;

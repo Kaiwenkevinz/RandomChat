@@ -49,29 +49,27 @@ const UserInfo = (props: UserInfoProps) => {
   };
 
   return (
-    <View>
-      <View style={styles.container}>
-        {renderField('Name', username)}
-        {tags.length > 0 && (
-          <View>
-            <Text style={styles.label}>Tags:</Text>
-            <View style={styles.tagContainer}>
-              {tags.map((tag, idx) => (
-                <TagComponent key={idx} text={tag} />
-              ))}
-            </View>
+    <View style={styles.container}>
+      {renderField('Name', username)}
+      {tags.length > 0 && (
+        <View>
+          <Text style={styles.label}>Tags:</Text>
+          <View style={styles.tagContainer}>
+            {tags.map((tag, idx) => (
+              <TagComponent key={idx} text={tag} />
+            ))}
           </View>
-        )}
-        {renderField('MBTI', mbti)}
-        {renderField('Gender', gender)}
-        {renderField('Age', !age ? undefined : age.toString())}
-        {renderField('Hometown', hometown)}
-        {renderField('Email', email)}
-        {renderField('Major', major)}
-        {renderField('Birthday', birthday)}
-        {renderField('School', school)}
-        {renderField('Phone Number', telephoneNumber)}
-      </View>
+        </View>
+      )}
+      {renderField('MBTI', mbti)}
+      {renderField('Gender', gender)}
+      {renderField('Age', !age ? undefined : age.toString())}
+      {renderField('Hometown', hometown)}
+      {renderField('Email', email)}
+      {renderField('Major', major)}
+      {renderField('Birthday', birthday)}
+      {renderField('School', school)}
+      {renderField('Phone Number', telephoneNumber)}
     </View>
   );
 };

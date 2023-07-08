@@ -21,4 +21,25 @@ describe('测试 UserInfo 组件的 UI', () => {
     const tree = renderer.create(<UserInfo {...obj} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it('当某个信息为空字符或 undefined 时, should not 展示这条信息', () => {
+    const emptyTag: string[] = [];
+    const emptyHomeTown = '';
+    const obj = {
+      username: 'Kevin',
+      tags: emptyTag,
+      age: 25,
+      gender: 'male',
+      hometown: emptyHomeTown,
+      email: '123@email.com',
+      major: 'Nutural Science',
+      mbti: 'INTJ',
+      birthday: '1996-01-01',
+      school: 'Mars University',
+      telephoneNumber: '123456789',
+    };
+
+    const tree = renderer.create(<UserInfo {...obj} />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });
