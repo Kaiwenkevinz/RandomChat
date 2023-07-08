@@ -1,10 +1,10 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Chats from './Chats';
-import Profile from './profile-display/Profile';
 import Contacts from './Contacts';
 import Recommend from './Recommend';
 import {RootStackParamList} from '../types/navigation/types';
+import Profile from './profile-display/ProfileContainer';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 

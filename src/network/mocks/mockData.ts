@@ -16,7 +16,7 @@ export const generageMockResponse = <T>(data: T | null = null) =>
 
 export const mockUser: IUser = {
   id: 1,
-  role: '美妆;旅游;科技',
+  role: '美妆',
   username: 'Kevin',
   gender: 'male',
   age: 25,

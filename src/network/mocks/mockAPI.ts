@@ -30,7 +30,7 @@ import {
 
 console.warn('API mocking is turned on.');
 
-const mock = new MockAdapter(axiosClient, {delayResponse: 2000});
+const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
 
 // Register
 mock.onPost(API_SEND_EMAIL).reply(200, mockSendVerifyEmail.mockResponse);

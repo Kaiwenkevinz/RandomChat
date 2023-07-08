@@ -9,7 +9,7 @@ import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../types/navigation/types';
 import {ImagePickerAvatar} from './profile-display/ImagePickerAvatar';
-import UserInfo from './profile-display/UserInfo';
+import UserInfo from '../components/UserInfo/UserInfo';
 import {store} from '../store/store';
 import {appendNewChatRoom} from '../store/chatSlice';
 import {StackActions, useNavigation} from '@react-navigation/native';
