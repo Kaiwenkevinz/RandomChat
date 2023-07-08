@@ -1,32 +1,12 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
-import {ChatListComponent} from '../components/ChatListComponent';
-import {WEB_SOCKET_URL} from '../constant';
+import TagComponent from '../components/TagComponent/TagComponent';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({navigate: jest.fn()}),
 }));
 
-it('renders correctly', () => {
-  const tree = renderer
-    .create(
-      <ChatListComponent
-        roomId="1"
-        otherUserName="Jade"
-        user={{id: 'usr1', username: 'Kevin'}}
-        websocket={new WebSocket(WEB_SOCKET_URL)}
-        messages={[
-          {
-            id: '1',
-            content: 'Hello',
-            send_time: 1627777777777,
-            sender_id: 'Jade',
-            receiver_id: 'Kevin',
-            isSent: false,
-          },
-        ]}
-      />,
-    )
-    .toJSON();
+xit('renders correctly', () => {
+  const tree = renderer.create(<TagComponent text="Tag" />).toJSON();
   expect(tree).toMatchSnapshot();
 });

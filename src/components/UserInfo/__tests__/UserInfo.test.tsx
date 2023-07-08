@@ -1,33 +1,24 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
+import UserInfo from '../UserInfo';
 
-describe('测试 Profile 界面', () => {
-  beforeAll(() => {});
-  beforeEach(() => {});
-  afterEach(() => {});
-  afterAll(() => {});
-
+describe('测试 UserInfo 组件的 UI', () => {
   it('should 展示所给 user 数据相对应的 user 信息', () => {
-    const tree = renderer
-      .create(
-        <ChatListComponent
-          roomId="1"
-          otherUserName="Jade"
-          user={{id: 'usr1', username: 'Kevin'}}
-          websocket={new WebSocket(WEB_SOCKET_URL)}
-          messages={[
-            {
-              id: '1',
-              content: 'Hello',
-              send_time: 1627777777777,
-              sender_id: 'Jade',
-              receiver_id: 'Kevin',
-              isSent: false,
-            },
-          ]}
-        />,
-      )
-      .toJSON();
+    const obj = {
+      username: 'Kevin',
+      tags: ['tag1', 'tag2', 'tag3'],
+      age: 25,
+      gender: 'male',
+      hometown: 'Mars',
+      email: '123@email.com',
+      major: 'Nutural Science',
+      mbti: 'INTJ',
+      birthday: '1996-01-01',
+      school: 'Mars University',
+      telephoneNumber: '123456789',
+    };
+
+    const tree = renderer.create(<UserInfo {...obj} />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
