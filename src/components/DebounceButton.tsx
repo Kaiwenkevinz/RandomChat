@@ -5,10 +5,15 @@ import {useDebounce} from '../hooks/useDebounce';
 interface Props {
   text: string;
   disabled?: boolean;
+  fontSize?: number;
   handleOnPress: () => void;
 }
 
-const DebounceButton = ({handleOnPress, disabled, text}: Props) => {
+const DebounceButton = ({handleOnPress, disabled, text, fontSize}: Props) => {
+  if (!fontSize) {
+    fontSize = 18;
+  }
+
   const debouncedPress = useDebounce(handleOnPress, 1000);
   if (!disabled) {
     disabled = false;
@@ -19,7 +24,7 @@ const DebounceButton = ({handleOnPress, disabled, text}: Props) => {
       style={styles.button}
       onPress={debouncedPress}
       disabled={disabled}>
-      <Text style={styles.buttonText}>{text}</Text>
+      <Text style={[styles.buttonText, {fontSize}]}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -32,7 +37,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
   },

@@ -3,7 +3,6 @@ import {
   FlatList,
   TextInput,
   StyleSheet,
-  Text,
   ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
@@ -34,6 +33,8 @@ import {
 } from '../../services/event-emitter/constants';
 import DebounceButton from '../../components/DebounceButton';
 import {imageService} from '../../network/lib/imageService';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -247,14 +248,19 @@ const ChatRoom = ({route}: ChatRoomProps) => {
           value={currentMessage}
           onChangeText={v => setCurrentMessage(v)}
         />
-        <View style={{marginRight: 10}}>
-          <DebounceButton text={'Send'} handleOnPress={handleSendText} />
-        </View>
-        <View style={{marginRight: 10}}>
-          <DebounceButton
-            text={'Send Image'}
-            handleOnPress={() => setModalVisible(true)}
-          />
+        {currentMessage.length > 0 && (
+          <View style={{marginRight: 10, justifyContent: 'center'}}>
+            <DebounceButton
+              text={'Send'}
+              fontSize={14}
+              handleOnPress={handleSendText}
+            />
+          </View>
+        )}
+        <View style={{marginRight: 10, justifyContent: 'center'}}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <AntDesign name="camerao" size={25} />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -270,6 +276,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
 const styles = StyleSheet.create({
   messagingscreen: {
+    backgroundColor: '#fff',
     flex: 1,
   },
   messaginginputContainer: {

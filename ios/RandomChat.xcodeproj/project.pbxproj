@@ -11,6 +11,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		3440D2892A5AD362006CCD59 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3440D2882A5AD315006CCD59 /* AntDesign.ttf */; };
+		3440D28A2A5AD362006CCD59 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3440D2872A5AD315006CCD59 /* FontAwesome.ttf */; };
 		4588A2401960775A83CC46F0 /* libPods-RandomChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35EED717DFF32B854A2BC74C /* libPods-RandomChat.a */; };
 		78918AF08DF6F88A3F2F47AA /* libPods-RandomChat-RandomChatTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8204A7494D583EDCE05F7258 /* libPods-RandomChat-RandomChatTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -36,6 +38,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RandomChat/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RandomChat/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RandomChat/main.m; sourceTree = "<group>"; };
+		3440D2872A5AD315006CCD59 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		3440D2882A5AD315006CCD59 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		35EED717DFF32B854A2BC74C /* libPods-RandomChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RandomChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RandomChat/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8204A7494D583EDCE05F7258 /* libPods-RandomChat-RandomChatTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RandomChat-RandomChatTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +90,7 @@
 		13B07FAE1A68108700A75B9A /* RandomChat */ = {
 			isa = PBXGroup;
 			children = (
+				3440D2862A5AD2FE006CCD59 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -104,6 +109,15 @@
 				8204A7494D583EDCE05F7258 /* libPods-RandomChat-RandomChatTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3440D2862A5AD2FE006CCD59 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3440D2882A5AD315006CCD59 /* AntDesign.ttf */,
+				3440D2872A5AD315006CCD59 /* FontAwesome.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -236,6 +250,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3440D2892A5AD362006CCD59 /* AntDesign.ttf in Resources */,
+				3440D28A2A5AD362006CCD59 /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,6 +5,7 @@ import {useAppSelector} from '../hooks/customReduxHooks';
 import {selectUser} from '../store/userSlice';
 import CircleImage from './CircleImage';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 type MessageComponentProps = IMessagePackReceive & {
   otherUserAvatarUrl: string;
@@ -60,13 +61,13 @@ export function MessageComponent({
                 : [
                     styles.mmessage,
                     {
-                      backgroundColor: 'rgb(194, 243, 194)',
+                      backgroundColor: '#3478F6',
                       alignSelf: 'flex-end',
                     },
                   ]
             }>
             {type === 'text' ? (
-              <Text>{content}</Text>
+              <Text style={!isReceive && {color: '#fff'}}>{content}</Text>
             ) : (
               <Pressable onPress={handleImagePress}>
                 <Image
@@ -81,7 +82,15 @@ export function MessageComponent({
                 />
               </Pressable>
             )}
-            {!isReceive && <Text>{sent ? 'Sent' : 'Sending'}</Text>}
+            {!isReceive && (
+              <View>
+                {sent ? (
+                  <AntDesign name="check" size={10} color={'#fff'} />
+                ) : (
+                  <AntDesign name="swap" size={10} color={'#fff'} />
+                )}
+              </View>
+            )}
           </View>
           <Text
             style={[
@@ -109,6 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 15,
     marginHorizontal: 10,
+    backgroundColor: '#fff',
   },
   messageAndTime: {
     // flex: 1,
@@ -116,7 +126,7 @@ const styles = StyleSheet.create({
   mmessage: {
     flex: 1,
     maxWidth: '80%',
-    backgroundColor: '#f5ccc2',
+    backgroundColor: '#F1F1F1',
     padding: 12,
     borderRadius: 10,
     marginHorizontal: 10,

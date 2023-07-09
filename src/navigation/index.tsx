@@ -50,7 +50,14 @@ const Navigation = () => {
         <Stack.Screen name={'HomeTab'} component={HomeTab} />
         <Stack.Screen
           name={'ChatRoom'}
-          options={{headerShown: true, headerBackTitle: 'Chats'}}
+          options={{
+            headerShown: true,
+            headerBackTitle: 'Chats',
+            headerTintColor: 'white',
+            headerStyle: {
+              backgroundColor: '#3478F6',
+            },
+          }}
           component={ChatRoom}
         />
         <Stack.Screen
