@@ -11,6 +11,7 @@ import {MessageComponent} from '../../components/MessageComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
 import {
+  IReadRoom,
   appendNewMessage,
   getMessageHistoryAsync,
   operateReadRoomAsync,
@@ -81,7 +82,12 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   const onServerPushMessage = (messagePack: IMessagePackReceive) => {
     // 收到新消息时正好在对应的聊天室，聊天室为已读状态
-    addRoomToRead();
+    if (messagePack.sender_id !== otherUserId) {
+      return;
+    }
+    console.log('发送方id:', messagePack.sender_id);
+
+    addRoomToRead({roomId: otherUserId, msgId: messagePack.id} as IReadRoom);
   };
 
   const onServerRefreshScore = () => {
@@ -90,8 +96,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   useEffect(() => {
     console.log('ChatRoom mounted');
-    navigation.setOptions({title});
-    addRoomToRead();
+    // 刚进入聊天室时，将聊天室标记为已读
+    addRoomToRead({roomId: otherUserId, msgId: null} as IReadRoom);
 
     eventEmitter.on(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
     eventEmitter.on(EVENT_SERVER_REFRESH_SCORE, onServerRefreshScore);
@@ -101,6 +107,13 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       eventEmitter.off(EVENT_SERVER_PUSH_MESSAGE, onServerPushMessage);
       eventEmitter.off(EVENT_SERVER_REFRESH_SCORE, onServerRefreshScore);
     };
+  }, []);
+
+  // 亲密度变化时，更新标题
+  useEffect(() => {
+    navigation.setOptions({title});
+
+    return () => {};
   }, [navigation, title]);
 
   const handleOnEndReached = async () => {
@@ -123,8 +136,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     pageRef.current += 1;
   };
 
-  const addRoomToRead = () => {
-    store.dispatch(operateReadRoomAsync({option: 'add', newData: otherUserId}));
+  const addRoomToRead = (newData: IReadRoom | null = null) => {
+    store.dispatch(operateReadRoomAsync({option: 'add', newData}));
   };
 
   const handleSendText = () => {
@@ -173,6 +186,15 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
     websocket.send(JSON.stringify(messagePackToSend));
     store.dispatch(appendNewMessage(messagePackToShow));
+    store.dispatch(
+      operateReadRoomAsync({
+        option: 'add',
+        newData: {
+          roomId: otherUserId,
+          msgId: messagePackToShow.id,
+        } as IReadRoom,
+      }),
+    );
   };
 
   return (

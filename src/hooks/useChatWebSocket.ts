@@ -73,14 +73,21 @@ const handlePushChat = (message: MessagePackSend) => {
   // 添加新消息
   store.dispatch(appendNewMessage(messagePackReceive));
 
-  store.dispatch(
-    operateReadRoomAsync({
-      option: 'delete',
-      newData: messagePackReceive.sender_id,
-    }),
-  );
-
-  eventEmitter.emit(EVENT_SERVER_PUSH_MESSAGE, messagePackReceive);
+  // 更新已读聊天室
+  store
+    .dispatch(
+      operateReadRoomAsync({
+        option: 'delete',
+        newData: {
+          roomId: messagePackReceive.sender_id,
+          msgId: null,
+        },
+      }),
+    )
+    .then(() => {
+      // 通知收到了新的聊天消息
+      eventEmitter.emit(EVENT_SERVER_PUSH_MESSAGE, messagePackReceive);
+    });
 };
 
 const handleOnReceiveWebSocketMessage = (

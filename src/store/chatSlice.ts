@@ -7,13 +7,18 @@ import {
   IPagination,
   Result,
 } from '../types/network/types';
-import {loadStorageData, saveStorageData} from '../utils/storageUtil';
+import {loadStorageData} from '../utils/storageUtil';
 import {showToast, toastType} from '../utils/toastUtil';
-import {RootState} from './store';
+import {RootState, store} from './store';
+
+export interface IReadRoom {
+  roomId: number;
+  msgId: string | null;
+}
 
 export interface ChatState {
   data: IChatRoom[];
-  readRooms: number[];
+  readRooms: IReadRoom[];
   chatStatus: 'idle' | 'loading' | 'failed';
   messageHistoryStatus: 'idle' | 'loading' | 'failed';
 }
@@ -28,9 +33,9 @@ export type SetChatRoomHasUnreadMessageType = {
   hasUnreadMessage: boolean;
 };
 
-export type IOperateUnreadRoomsOptions = {
+export type IOperateReadRoomOptions = {
   option: 'read' | 'add' | 'delete';
-  newData: number | null;
+  newData: IReadRoom | null;
 };
 
 interface IAppendNewRoomPayload {
@@ -65,38 +70,107 @@ export const getChatsAsync = createAsyncThunk<IChatRoom[], void>(
       }
     });
 
+    // 更新已读聊天室
+    const fetchedRooms = response.data;
+    const readRooms = await loadStorageData<IReadRoom[]>(
+      LOCAL_STORAGE_KEY_READ_ROOMS,
+    );
+    readRooms?.forEach(readRoom => {
+      const targetRoom = fetchedRooms.find(
+        room => room.otherUserId === readRoom.roomId,
+      );
+      // 已读聊天室的消息不是最新的, 则移除已读聊天室
+      if (targetRoom && targetRoom.messages.length > 0) {
+        if (
+          readRoom.msgId !==
+          targetRoom.messages[targetRoom.messages.length - 1].id
+        ) {
+          store.dispatch(
+            operateReadRoomAsync({
+              option: 'delete',
+              newData: {roomId: targetRoom.otherUserId, msgId: null},
+            }),
+          );
+        }
+      }
+    });
+
     return response.data;
   },
 );
 
 export const operateReadRoomAsync = createAsyncThunk<
-  number[],
-  IOperateUnreadRoomsOptions
+  IReadRoom[],
+  IOperateReadRoomOptions
 >('chat/operateReadRoomsAsync', async ({option, newData}) => {
-  let data = await loadStorageData<number[]>(LOCAL_STORAGE_KEY_READ_ROOMS);
-  if (!data) {
-    data = [];
+  const readRooms = [...store.getState().chat.readRooms];
+  const allRooms = store.getState().chat.data;
+
+  switch (option) {
+    case 'read':
+      let localStorageReadRooms = await loadStorageData<IReadRoom[]>(
+        LOCAL_STORAGE_KEY_READ_ROOMS,
+      );
+      return localStorageReadRooms || [];
+    case 'add':
+      if (!newData) {
+        console.warn('operateReadRoomAsync: newData should not be null');
+
+        return readRooms;
+      }
+      // 如果不存在 newData.msgId，则找对应 room 的最新 msgId
+      let msgId = '';
+      if (!newData.msgId) {
+        const targetRoom = allRooms.find(
+          room => room.otherUserId === newData.roomId,
+        );
+
+        if (!targetRoom) {
+          console.warn(
+            'operateReadRoomAsync: targetRoom should not be null when newData.msgId is null',
+          );
+
+          return readRooms;
+        }
+
+        if (targetRoom.messages.length > 0) {
+          msgId = targetRoom.messages[targetRoom.messages.length - 1].id;
+          newData.msgId = msgId;
+        }
+      }
+
+      // 如果 room 在 readRooms，说明本身已读，则更新 msgId
+      // 如果不存在 room，则添加到 readRooms
+      const targetReadRoom = readRooms.find(
+        room => room.roomId === newData.roomId,
+      );
+      if (targetReadRoom) {
+        targetReadRoom.msgId = newData.msgId;
+      } else {
+        readRooms.push(newData);
+      }
+
+      break;
+    case 'delete':
+      if (!newData) {
+        console.warn('operateReadRoomAsync: newData should not be null');
+
+        return readRooms;
+      }
+
+      const deleteIndex = readRooms.findIndex(
+        room => room.roomId === newData.roomId,
+      );
+      if (deleteIndex !== -1) {
+        readRooms.splice(deleteIndex, 1);
+      }
+
+      break;
+    default:
+      break;
   }
 
-  if (option === 'read') {
-    return data;
-  }
-
-  if (
-    option === 'add' &&
-    newData &&
-    data.findIndex(id => id === newData) === -1
-  ) {
-    data.push(newData);
-  } else if (option === 'delete' && newData) {
-    const index = data.findIndex(id => id === newData);
-    if (index !== -1) {
-      data.splice(index, 1);
-    }
-  }
-  await saveStorageData(LOCAL_STORAGE_KEY_READ_ROOMS, data);
-
-  return data;
+  return readRooms;
 });
 
 /**

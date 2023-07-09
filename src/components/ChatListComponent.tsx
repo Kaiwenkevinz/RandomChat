@@ -38,7 +38,8 @@ export const ChatListComponent = ({
   const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
 
   const readRooms = useAppSelector(state => state.chat.readRooms);
-  const isRead = readRooms.findIndex(id => id === otherUserId) !== -1;
+  const isRead =
+    readRooms.findIndex(room => room.roomId === otherUserId) !== -1;
 
   const contentPreview = generateContentPreview(latestMessage);
 

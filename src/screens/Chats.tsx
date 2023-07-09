@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, AppState} from 'react-native';
 import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-navigation';
 import {ChatListComponent} from '../components/ChatListComponent';
@@ -11,21 +11,22 @@ import {
   selectRooms,
 } from '../store/chatSlice';
 import {store} from '../store/store';
-import {
-  getProfileAsync,
-  getScoreMemoAsync,
-  getScoreThresholdAsync,
-} from '../store/userSlice';
 import {LoadingView} from '../components/LoadingView';
 import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import eventEmitter from '../services/event-emitter';
 import {EVENT_SERVER_REFRESH_SCORE} from '../services/event-emitter/constants';
+import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../constant';
+import {saveStorageData} from '../utils/storageUtil';
 
 const Chats = () => {
   const token = useAppSelector(state => state.user.token);
   useInitWebSocket(token);
 
-  const {data: rooms, chatStatus: status} = useAppSelector(selectRooms);
+  const {
+    data: rooms,
+    chatStatus: status,
+    readRooms,
+  } = useAppSelector(selectRooms);
 
   useEffect(() => {
     console.log('Chats mounted');
@@ -42,6 +43,19 @@ const Chats = () => {
       WebSocketSingleton.closeAndReset();
     };
   }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      console.log('AppState', nextAppState);
+
+      // 更新已读聊天室到本地存储
+      saveStorageData(LOCAL_STORAGE_KEY_READ_ROOMS, readRooms);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [readRooms]);
 
   return (
     <SafeAreaView style={styles.chatscreen}>
