@@ -4,7 +4,9 @@ import images from '../../assets';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 import {ILoginResponse} from '../types/network/types';
 import {loadStorageData} from '../utils/storageUtil';
-import {goToHomeTab, goToLogin} from '../navigation/NavigationService';
+import {goToLogin} from '../navigation/NavigationService';
+import {initConfigAndGoHome} from '../utils/initConfig';
+import {globalLoading} from '../components/GlobalLoading';
 
 const LOADING_IMAGE = 'Loading image';
 const FADE_IN_IMAGE = 'Fade in image';
@@ -29,9 +31,7 @@ export const SplashScreen = () => {
     console.log('Splash screen mounted');
 
     setTimeout(() => {
-      checkToken().finally(() => {
-        setIsAppReady(true);
-      });
+      checkToken();
     }, 500);
 
     return () => {
@@ -48,6 +48,7 @@ export const SplashScreen = () => {
     if (!data) {
       console.log('No token found, go to login');
       goToLogin();
+      setIsAppReady(true);
 
       return;
     }
@@ -59,11 +60,13 @@ export const SplashScreen = () => {
     if (!valid) {
       console.log('Token invalid, go to login');
       goToLogin();
+      setIsAppReady(true);
 
       return;
     }
 
-    goToHomeTab();
+    await initConfigAndGoHome();
+    setIsAppReady(true);
   };
 
   useEffect(() => {

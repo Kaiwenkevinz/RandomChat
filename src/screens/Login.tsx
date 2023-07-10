@@ -13,6 +13,7 @@ import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
 import {goToHomeTab} from '../navigation/NavigationService';
 import {globalLoading} from '../components/GlobalLoading';
+import {initConfigAndGoHome as initConfigAndGoHome} from '../utils/initConfig';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -46,7 +47,7 @@ export default function Login() {
 
       await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
 
-      goToHomeTab();
+      await initConfigAndGoHome();
     } catch (e) {
       console.log(e);
     } finally {

@@ -10,6 +10,7 @@ import {store} from '../store/store';
 import {LoadingView} from '../components/LoadingView';
 import eventEmitter from '../services/event-emitter';
 import {EVENT_SERVER_REFRESH_SCORE} from '../services/event-emitter/constants';
+import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 
 const Chats = () => {
   const {data: rooms, chatStatus: status} = useAppSelector(selectRooms);
@@ -28,6 +29,7 @@ const Chats = () => {
 
     return () => {
       eventEmitter.off(EVENT_SERVER_REFRESH_SCORE, fetchChats);
+      WebSocketSingleton.closeAndReset();
     };
   }, []);
 
