@@ -2,22 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import images from '../../assets';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
-import {initAuthInceptor} from '../network/axios.config';
-import {store} from '../store/store';
-import {
-  addNewUserInfo,
-  addToken,
-  getProfileAsync,
-  getScoreMemoAsync,
-  getScoreThresholdAsync,
-} from '../store/userSlice';
-import {ILoginResponse, IUser} from '../types/network/types';
+import {ILoginResponse} from '../types/network/types';
 import {loadStorageData} from '../utils/storageUtil';
-import {
-  goToChats,
-  goToHomeTab,
-  goToLogin,
-} from '../navigation/NavigationService';
+import {goToHomeTab, goToLogin} from '../navigation/NavigationService';
 
 const LOADING_IMAGE = 'Loading image';
 const FADE_IN_IMAGE = 'Fade in image';
@@ -42,50 +29,20 @@ export const SplashScreen = () => {
     console.log('Splash screen mounted');
 
     setTimeout(() => {
-      prepareConfigs().finally(() => {
+      checkToken().finally(() => {
         setIsAppReady(true);
       });
-    }, 1000);
+    }, 500);
 
     return () => {
       console.log('Splash screen unmounted');
     };
   }, []);
 
-  const handleTokenAndUserInfo = (storageData: ILoginResponse) => {
-    let token = storageData?.token;
-    let user = storageData?.user;
-    let userId = user?.id;
-
-    // TODO: validate JWT
-    const valid = token !== null;
-
-    // token not valid, go to login
-    if (!valid) {
-      console.log('Token invalid, go to login');
-      goToLogin();
-
-      return;
-    }
-
-    // add token to axios interceptor, so that every request will have token
-    if (!token) {
-      token = '';
-    }
-    if (!userId) {
-      userId = 0;
-    }
-    initAuthInceptor(token, userId);
-
-    // add user info to redux store
-    store.dispatch(addNewUserInfo(user as IUser));
-    store.dispatch(addToken(token));
-  };
-
   /**
-   * 处理 tokens，配置项
+   * 处理 token
    */
-  const prepareConfigs = async () => {
+  const checkToken = async () => {
     const data = await loadStorageData<ILoginResponse>(LOCAL_STORAGE_KEY_AUTH);
 
     if (!data) {
@@ -95,14 +52,18 @@ export const SplashScreen = () => {
       return;
     }
 
-    handleTokenAndUserInfo(data);
-    Promise.all([
-      store.dispatch(getScoreThresholdAsync()),
-      store.dispatch(getScoreMemoAsync()),
-      store.dispatch(getProfileAsync()),
-    ]).then(() => {
-      goToHomeTab();
-    }, console.log);
+    // TODO: validate JWT
+    const token = data?.token;
+    const valid = token !== null;
+
+    if (!valid) {
+      console.log('Token invalid, go to login');
+      goToLogin();
+
+      return;
+    }
+
+    goToHomeTab();
   };
 
   useEffect(() => {

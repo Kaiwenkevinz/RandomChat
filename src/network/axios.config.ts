@@ -122,7 +122,7 @@ axiosClient.interceptors.response.use(
      */
     if (error.message) {
       showToast(toastType.ERROR, 'Error', error.message);
-      console.warn('axios 原生错误:', error);
+      handleErrorCode(error.response.status, error.response.message);
 
       return Promise.reject(new Error(error.message));
     } else {

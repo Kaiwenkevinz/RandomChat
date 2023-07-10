@@ -8,10 +8,7 @@ import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants'
 import {userService} from '../../network/lib/user';
 import {showToast, toastType} from '../../utils/toastUtil';
 import {removeStorageData} from '../../utils/storageUtil';
-import {
-  LOCAL_STORAGE_KEY_AUTH,
-  LOCAL_STORAGE_KEY_READ_ROOMS,
-} from '../../constant';
+import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
 import {goToLogin} from '../../navigation/NavigationService';
 import {LoadingView} from '../../components/LoadingView';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
@@ -65,9 +62,8 @@ const Profile = () => {
       });
   };
 
-  const onLogout = () => {
-    removeStorageData(LOCAL_STORAGE_KEY_AUTH);
-    removeStorageData(LOCAL_STORAGE_KEY_READ_ROOMS);
+  const onLogout = async () => {
+    await removeStorageData(LOCAL_STORAGE_KEY_AUTH);
     WebSocketSingleton.closeAndReset();
     goToLogin();
   };

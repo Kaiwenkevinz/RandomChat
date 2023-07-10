@@ -8,10 +8,10 @@ import {
 import React, {useEffect, useState} from 'react';
 import {showToast, toastType} from '../utils/toastUtil';
 import {authService} from '../network/lib/auth';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
-import {goToChats} from '../navigation/NavigationService';
+import {goToHomeTab} from '../navigation/NavigationService';
 import {globalLoading} from '../components/GlobalLoading';
 
 export default function Login() {
@@ -43,13 +43,14 @@ export default function Login() {
       globalLoading.show();
       const res = await authService.login(username, password);
       const data = res.data;
-      await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
-      globalLoading.hide();
 
-      navigation.dispatch(StackActions.replace('HomeTab'));
-      goToChats();
+      await saveStorageData(LOCAL_STORAGE_KEY_AUTH, data);
+
+      goToHomeTab();
     } catch (e) {
       console.log(e);
+    } finally {
+      globalLoading.hide();
     }
   };
 

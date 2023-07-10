@@ -18,14 +18,14 @@ function getMessageHistory(
   page: number,
   pageSize: number,
 ) {
-  return api.post<Result<IPagination<IMessagePackReceive[]>>>(
-    API_GET_MESSAGE_HISTORY,
-    {
-      otherUserId,
-      page,
-      pageSize,
-    },
-  );
+  // return api.post<Result<IPagination<IMessagePackReceive[]>>>(
+  //   API_GET_MESSAGE_HISTORY,
+  //   {
+  //     otherUserId,
+  //     page,
+  //     pageSize,
+  //   },
+  // );
 }
 
 /**

@@ -8,7 +8,7 @@ import {
   updateMessageStatus,
 } from '../store/chatSlice';
 import {useAppSelector} from './customReduxHooks';
-import {selectUser} from '../store/userSlice';
+import {getScoreMemoAsync, selectUser} from '../store/userSlice';
 import {generateReceiveMessagePack} from '../screens/chat-room/chatUtil';
 import eventEmitter from '../services/event-emitter';
 import {
@@ -108,6 +108,7 @@ const handleOnReceiveWebSocketMessage = (
     } else {
       handlePushChat(message);
     }
+    store.dispatch(getScoreMemoAsync());
   }
 };
 

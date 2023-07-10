@@ -208,10 +208,10 @@ const ChatRoom = ({route}: ChatRoomProps) => {
         {messages && messages.length > 0 ? (
           <FlatList
             onEndReachedThreshold={0.5}
-            onEndReached={handleOnEndReached}
-            ListFooterComponent={
-              isLoading ? <ActivityIndicator size="small" /> : null
-            }
+            // onEndReached={handleOnEndReached}
+            // ListFooterComponent={
+            //   isLoading ? <ActivityIndicator size="small" /> : null
+            // }
             style={{flex: 1}}
             contentContainerStyle={{
               flexGrow: 1,

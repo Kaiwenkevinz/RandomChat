@@ -9,7 +9,10 @@ function navigate(routeName: string, params?: object | undefined) {
 }
 
 export function goToLogin() {
-  navigate('Login');
+  _navigator.reset({
+    index: 0,
+    routes: [{name: 'Login'}],
+  });
 }
 
 export function goToHomeTab() {

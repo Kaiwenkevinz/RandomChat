@@ -34,6 +34,21 @@ export function MessageComponent({
   const images = [
     {
       url: content,
+      width: 300,
+      height: 500,
+      props: {
+        source: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        style: {
+          flex: 1,
+          width: '100%',
+          height: '100%',
+          resizeMode: 'contain',
+        },
+      },
     },
   ];
 

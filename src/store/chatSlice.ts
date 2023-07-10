@@ -7,7 +7,7 @@ import {
   IPagination,
   Result,
 } from '../types/network/types';
-import {loadStorageData} from '../utils/storageUtil';
+import {loadStorageData, saveStorageData} from '../utils/storageUtil';
 import {showToast, toastType} from '../utils/toastUtil';
 import {RootState, store} from './store';
 
@@ -170,6 +170,8 @@ export const operateReadRoomAsync = createAsyncThunk<
       break;
   }
 
+  // 异步存储，不用等待完成
+  saveStorageData(LOCAL_STORAGE_KEY_READ_ROOMS, readRooms);
   return readRooms;
 });
 

@@ -35,7 +35,10 @@ export const ChatListComponent = ({
   const score = scoreMemo[otherUserId] || 0;
 
   const latestMessage = messages[messages.length - 1] || {content: ''};
-  const dateStr = new Date(latestMessage.send_time).toLocaleDateString();
+  let dateStr = '';
+  if (messages.length > 0) {
+    dateStr = new Date(latestMessage.send_time).toLocaleDateString();
+  }
 
   const readRooms = useAppSelector(state => state.chat.readRooms);
   const isRead =
