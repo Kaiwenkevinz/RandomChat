@@ -1,6 +1,11 @@
 import {CONFIG} from '../../config/index';
 import {ILoginResponse} from '../../types/network/types';
-import {API_GET_IMAGE, API_UPLOAD_AVATAR, API_UPLOAD_IMAGE} from '../constant';
+import {
+  API_GET_IMAGE,
+  API_UPLOAD_AVATAR,
+  API_UPLOAD_IMAGE,
+  API_UPLOAD_PHOTO_WALL,
+} from '../constant';
 import RNFetchBlob from 'rn-fetch-blob';
 import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
 import {loadStorageData} from '../../utils/storageUtil';
@@ -16,13 +21,15 @@ import {Platform} from 'react-native';
 const uploadImage = async (
   uri: string,
   name: string,
-  options: 'image' | 'avatar',
+  options: 'image' | 'avatar' | 'photoWall',
 ) => {
   let uploadUrl;
   if (options === 'image') {
     uploadUrl = API_UPLOAD_IMAGE;
-  } else {
+  } else if (options === 'avatar') {
     uploadUrl = API_UPLOAD_AVATAR;
+  } else {
+    uploadUrl = API_UPLOAD_PHOTO_WALL;
   }
 
   const localData = await loadStorageData<ILoginResponse>(
@@ -31,15 +38,15 @@ const uploadImage = async (
   const token = localData?.token;
 
   const cleanUri = Platform.OS === 'ios' ? uri.replace('file:///', '') : uri;
-  console.log('文件本机地址: ', cleanUri);
-
   const stats = await RNFetchBlob.fs.stat(cleanUri);
-  console.log('上传文件大小(mb): ', stats.size / 1024 / 1024);
-
   const wrapRes = RNFetchBlob.wrap(cleanUri);
-  console.log('wrapRes:', wrapRes);
 
-  console.log('上传文件名: ', name);
+  console.log('准备上传图片', {
+    'file size': stats.size / 1024 / 1024,
+    wrapRes,
+    filename: name,
+    'upload api url': CONFIG.BASE_API_URL + uploadUrl,
+  });
 
   try {
     const response = await RNFetchBlob.fetch(
@@ -69,7 +76,6 @@ const uploadImage = async (
   return '';
 };
 
-//TODO: 移出 message.ts
 const getImageUrl = (imageBaseUrl: string | undefined) => {
   return CONFIG.BASE_API_URL + API_GET_IMAGE + '?name=' + imageBaseUrl;
 };

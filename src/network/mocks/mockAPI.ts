@@ -6,6 +6,7 @@ import {
   mockFriendList,
   mockLogin,
   mockMessageHistory,
+  mockPhotoWall,
   mockRegister,
   mockScores,
   mockSendVerifyEmail,
@@ -17,6 +18,7 @@ import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_FRIEND_LIST,
   API_GET_MESSAGE_HISTORY,
+  API_GET_PHOTO_WALL,
   API_GET_RECOMMEND_LIST,
   API_GET_SCORES,
   API_GET_SCORE_THRESHOLD,
@@ -81,6 +83,10 @@ mock.onAny().reply(config => {
   // 分页获取聊天历史信息
   if (config.method === 'post' && config.url === API_GET_MESSAGE_HISTORY) {
     return [200, mockMessageHistory.mockResponse];
+  }
+  // 获取照片墙
+  if (config.method === 'post' && config.url === API_GET_PHOTO_WALL) {
+    return [200, mockPhotoWall.mockResponse];
   }
 
   return [404];

@@ -236,3 +236,11 @@ export const mockScores = {
     {userId: 300, score: 2000},
   ]),
 };
+
+export const mockPhotoWall = {
+  mockResponse: generageMockResponse<string[]>([
+    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
+    'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D&w=1000&q=80',
+    'https://img.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_791316-9864.jpg?w=2000',
+  ]),
+};
