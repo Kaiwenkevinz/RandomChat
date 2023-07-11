@@ -1,3 +1,10 @@
+# demo
+
+
+https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/92507aec-7064-4879-990f-25d3eda3b7c1
+
+
+
 # 项目名称
 
 # 项目介绍
@@ -28,6 +35,7 @@ React Native Debugger
 # API 文档
 
 # 前端架构图
+<img width="503" alt="architecture" src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/2ac1c9cb-ff5f-4d20-ba09-572308f2097e">
 
 ## 项目结构
 
