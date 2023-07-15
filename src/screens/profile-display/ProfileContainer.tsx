@@ -8,7 +8,7 @@ import {EVENT_UPDATE_USER_PROFILE} from '../../services/event-emitter/constants'
 import {userService} from '../../network/lib/user';
 import {showToast, toastType} from '../../utils/toastUtil';
 import {removeStorageData} from '../../utils/storageUtil';
-import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
+import {LOCAL_STORAGE_KEY_AUTH} from '../../utils/constant';
 import {goToLogin} from '../../navigation/NavigationService';
 import {LoadingView} from '../../components/LoadingView';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';

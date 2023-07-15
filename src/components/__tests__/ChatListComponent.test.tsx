@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
-import TagComponent from '../components/TagComponent/TagComponent';
+import TagComponent from '../TagComponent/TagComponent';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({navigate: jest.fn()}),

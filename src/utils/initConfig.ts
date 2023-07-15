@@ -1,5 +1,5 @@
 import {globalLoading} from '../components/GlobalLoading';
-import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {LOCAL_STORAGE_KEY_AUTH} from './constant';
 import {goToHomeTab, goToLogin} from '../navigation/NavigationService';
 import {initAuthInceptor} from '../network/axios.config';
 import {operateReadRoomAsync} from '../store/chatSlice';

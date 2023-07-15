@@ -2,7 +2,7 @@ import axios, {AxiosRequestConfig} from 'axios';
 import {showToast, toastType} from '../utils/toastUtil';
 import {CONFIG} from '../config';
 import {goToLogin} from '../navigation/NavigationService';
-import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {LOCAL_STORAGE_KEY_AUTH} from '../utils/constant';
 import {removeStorageData} from '../utils/storageUtil';
 
 const axiosClient = axios.create({

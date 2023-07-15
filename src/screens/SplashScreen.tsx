@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import images from '../../assets';
-import {LOCAL_STORAGE_KEY_AUTH} from '../constant';
+import {LOCAL_STORAGE_KEY_AUTH} from '../utils/constant';
 import {ILoginResponse} from '../types/network/types';
 import {loadStorageData} from '../utils/storageUtil';
 import {goToLogin} from '../navigation/NavigationService';

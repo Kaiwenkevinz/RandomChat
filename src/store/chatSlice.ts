@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../constant';
+import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../utils/constant';
 import {chatService} from '../network/lib/message';
 import {
   IChatRoom,

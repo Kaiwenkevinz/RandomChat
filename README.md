@@ -32,6 +32,7 @@ React Native Debugger
 ## 项目结构
 
 # 项目基础架构
+![|480](photos/Pasted%20image%2020230706220240.png)
 
 ## 状态管理
 
@@ -54,6 +55,8 @@ React Native Debugger
 #### 发送图片
 
 #### 下拉加载更多
+![|307](photos/CleanShot%202023-07-06%20at%2017.26.05.gif)
+
 
 ### 未读消息
 

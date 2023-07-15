@@ -7,7 +7,7 @@ import {
   API_UPLOAD_PHOTO_WALL,
 } from '../constant';
 import RNFetchBlob from 'rn-fetch-blob';
-import {LOCAL_STORAGE_KEY_AUTH} from '../../constant';
+import {LOCAL_STORAGE_KEY_AUTH} from '../../utils/constant';
 import {loadStorageData} from '../../utils/storageUtil';
 import {Platform} from 'react-native';
 
