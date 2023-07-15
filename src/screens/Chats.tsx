@@ -17,6 +17,8 @@ const Chats = () => {
   const token = useAppSelector(state => state.user.token);
   useInitWebSocket(token);
 
+  const loading = status === 'loading';
+
   const fetchChats = () => {
     store.dispatch(getChatsAsync());
   };
@@ -44,6 +46,8 @@ const Chats = () => {
               data={rooms}
               renderItem={({item}) => renderChatComponent(item)}
               keyExtractor={item => item.otherUserId.toString()}
+              refreshing={loading}
+              onRefresh={fetchChats}
             />
           ) : (
             <View style={styles.chatemptyContainer}>
@@ -71,8 +75,6 @@ const renderChatComponent = (item: IChatRoom) => {
   );
 };
 
-export default Chats;
-
 const styles = StyleSheet.create({
   chatscreen: {
     flex: 1,
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
   },
   chatlistContainer: {
     marginHorizontal: 10,
+    flex: 1,
   },
   chatemptyContainer: {
     width: '100%',
@@ -89,3 +92,5 @@ const styles = StyleSheet.create({
   },
   chatemptyText: {fontWeight: 'bold', fontSize: 24, paddingBottom: 30},
 });
+
+export default Chats;

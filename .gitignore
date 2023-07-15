@@ -1,6 +1,8 @@
 .vscode
 coverage
 
+*.env
+
 # OSX
 #
 .DS_Store

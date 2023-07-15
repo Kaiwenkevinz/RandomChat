@@ -1,8 +1,7 @@
-import {Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {userService} from '../network/lib/user';
 import {IUser} from '../types/network/types';
-import {FlatList} from 'react-native-gesture-handler';
 import ContactListComponent from '../components/ContactListComponent';
 import {LoadingView} from '../components/LoadingView';
 import eventEmitter from '../services/event-emitter';
@@ -34,22 +33,45 @@ const Contacts = () => {
     });
   }, []);
 
+  if (friendList.length === 0 && !loading) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>You have no friends.</Text>
+        <Text style={styles.emptyText}>Go to Recommend to get friends.</Text>
+      </View>
+    );
+  }
+
   return (
     <>
       {loading ? (
         <LoadingView />
       ) : (
-        <View>
-          <FlatList
-            data={friendList}
-            renderItem={({item}) => (
-              <ContactListComponent user={item} fromRecommendation={true} />
-            )}
-          />
-        </View>
+        <FlatList
+          data={friendList}
+          renderItem={({item}) => (
+            <ContactListComponent user={item} fromRecommendation={true} />
+          )}
+          refreshing={loading}
+          onRefresh={getFriendList}
+        />
       )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  emptyContainer: {
+    width: '100%',
+    height: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyText: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    textAlign: 'center',
+  },
+});
 
 export default Contacts;
