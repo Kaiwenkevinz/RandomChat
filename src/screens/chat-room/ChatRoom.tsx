@@ -44,7 +44,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   // get params from route
   const params = route.params;
-  const {otherUserId, otherUserName, otherUserAvatarUrl} = params;
+  const {otherUserId, otherUserName, otherUserAvatarUrl, total} = params;
   const isLoading =
     useAppSelector(state => state.chat.messageHistoryStatus) === 'loading';
 
@@ -52,7 +52,6 @@ const ChatRoom = ({route}: ChatRoomProps) => {
    * 分页相关
    */
   const pageRef = useRef(1);
-  const totalRef = useRef(Infinity);
   const SIZE = 10;
 
   /**
@@ -119,21 +118,18 @@ const ChatRoom = ({route}: ChatRoomProps) => {
 
   const handleOnEndReached = async () => {
     // 正在加载，或者没有更多数据了，则不再加载更多数据
-    if (isLoading || messages.length >= totalRef.current) {
+    if (isLoading || messages.length >= total) {
       return;
     }
 
-    const resp = await store
-      .dispatch(
-        getMessageHistoryAsync({
-          otherUserId,
-          page: pageRef.current,
-          pageSize: SIZE,
-        }),
-      )
-      .unwrap();
+    await store.dispatch(
+      getMessageHistoryAsync({
+        otherUserId,
+        page: pageRef.current,
+        pageSize: SIZE,
+      }),
+    );
 
-    totalRef.current = resp.result.data.total;
     pageRef.current += 1;
   };
 
@@ -208,10 +204,10 @@ const ChatRoom = ({route}: ChatRoomProps) => {
         {messages && messages.length > 0 ? (
           <FlatList
             onEndReachedThreshold={0.5}
-            // onEndReached={handleOnEndReached}
-            // ListFooterComponent={
-            //   isLoading ? <ActivityIndicator size="small" /> : null
-            // }
+            onEndReached={handleOnEndReached}
+            ListFooterComponent={
+              isLoading ? <ActivityIndicator size="small" /> : null
+            }
             style={{flex: 1}}
             contentContainerStyle={{
               flexGrow: 1,

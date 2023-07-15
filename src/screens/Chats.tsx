@@ -57,7 +57,8 @@ const Chats = () => {
 };
 
 const renderChatComponent = (item: IChatRoom) => {
-  const {messages, otherUserId, otherUserName, otherUserAvatarUrl} = item;
+  const {messages, otherUserId, otherUserName, otherUserAvatarUrl, total} =
+    item;
 
   return (
     <ChatListComponent
@@ -65,6 +66,7 @@ const renderChatComponent = (item: IChatRoom) => {
       otherUserName={otherUserName}
       otherUserAvatarUrl={otherUserAvatarUrl}
       messages={messages}
+      total={total}
     />
   );
 };

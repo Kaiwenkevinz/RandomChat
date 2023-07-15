@@ -190,15 +190,18 @@ export interface IGetMessageHistoryParams {
 export const getMessageHistoryAsync = createAsyncThunk<
   IGetMessageHistoryReturn,
   IGetMessageHistoryParams
->('chat/getMessageHistoryAsync', async ({otherUserId, page, pageSize}) => {
-  const response = await chatService.getMessageHistory(
-    otherUserId,
-    page,
-    pageSize,
-  );
+>(
+  'chat/getMessageHistoryAsync',
+  async ({otherUserId, page, pageSize}: IGetMessageHistoryParams) => {
+    const response = await chatService.getMessageHistory(
+      otherUserId,
+      page,
+      pageSize,
+    );
 
-  return {result: response, otherUserId};
-});
+    return {result: response, otherUserId} as IGetMessageHistoryReturn;
+  },
+);
 
 // reducers and actions
 // slice 是 reducers 和 action creator 的集合

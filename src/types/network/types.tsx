@@ -26,6 +26,7 @@ export type IChatRoom = {
   otherUserId: number;
   otherUserName: string;
   otherUserAvatarUrl: string | null;
+  total: number;
   messages: IMessagePackReceive[];
 };
 

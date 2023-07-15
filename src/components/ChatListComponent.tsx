@@ -27,6 +27,7 @@ export const ChatListComponent = ({
   otherUserName,
   otherUserAvatarUrl,
   messages,
+  total,
 }: ChatListComponentProps) => {
   const navigation = useNavigation();
 
@@ -51,6 +52,7 @@ export const ChatListComponent = ({
       otherUserId,
       otherUserName,
       otherUserAvatarUrl,
+      total,
     });
   };
 

@@ -10,7 +10,7 @@ const isMock = CONFIG.TURN_ON_MOCK_API === '1';
 if (isDev && isMock) {
   // require('./src/network/mocks/mockAPI');
 }
-// require('./src/network/mocks/mockAPI');
+require('./src/network/mocks/mockAPI');
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App(): JSX.Element {
