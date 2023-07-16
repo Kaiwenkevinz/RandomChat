@@ -237,6 +237,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
                 isSent={item.isSent}
                 message_type={item.message_type}
                 isGroup={item.isGroup}
+                setCurrentMessage={setCurrentMessage}
               />
             )}
             keyExtractor={item => item.id}
@@ -250,6 +251,8 @@ const ChatRoom = ({route}: ChatRoomProps) => {
         <TextInput
           style={styles.messaginginput}
           value={currentMessage}
+          multiline={true}
+          maxLength={500}
           onChangeText={v => setCurrentMessage(v)}
         />
         {currentMessage.length > 0 && (

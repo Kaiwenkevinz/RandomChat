@@ -6,6 +6,7 @@ import {
 } from './../../types/network/types';
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
+  API_GET_CHAT_GPT,
   API_GET_MESSAGE_HISTORY,
 } from '../constant';
 import {api} from '../axios.config';
@@ -35,7 +36,12 @@ function getAllChatMessages() {
   return api.post<Result<IChatRoom[]>>(API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES);
 }
 
+function getChatGPT(type: string, content: string) {
+  return api.post<Result<string>>(API_GET_CHAT_GPT, {type, content});
+}
+
 export const chatService = {
   getAllChatMessages,
   getMessageHistory,
+  getChatGPT,
 };

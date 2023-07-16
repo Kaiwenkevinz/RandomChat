@@ -29,6 +29,7 @@ export const API_GET_SCORES = '/score/getlist';
 export const API_GET_MESSAGE_HISTORY = '/user/getMessageHistory';
 
 export const API_GET_SECRET_KEY = '/secretKey';
+export const API_GET_CHAT_GPT = '/chatgpt';
 
 // 上传照片墙照片
 export const API_UPLOAD_PHOTO_WALL = '/file/add-photo';

@@ -16,6 +16,7 @@ import {
 import {
   API_FORGET_PASSWORD,
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
+  API_GET_CHAT_GPT,
   API_GET_FRIEND_LIST,
   API_GET_MESSAGE_HISTORY,
   API_GET_PHOTO_WALL,
@@ -33,7 +34,7 @@ import {
 
 console.warn('API mocking is turned on.');
 
-const mock = new MockAdapter(axiosClient, {delayResponse: 500});
+const mock = new MockAdapter(axiosClient, {delayResponse: 1000});
 
 // Register
 mock.onPost(API_SEND_EMAIL).reply(200, mockSendVerifyEmail.mockResponse);
@@ -92,6 +93,10 @@ mock.onAny().reply(config => {
   // secret key
   if (config.method === 'post' && config.url === API_GET_SECRET_KEY) {
     return [200, generageMockResponse('secret-key')];
+  }
+  // Chat GPT
+  if (config.method === 'post' && config.url === API_GET_CHAT_GPT) {
+    return [200, generageMockResponse('I am a mock response from Chat GPT.')];
   }
 
   return [404];

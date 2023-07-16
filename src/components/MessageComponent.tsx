@@ -6,10 +6,23 @@ import {selectUser} from '../store/userSlice';
 import CircleImage from './CircleImage';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {
+  Menu,
+  MenuTrigger,
+  MenuOptions,
+  MenuOption,
+  renderers,
+} from 'react-native-popup-menu';
+import {chatService} from '../network/lib/message';
+import {showToast, toastType} from '../utils/toastUtil';
+
+const MENU_OPT_REPLAY = 'Help Me Replay';
+const MENU_OPT_TRANSLATE = 'Translate';
 
 type MessageComponentProps = IMessagePackReceive & {
   otherUserAvatarUrl: string;
   userAvatarUrl: string;
+  setCurrentMessage: (message: string) => void;
 };
 
 export function MessageComponent({
@@ -20,6 +33,7 @@ export function MessageComponent({
   sender_id: sendId,
   send_time: timestamp,
   isSent,
+  setCurrentMessage,
 }: MessageComponentProps) {
   const user = useAppSelector(selectUser).user;
   const isReceive = user.id !== sendId;
@@ -34,8 +48,6 @@ export function MessageComponent({
   const images = [
     {
       url: content,
-      // width: 300,
-      // height: 500,
       freeHeight: true,
       props: {
         source: {
@@ -43,18 +55,49 @@ export function MessageComponent({
             Authorization: `Bearer ${token}`,
           },
         },
-        // style: {
-        //   flex: 1,
-        //   width: '100%',
-        //   height: '100%',
-        //   resizeMode: 'contain',
-        // },
       },
     },
   ];
 
   const handleImagePress = () => {
     setImageViewVisible(true);
+  };
+
+  const handleMenuOptionSelect = async (option: string) => {
+    const reply = (await chatService.getChatGPT(option, content)).data;
+    if (!reply || reply === '') {
+      showToast(toastType.INFO, 'Fail', 'Something wrong with the server');
+      return;
+    }
+
+    setCurrentMessage(reply);
+    showToast(toastType.SUCCESS, 'Success', 'Check your message box');
+  };
+
+  const renderTextItem = () => {
+    const underlayColor = isReceive ? '#F1F1F1' : '#3478F6';
+    return (
+      <Menu
+        renderer={renderers.Popover}
+        rendererProps={{preferredPlacement: 'bottom'}}>
+        <MenuTrigger
+          triggerOnLongPress={true}
+          customStyles={{
+            triggerTouchable: {underlayColor},
+          }}>
+          <Text style={!isReceive && {color: '#fff'}}>{content}</Text>
+        </MenuTrigger>
+        <MenuOptions>
+          <MenuOption onSelect={() => handleMenuOptionSelect(MENU_OPT_REPLAY)}>
+            <Text style={{color: 'orange'}}>{MENU_OPT_REPLAY}</Text>
+          </MenuOption>
+          <MenuOption
+            onSelect={() => handleMenuOptionSelect(MENU_OPT_TRANSLATE)}>
+            <Text style={{color: 'blue'}}>{MENU_OPT_TRANSLATE}</Text>
+          </MenuOption>
+        </MenuOptions>
+      </Menu>
+    );
   };
 
   return (
@@ -83,7 +126,7 @@ export function MessageComponent({
                   ]
             }>
             {type === 'text' ? (
-              <Text style={!isReceive && {color: '#fff'}}>{content}</Text>
+              renderTextItem()
             ) : (
               <Pressable onPress={handleImagePress}>
                 <Image

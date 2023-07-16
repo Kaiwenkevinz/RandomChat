@@ -41,7 +41,7 @@ const CircleImage = ({avatarUrl, size, borderColor}: CircleImageProps) => {
           Authorization: `Bearer ${token}}`,
         },
       }}
-      resizeMode="center"
+      resizeMode="cover"
       style={styles.image}
     />
   );
