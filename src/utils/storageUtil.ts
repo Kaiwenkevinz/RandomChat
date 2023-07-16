@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Keychain from 'react-native-keychain';
 
 export const saveStorageData = async (key: string, value: any) => {
   try {
@@ -10,7 +11,7 @@ export const saveStorageData = async (key: string, value: any) => {
   }
 };
 
-export const loadStorageData = async <T,>(key: string) => {
+export const loadStorageData = async <T>(key: string) => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
     const obj = jsonValue != null ? (JSON.parse(jsonValue) as T) : null;
@@ -29,4 +30,17 @@ export const removeStorageData = async (key: string) => {
   } catch (e) {
     console.error('removeStorageData error: ', e);
   }
+};
+
+export const saveKeychainData = async (key: string, value: string) => {
+  await Keychain.setGenericPassword(key, value, {service: key});
+};
+
+export const loadKeychainData = async (key: string) => {
+  const credential = await Keychain.getGenericPassword({service: key});
+  if (!credential) {
+    return Promise.reject('Keychain data is null!');
+  }
+
+  return credential.password;
 };

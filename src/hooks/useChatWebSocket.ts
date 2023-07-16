@@ -1,3 +1,4 @@
+import {decrypt} from './../utils/encryptUtil';
 import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import {MessagePackSend} from './../types/network/types';
 import {useEffect} from 'react';
@@ -17,12 +18,14 @@ import {
 } from '../services/event-emitter/constants';
 import {CONFIG} from '../config';
 import {showToast, toastType} from '../utils/toastUtil';
+import {KEYCHAIN_KEY_SECRET_KEY} from '../utils/constant';
+import {loadKeychainData} from '../utils/storageUtil';
 
 const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;
 
-  const url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
-  // const url = `ws://localhost:8080/chat/${userId}`;
+  // const url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
+  const url = `ws://localhost:8080/chat/${userId}`;
 
   // init Websocket
   useEffect(() => {
@@ -90,7 +93,7 @@ const handlePushChat = (message: MessagePackSend) => {
     });
 };
 
-const handleOnReceiveWebSocketMessage = (
+const handleOnReceiveWebSocketMessage = async (
   userId: number,
   e: WebSocketMessageEvent,
 ) => {
@@ -103,6 +106,9 @@ const handleOnReceiveWebSocketMessage = (
     eventEmitter.emit(EVENT_SERVER_REFRESH_SCORE);
   } else {
     // 聊天消息
+    const secretKey = await loadKeychainData(KEYCHAIN_KEY_SECRET_KEY);
+    message.content = decrypt(message.content, secretKey); // TODO: secret key 由后端生成，前端保存
+
     if (message.fromId === userId) {
       handleAckChat(userId, message);
     } else {

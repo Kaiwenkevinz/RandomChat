@@ -6,7 +6,6 @@ import {ILoginResponse} from '../types/network/types';
 import {loadStorageData} from '../utils/storageUtil';
 import {goToLogin} from '../navigation/NavigationService';
 import {initConfigAndGoHome} from '../utils/initConfig';
-import {globalLoading} from '../components/GlobalLoading';
 
 const LOADING_IMAGE = 'Loading image';
 const FADE_IN_IMAGE = 'Fade in image';

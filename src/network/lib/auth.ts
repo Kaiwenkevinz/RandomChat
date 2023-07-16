@@ -4,6 +4,7 @@ import {Result, IUser} from '../../types/network/types';
 import {api} from '../axios.config';
 import {
   API_FORGET_PASSWORD,
+  API_GET_SECRET_KEY,
   API_LOGIN,
   API_REGISTER,
   API_SEND_EMAIL,
@@ -52,7 +53,12 @@ function forgetPassword(username: string, email: string) {
   );
 }
 
+function fetchSecretKey() {
+  return api.post<Result<string>>(API_GET_SECRET_KEY);
+}
+
 export const authService = {
+  fetchSecretKey,
   register,
   sendVerifyEmail,
   login,

@@ -1,5 +1,4 @@
-import {globalLoading} from '../components/GlobalLoading';
-import {LOCAL_STORAGE_KEY_AUTH} from './constant';
+import {KEYCHAIN_KEY_SECRET_KEY, LOCAL_STORAGE_KEY_AUTH} from './constant';
 import {goToHomeTab, goToLogin} from '../navigation/NavigationService';
 import {initAuthInceptor} from '../network/axios.config';
 import {operateReadRoomAsync} from '../store/chatSlice';
@@ -12,9 +11,10 @@ import {
   getProfileAsync,
 } from '../store/userSlice';
 import {ILoginResponse, IUser} from '../types/network/types';
-import {loadStorageData} from './storageUtil';
+import {loadStorageData, saveKeychainData} from './storageUtil';
+import {authService} from '../network/lib/auth';
 
-export const initConfigAndGoHome = async () => {
+const getAuth = async () => {
   const data = await loadStorageData<ILoginResponse>(LOCAL_STORAGE_KEY_AUTH);
 
   if (!data || !data.user?.id || !data.token) {
@@ -25,19 +25,28 @@ export const initConfigAndGoHome = async () => {
     return Promise.reject(errMsg);
   }
 
-  const token = data.token;
+  return data;
+};
 
-  initAuthInceptor(token, data.user.id);
+export const initConfigAndGoHome = async () => {
+  const data = await getAuth();
+  const {token, user} = data;
+
+  initAuthInceptor(token, user.id);
 
   store.dispatch(addNewUserInfo(data.user as IUser));
   store.dispatch(addToken(token));
 
-  await Promise.all([
+  // preload data
+  const results = await Promise.all([
+    authService.fetchSecretKey(),
     store.dispatch(operateReadRoomAsync({option: 'read', newData: null})),
     store.dispatch(getScoreThresholdAsync()),
     store.dispatch(getScoreMemoAsync()),
     store.dispatch(getProfileAsync()),
   ]);
+
+  await saveKeychainData(KEYCHAIN_KEY_SECRET_KEY, results[0].data);
 
   goToHomeTab();
 };

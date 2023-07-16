@@ -28,6 +28,8 @@ export const API_GET_SCORES = '/score/getlist';
 // 分页获取和某个好友的聊天记录
 export const API_GET_MESSAGE_HISTORY = '/user/getMessageHistory';
 
+export const API_GET_SECRET_KEY = '/secretKey';
+
 // 上传照片墙照片
 export const API_UPLOAD_PHOTO_WALL = '/file/add-photo';
 // 获取照片墙

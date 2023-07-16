@@ -22,6 +22,7 @@ import {
   API_GET_RECOMMEND_LIST,
   API_GET_SCORES,
   API_GET_SCORE_THRESHOLD,
+  API_GET_SECRET_KEY,
   API_GET_USER_INFO,
   API_LOGIN,
   API_REGISTER,
@@ -87,6 +88,10 @@ mock.onAny().reply(config => {
   // 获取照片墙
   if (config.method === 'post' && config.url === API_GET_PHOTO_WALL) {
     return [200, mockPhotoWall.mockResponse];
+  }
+  // secret key
+  if (config.method === 'post' && config.url === API_GET_SECRET_KEY) {
+    return [200, generageMockResponse('secret-key')];
   }
 
   return [404];

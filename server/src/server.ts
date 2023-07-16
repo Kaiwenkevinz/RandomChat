@@ -51,14 +51,14 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
     toId: 1,
     isGroup: 0,
   };
-  setInterval(() => {
-    console.log('Server 发送消息', messageFromOther);
-    webSocket.send(JSON.stringify(messageFromOther));
-  }, 2000);
-  setInterval(() => {
-    console.log('Server 发送消息', messageFromOther2);
-    webSocket.send(JSON.stringify(messageFromOther2));
-  }, 4000);
+  // setInterval(() => {
+  //   console.log('Server 发送消息', messageFromOther);
+  //   webSocket.send(JSON.stringify(messageFromOther));
+  // }, 2000);
+  // setInterval(() => {
+  //   console.log('Server 发送消息', messageFromOther2);
+  //   webSocket.send(JSON.stringify(messageFromOther2));
+  // }, 4000);
 
   // // 模拟新好友
   // const messageFromNewFriend = {

@@ -35,6 +35,9 @@ import DebounceButton from '../../components/DebounceButton';
 import {imageService} from '../../network/lib/imageService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {encrypt} from '../../utils/encryptUtil';
+import {loadKeychainData} from '../../utils/storageUtil';
+import {KEYCHAIN_KEY_SECRET_KEY} from '../../utils/constant';
 
 type ChatRoomProps = StackScreenProps<RootStackParamList, 'ChatRoom'>;
 
@@ -154,7 +157,10 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     realSendMessage('image', imageService.getImageUrl(imageUrl));
   };
 
-  const realSendMessage = (type: MessagePackSend['type'], content: string) => {
+  const realSendMessage = async (
+    type: MessagePackSend['type'],
+    content: string,
+  ) => {
     const websocket = WebSocketSingleton.getWebsocket();
     if (!websocket || websocket.readyState !== WebSocket.OPEN) {
       showToast(toastType.ERROR, 'Error', 'Error! WebSocket not connected!');
@@ -163,8 +169,9 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     }
 
     // 用于发送的消息体和用于展示的消息体的字段不一样，所以需要生成两个消息体，一个发送，一个展示
+    const secretKey = await loadKeychainData(KEYCHAIN_KEY_SECRET_KEY);
     const messagePackToSend = generateSendMessagePack(
-      content,
+      encrypt(content, secretKey),
       userId,
       userAvatarUrl,
       userName,
@@ -173,7 +180,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     );
     const messagePackToShow = generateReceiveMessagePack(
       messagePackToSend.id,
-      messagePackToSend.content,
+      content,
       messagePackToSend.fromId,
       messagePackToSend.toId,
       messagePackToSend.sender_avatar_url,
@@ -182,6 +189,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
     );
 
     websocket.send(JSON.stringify(messagePackToSend));
+
     store.dispatch(appendNewMessage(messagePackToShow));
     store.dispatch(
       operateReadRoomAsync({
