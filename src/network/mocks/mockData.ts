@@ -38,7 +38,8 @@ export const mockLogin = {
   },
   mockResponse: generageMockResponse<ILoginResponse>({
     user: mockUser,
-    token: 'jwt1234567890',
+    token:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVfc2VjIjoiOTk5OTk5OTk5OSJ9.xAx38x7ALIEQRX7mLjqPa2E4iYj8QHGvEMl2PvrRM5s',
   }),
 };
 

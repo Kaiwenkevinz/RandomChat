@@ -107,7 +107,7 @@ const handleOnReceiveWebSocketMessage = async (
   } else {
     // 聊天消息
     const secretKey = await loadKeychainData(KEYCHAIN_KEY_SECRET_KEY);
-    message.content = decrypt(message.content, secretKey); // TODO: secret key 由后端生成，前端保存
+    message.content = decrypt(message.content, secretKey);
 
     if (message.fromId === userId) {
       handleAckChat(userId, message);

@@ -6,6 +6,8 @@ import {ILoginResponse} from '../types/network/types';
 import {loadStorageData} from '../utils/storageUtil';
 import {goToLogin} from '../navigation/NavigationService';
 import {initConfigAndGoHome} from '../utils/initConfig';
+import {isExpiredJWT} from '../utils/encryptUtil';
+import {showToast, toastType} from '../utils/toastUtil';
 
 const LOADING_IMAGE = 'Loading image';
 const FADE_IN_IMAGE = 'Fade in image';
@@ -52,12 +54,9 @@ export const SplashScreen = () => {
       return;
     }
 
-    // TODO: validate JWT
     const token = data?.token;
-    const valid = token !== null;
-
-    if (!valid) {
-      console.log('Token invalid, go to login');
+    if (isExpiredJWT(token)) {
+      showToast(toastType.INFO, 'Need to login', 'Token expired, go to login');
       goToLogin();
       setIsAppReady(true);
 
