@@ -7,7 +7,7 @@ import {
   IScoreResponse,
 } from '../../types/network/types';
 
-export const generageMockResponse = <T>(data: T | null = null) =>
+export const generateMockResponse = <T>(data: T | null = null) =>
   ({
     data,
     msg: 'success',
@@ -36,7 +36,7 @@ export const mockLogin = {
     username: 'Kevin',
     password: '123456',
   },
-  mockResponse: generageMockResponse<ILoginResponse>({
+  mockResponse: generateMockResponse<ILoginResponse>({
     user: mockUser,
     token:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmVfc2VjIjoiOTk5OTk5OTk5OSJ9.xAx38x7ALIEQRX7mLjqPa2E4iYj8QHGvEMl2PvrRM5s',
@@ -48,7 +48,7 @@ export const mockSendVerifyEmail = {
     username: 'Kevin',
     email: '123@email.com',
   },
-  mockResponse: generageMockResponse(),
+  mockResponse: generateMockResponse(),
 };
 
 export const mockRegister = {
@@ -58,11 +58,11 @@ export const mockRegister = {
     email: '123@email.com',
     code: 'e-m-a-i-l',
   },
-  mockResponse: generageMockResponse<IUser>(),
+  mockResponse: generateMockResponse<IUser>(),
 };
 
 export const mockUserProfile = {
-  mockResponse: generageMockResponse<IUser>(mockUser),
+  mockResponse: generateMockResponse<IUser>(mockUser),
 };
 
 export const generateMockChatMessage = (
@@ -130,14 +130,14 @@ const generateMockMessageHistory = (
 };
 
 export const mockMessageHistory = {
-  mockResponse: generageMockResponse(generateMockMessageHistory(1, 300, 1, 10)),
+  mockResponse: generateMockResponse(generateMockMessageHistory(1, 300, 1, 10)),
 };
 
 export const mockAllFriendAllChatMessages = {
   mockRequestBody: {
     id: 1,
   },
-  mockResponse: generageMockResponse([
+  mockResponse: generateMockResponse([
     {
       otherUserId: 200,
       otherUserName: 'Novu Hangouts',
@@ -174,10 +174,7 @@ export const mockAllFriendAllChatMessages = {
       otherUserName: 'Alex',
       otherUserAvatarUrl: null,
       total: 1,
-      messages: [
-        generateMockChatMessage('1a', 'Hello, 我Kevin', 1, 300),
-        generateMockChatMessage('1b', 'Hello, 我Alex', 300, 1),
-      ],
+      messages: [generateMockChatMessage('1a', 'How are you?', 300, 1)],
     },
   ]),
 };
@@ -193,7 +190,7 @@ export const mockSendNewMessage: MessagePackSend = {
   isGroup: 0,
 };
 
-export const mockUploadImageRepsonse: Result<string> = generageMockResponse(
+export const mockUploadImageRepsonse: Result<string> = generateMockResponse(
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZ89N0rGa9eYLJ4sK5rgg5IrIPtAa-pvXRANZ4JIG2b-D_83D7VElzIHfbh-SOOFbAic&usqp=CAU',
 );
 
@@ -219,7 +216,7 @@ const generateMockFriend = (
 };
 
 export const mockFriendList = {
-  mockResponse: generageMockResponse<IUser[]>([
+  mockResponse: generateMockResponse<IUser[]>([
     generateMockFriend(
       300,
       'Jack',
@@ -234,14 +231,14 @@ export const mockFriendList = {
 };
 
 export const mockScores = {
-  mockResponse: generageMockResponse<IScoreResponse[]>([
+  mockResponse: generateMockResponse<IScoreResponse[]>([
     {userId: 200, score: 19900},
     {userId: 300, score: 2000},
   ]),
 };
 
 export const mockPhotoWall = {
-  mockResponse: generageMockResponse<string[]>([
+  mockResponse: generateMockResponse<string[]>([
     'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
     'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D&w=1000&q=80',
     'https://img.freepik.com/premium-photo/image-colorful-galaxy-sky-generative-ai_791316-9864.jpg?w=2000',

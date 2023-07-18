@@ -7,7 +7,7 @@ import {store} from '../../../store/store';
 import {
   appendNewChatRoom,
   getMessageHistoryAsync,
-} from '../../../store/chatSlice';
+} from '../../../store/chat/chatSlice';
 
 describe('聊天信息分页接口', () => {
   let mock: MockAdapter;

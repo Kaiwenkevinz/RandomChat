@@ -2,7 +2,7 @@ import {View, Text, Image, StyleSheet, Pressable, Modal} from 'react-native';
 import React, {useState} from 'react';
 import {IMessagePackReceive} from '../types/network/types';
 import {useAppSelector} from '../hooks/customReduxHooks';
-import {selectUser} from '../store/userSlice';
+import {selectUser} from '../store/user/userSlice';
 import CircleImage from './CircleImage';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -75,7 +75,10 @@ export function MessageComponent({
   };
 
   const renderTextItem = () => {
-    const underlayColor = isReceive ? '#F1F1F1' : '#3478F6';
+    if (!isReceive) {
+      return <Text style={!isReceive && {color: '#fff'}}>{content}</Text>;
+    }
+
     return (
       <Menu
         renderer={renderers.Popover}
@@ -83,7 +86,7 @@ export function MessageComponent({
         <MenuTrigger
           triggerOnLongPress={true}
           customStyles={{
-            triggerTouchable: {underlayColor},
+            triggerTouchable: {underlayColor: '#F1F1F1'},
           }}>
           <Text style={!isReceive && {color: '#fff'}}>{content}</Text>
         </MenuTrigger>

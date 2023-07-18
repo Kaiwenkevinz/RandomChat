@@ -1,7 +1,7 @@
 import {Image, StyleSheet} from 'react-native';
 import React from 'react';
 import {useAppSelector} from '../hooks/customReduxHooks';
-import {selectUser} from '../store/userSlice';
+import {selectUser} from '../store/user/userSlice';
 
 interface CircleImageProps {
   avatarUrl: string | null | undefined;

@@ -1,15 +1,15 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../utils/constant';
-import {chatService} from '../network/lib/message';
+import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../../utils/constant';
+import {chatService} from '../../network/lib/message';
 import {
   IChatRoom,
   IMessagePackReceive,
   IPagination,
   Result,
-} from '../types/network/types';
-import {loadStorageData, saveStorageData} from '../utils/storageUtil';
-import {showToast, toastType} from '../utils/toastUtil';
-import {RootState, store} from './store';
+} from '../../types/network/types';
+import {loadStorageData, saveStorageData} from '../../utils/storageUtil';
+import {showToast, toastType} from '../../utils/toastUtil';
+import {RootState, store} from '../store';
 
 export interface IReadRoom {
   roomId: number;
@@ -229,6 +229,7 @@ export const chatSlice = createSlice({
       } else {
         // 新的聊天室，添加聊天室和消息
         const newRoom: IChatRoom = {
+          total: 10,
           otherUserId: sendId,
           otherUserName: action.payload.sender_name,
           otherUserAvatarUrl: action.payload.sender_avatar_url,
@@ -272,6 +273,7 @@ export const chatSlice = createSlice({
       }
 
       const newRoom: IChatRoom = {
+        total: 10,
         otherUserId,
         otherUserName,
         otherUserAvatarUrl,

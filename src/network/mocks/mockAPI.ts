@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../axios.config';
 import {
-  generageMockResponse,
+  generateMockResponse,
   mockAllFriendAllChatMessages,
   mockFriendList,
   mockLogin,
@@ -49,7 +49,7 @@ mock.onPost(API_GET_USER_INFO).reply(200, mockUserProfile.mockResponse);
 mock.onAny().reply(config => {
   // Update user profile
   if (config.method === 'post' && config.url === API_UPDATE_USER_INFO) {
-    return [200, generageMockResponse()];
+    return [200, generateMockResponse()];
   }
   // 所有好友的所有聊天记录
   if (
@@ -72,11 +72,11 @@ mock.onAny().reply(config => {
   }
   // 忘记密码
   if (config.method === 'post' && config.url === API_FORGET_PASSWORD) {
-    return [200, generageMockResponse()];
+    return [200, generateMockResponse()];
   }
   // 亲密度阈值
   if (config.method === 'post' && config.url === API_GET_SCORE_THRESHOLD) {
-    return [200, generageMockResponse(10010)];
+    return [200, generateMockResponse(10010)];
   }
   // 所有好友亲密度
   if (config.method === 'post' && config.url === API_GET_SCORES) {
@@ -92,11 +92,14 @@ mock.onAny().reply(config => {
   }
   // secret key
   if (config.method === 'post' && config.url === API_GET_SECRET_KEY) {
-    return [200, generageMockResponse('secret-key')];
+    return [200, generateMockResponse('secret-key')];
   }
   // Chat GPT
   if (config.method === 'post' && config.url === API_GET_CHAT_GPT) {
-    return [200, generageMockResponse('I am a mock response from Chat GPT.')];
+    return [
+      200,
+      generateMockResponse("I'm doing well, thank you. How about yourself?"),
+    ];
   }
 
   return [404];

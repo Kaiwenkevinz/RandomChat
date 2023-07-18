@@ -1,12 +1,10 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
-import counterReducer from './counterSlice';
-import chatReducer from './chatSlice';
-import userReducer from './userSlice';
+import chatReducer from './chat/chatSlice';
+import userReducer from './user/userSlice';
 
 export const store = configureStore({
   // 所有的 reducer 都要在这里注册
   reducer: {
-    counter: counterReducer,
     chat: chatReducer,
     user: userReducer,
   },

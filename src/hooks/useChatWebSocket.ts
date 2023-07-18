@@ -7,9 +7,8 @@ import {
   appendNewMessage,
   operateReadRoomAsync,
   updateMessageStatus,
-} from '../store/chatSlice';
+} from '../store/chat/chatSlice';
 import {useAppSelector} from './customReduxHooks';
-import {getScoreMemoAsync, selectUser} from '../store/userSlice';
 import {generateReceiveMessagePack} from '../screens/chat-room/chatUtil';
 import eventEmitter from '../services/event-emitter';
 import {
@@ -20,6 +19,8 @@ import {CONFIG} from '../config';
 import {showToast, toastType} from '../utils/toastUtil';
 import {KEYCHAIN_KEY_SECRET_KEY} from '../utils/constant';
 import {loadKeychainData} from '../utils/storageUtil';
+import {getScoreMemoAsync} from '../store/user/thunks';
+import {selectUser} from '../store/user/userSlice';
 
 const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;

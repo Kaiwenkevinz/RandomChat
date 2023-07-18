@@ -3,7 +3,7 @@ import {handleOnReceiveWebSocketMessage} from '../../hooks/useChatWebSocket';
 import {generateSendMessagePack} from '../../screens/chat-room/chatUtil';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
 import {store} from '../../store/store';
-import {getChatsAsync} from '../../store/chatSlice';
+import {getChatsAsync} from '../../store/chat/chatSlice';
 import MockAdapter from 'axios-mock-adapter';
 import {axiosClient} from '../../network/axios.config';
 import {API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES} from '../../network/constant';

@@ -16,12 +16,12 @@ import {RootStackParamList} from '../types/navigation/types';
 import {ImagePickerAvatar} from './profile-display/ImagePickerAvatar';
 import UserInfo from '../components/UserInfo/UserInfo';
 import {store} from '../store/store';
-import {appendNewChatRoom} from '../store/chatSlice';
+import {appendNewChatRoom} from '../store/chat/chatSlice';
 import {useNavigation} from '@react-navigation/native';
 import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import {generateSendMessagePack} from './chat-room/chatUtil';
 import {useAppSelector} from '../hooks/customReduxHooks';
-import {selectUser} from '../store/userSlice';
+import {selectUser} from '../store/user/userSlice';
 import {userService} from '../network/lib/user';
 import ImageViewer from 'react-native-image-zoom-viewer';
 

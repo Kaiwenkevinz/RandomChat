@@ -7,14 +7,14 @@ import {
   appendNewMessage,
   operateReadRoomAsync,
   selectRooms,
-} from '../../store/chatSlice';
+} from '../../store/chat/chatSlice';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
 import {toastType} from '../../utils/toastUtil';
 import {generateReceiveMessagePack, generateSendMessagePack} from './chatUtil';
 import {store} from '../../store/store';
-import {selectUser} from '../../store/userSlice';
+import {selectUser} from '../../store/user/userSlice';
 import ImagePickerModal from './ImagePickerModal';
 import {IMessagePackReceive, MessagePackSend} from '../../types/network/types';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';

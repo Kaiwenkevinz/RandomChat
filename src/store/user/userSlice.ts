@@ -1,7 +1,11 @@
-import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {IScoreMap, IUser} from '../types/network/types';
-import {RootState} from './store';
-import {userService} from '../network/lib/user';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import {IScoreMap, IUser} from '../../types/network/types';
+import {RootState} from '../store';
+import {
+  getProfileAsync,
+  getScoreMemoAsync,
+  getScoreThresholdAsync,
+} from './thunks';
 
 type UserState = {
   user: IUser;
@@ -11,7 +15,6 @@ type UserState = {
   status: 'idle' | 'loading' | 'failed';
 };
 
-// state
 const initialState: UserState = {
   user: {} as IUser,
   token: '',
@@ -19,42 +22,6 @@ const initialState: UserState = {
   scoreMemo: {} as IScoreMap,
   status: 'idle',
 };
-
-export const getScoreThresholdAsync = createAsyncThunk<number, void>(
-  'user/getScoreThreshold',
-  async () => {
-    let resp = await userService.getScoreThreshold();
-
-    return resp.data;
-  },
-);
-
-export const getScoreMemoAsync = createAsyncThunk<IScoreMap, void>(
-  'user/getScoreMemo',
-  async () => {
-    const response = await userService.getScoreOfFriends();
-    const obj: IScoreMap = {};
-    response.data.forEach(item => {
-      obj[item.userId] = item.score;
-    });
-
-    return obj;
-  },
-);
-
-export const getProfileAsync = createAsyncThunk<IUser, void>(
-  'user/getUserProfile',
-  async () => {
-    const response = await userService.getUserProfile();
-    const user = response.data;
-    if (!user.avatar_url || user.avatar_url === '') {
-      user.avatar_url =
-        'https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg';
-    }
-
-    return response.data;
-  },
-);
 
 export const userSlice = createSlice({
   name: 'user',

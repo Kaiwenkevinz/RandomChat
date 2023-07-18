@@ -3,8 +3,10 @@ const config = {
   preset: 'react-native',
   setupFiles: ['./jestSetupFile.js'],
   transform: {
-    '\\.[jt]sx?$': 'babel-jest',
+    '.(ts|tsx)$': 'babel-jest',
+    '.(js|jsx)$': 'babel-jest',
   },
+  transformIgnorePatterns: [],
 };
 
 module.exports = config;

@@ -11,7 +11,7 @@ import {
   API_UPDATE_USER_INFO,
 } from '../../../network/constant';
 import {
-  generageMockResponse,
+  generateMockResponse,
   mockAllFriendAllChatMessages,
   mockLogin,
   mockRegister,
@@ -140,10 +140,10 @@ describe('API 测试', () => {
       } as IUser;
       mock
         .onPost(API_UPDATE_USER_INFO, newUser)
-        .reply(200, generageMockResponse());
+        .reply(200, generateMockResponse());
       const resp = await userService.updateUserProfile(newUser);
 
-      expect(resp).toEqual(generageMockResponse());
+      expect(resp).toEqual(generateMockResponse());
     });
   });
 });

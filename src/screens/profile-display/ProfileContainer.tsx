@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {store} from '../../store/store';
-import {getProfileAsync, selectUser} from '../../store/userSlice';
 import {useAppSelector} from '../../hooks/customReduxHooks';
 import {useNavigation} from '@react-navigation/native';
 import eventEmitter from '../../services/event-emitter';
@@ -14,6 +13,8 @@ import {LoadingView} from '../../components/LoadingView';
 import {WebSocketSingleton} from '../../services/event-emitter/WebSocketSingleton';
 import {imageService} from '../../network/lib/imageService';
 import ProfileDumb from './ProfileDumb';
+import {getProfileAsync} from '../../store/user/thunks';
+import {selectUser} from '../../store/user/userSlice';
 
 const Profile = () => {
   const userStore = useAppSelector(selectUser);

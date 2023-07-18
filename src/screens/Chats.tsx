@@ -5,7 +5,7 @@ import {ChatListComponent} from '../components/ChatListComponent';
 import {IChatRoom} from '../types/network/types';
 import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
-import {getChatsAsync, selectRooms} from '../store/chatSlice';
+import {getChatsAsync, selectRooms} from '../store/chat/chatSlice';
 import {store} from '../store/store';
 import {LoadingView} from '../components/LoadingView';
 import eventEmitter from '../services/event-emitter';
