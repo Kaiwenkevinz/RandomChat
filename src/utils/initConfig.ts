@@ -1,7 +1,7 @@
 import {KEYCHAIN_KEY_SECRET_KEY, LOCAL_STORAGE_KEY_AUTH} from './constant';
 import {goToHomeTab, goToLogin} from '../navigation/NavigationService';
 import {initAuthInceptor} from '../network/axios.config';
-import {operateReadRoomAsync} from '../store/chat/chatSlice';
+import {operateReadRoomAsync} from '../store/chat/thunks/operateReadRoomAsyncThunk';
 import {store} from '../store/store';
 import {ILoginResponse, IUser} from '../types/network/types';
 import {loadStorageData, saveKeychainData} from './storageUtil';

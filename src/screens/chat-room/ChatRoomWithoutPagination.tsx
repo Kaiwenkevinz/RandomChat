@@ -3,11 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {MessageComponent} from '../../components/MessageComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '../../hooks/customReduxHooks';
-import {
-  appendNewMessage,
-  operateReadRoomAsync,
-  selectRooms,
-} from '../../store/chat/chatSlice';
+import {appendNewMessage, selectChat} from '../../store/chat/chatSlice';
+import {operateReadRoomAsync} from '../../store/chat/thunks/operateReadRoomAsyncThunk';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
@@ -53,7 +50,7 @@ const ChatRoomWithoutPagination = ({route}: ChatRoomProps) => {
   const userName = user?.username || '';
 
   // Select state from Redux store
-  const {data: rooms} = useAppSelector(selectRooms);
+  const {data: rooms} = useAppSelector(selectChat);
   const messages =
     rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
 

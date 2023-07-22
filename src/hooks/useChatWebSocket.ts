@@ -3,11 +3,8 @@ import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 import {MessagePackSend} from './../types/network/types';
 import {useEffect} from 'react';
 import {store} from '../store/store';
-import {
-  appendNewMessage,
-  operateReadRoomAsync,
-  updateMessageStatus,
-} from '../store/chat/chatSlice';
+import {appendNewMessage, updateMessageStatus} from '../store/chat/chatSlice';
+import {operateReadRoomAsync} from '../store/chat/thunks/operateReadRoomAsyncThunk';
 import {useAppSelector} from './customReduxHooks';
 import {generateReceiveMessagePack} from '../screens/chat-room/chatUtil';
 import eventEmitter from '../services/event-emitter';

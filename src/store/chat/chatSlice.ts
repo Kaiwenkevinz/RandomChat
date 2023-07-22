@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {LOCAL_STORAGE_KEY_READ_ROOMS} from '../../utils/constant';
 import {chatService} from '../../network/lib/message';
 import {
   IChatRoom,
@@ -7,9 +6,9 @@ import {
   IPagination,
   Result,
 } from '../../types/network/types';
-import {loadStorageData, saveStorageData} from '../../utils/storageUtil';
-import {showToast, toastType} from '../../utils/toastUtil';
-import {RootState, store} from '../store';
+import {RootState} from '../store';
+import {getChatsAsync} from './thunks/getChatsAsyncThunk';
+import {operateReadRoomAsync} from './thunks/operateReadRoomAsyncThunk';
 
 export interface IReadRoom {
   roomId: number;
@@ -44,136 +43,12 @@ interface IAppendNewRoomPayload {
   otherUserAvatarUrl: string;
 }
 
-// state
 const initialState: ChatState = {
   data: [],
   readRooms: [],
   chatStatus: 'idle',
   messageHistoryStatus: 'idle',
 };
-
-// async action
-// createAsyncThunk 创建一个 异步 action object
-// 它对应的 reducer 通过 extraReducers 设置，会自动处理 pending, fulfilled, rejected 状态
-export const getChatsAsync = createAsyncThunk<IChatRoom[], void>(
-  'chat/fetchAllChatMessages',
-  async () => {
-    const response = await chatService.getAllChatMessages();
-    if (!response.data) {
-      return [];
-    }
-
-    response.data.forEach((room: IChatRoom) => {
-      if (!room.otherUserAvatarUrl || room.otherUserAvatarUrl === '') {
-        room.otherUserAvatarUrl =
-          'https://t3.ftcdn.net/jpg/02/09/37/00/360_F_209370065_JLXhrc5inEmGl52SyvSPeVB23hB6IjrR.jpg';
-      }
-    });
-
-    // 更新已读聊天室
-    const fetchedRooms = response.data;
-    const readRooms = await loadStorageData<IReadRoom[]>(
-      LOCAL_STORAGE_KEY_READ_ROOMS,
-    );
-    readRooms?.forEach(readRoom => {
-      const targetRoom = fetchedRooms.find(
-        room => room.otherUserId === readRoom.roomId,
-      );
-      // 已读聊天室的消息不是最新的, 则移除已读聊天室
-      if (targetRoom && targetRoom.messages.length > 0) {
-        if (
-          readRoom.msgId !==
-          targetRoom.messages[targetRoom.messages.length - 1].id
-        ) {
-          store.dispatch(
-            operateReadRoomAsync({
-              option: 'delete',
-              newData: {roomId: targetRoom.otherUserId, msgId: null},
-            }),
-          );
-        }
-      }
-    });
-
-    return response.data;
-  },
-);
-
-export const operateReadRoomAsync = createAsyncThunk<
-  IReadRoom[],
-  IOperateReadRoomOptions
->('chat/operateReadRoomsAsync', async ({option, newData}) => {
-  const readRooms = [...store.getState().chat.readRooms];
-  const allRooms = store.getState().chat.data;
-
-  switch (option) {
-    case 'read':
-      let localStorageReadRooms = await loadStorageData<IReadRoom[]>(
-        LOCAL_STORAGE_KEY_READ_ROOMS,
-      );
-      return localStorageReadRooms || [];
-    case 'add':
-      if (!newData) {
-        console.warn('operateReadRoomAsync: newData should not be null');
-
-        return readRooms;
-      }
-      // 如果不存在 newData.msgId，则找对应 room 的最新 msgId
-      let msgId = '';
-      if (!newData.msgId) {
-        const targetRoom = allRooms.find(
-          room => room.otherUserId === newData.roomId,
-        );
-
-        if (!targetRoom) {
-          console.warn(
-            'operateReadRoomAsync: targetRoom should not be null when newData.msgId is null',
-          );
-
-          return readRooms;
-        }
-
-        if (targetRoom.messages.length > 0) {
-          msgId = targetRoom.messages[targetRoom.messages.length - 1].id;
-          newData.msgId = msgId;
-        }
-      }
-
-      // 如果 room 在 readRooms，说明本身已读，则更新 msgId
-      // 如果不存在 room，则添加到 readRooms
-      const targetReadRoom = readRooms.find(
-        room => room.roomId === newData.roomId,
-      );
-      if (targetReadRoom) {
-        targetReadRoom.msgId = newData.msgId;
-      } else {
-        readRooms.push(newData);
-      }
-
-      break;
-    case 'delete':
-      if (!newData) {
-        console.warn('operateReadRoomAsync: newData should not be null');
-
-        return readRooms;
-      }
-
-      const deleteIndex = readRooms.findIndex(
-        room => room.roomId === newData.roomId,
-      );
-      if (deleteIndex !== -1) {
-        readRooms.splice(deleteIndex, 1);
-      }
-
-      break;
-    default:
-      break;
-  }
-
-  // 异步存储，不用等待完成
-  saveStorageData(LOCAL_STORAGE_KEY_READ_ROOMS, readRooms);
-  return readRooms;
-});
 
 /**
  * 聊天记录分页获取
@@ -203,8 +78,6 @@ export const getMessageHistoryAsync = createAsyncThunk<
   },
 );
 
-// reducers and actions
-// slice 是 reducers 和 action creator 的集合
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
@@ -213,7 +86,6 @@ export const chatSlice = createSlice({
       state.data = [];
       state.chatStatus = 'idle';
     },
-    // 添加新消息到对应的聊天室
     appendNewMessage: (state, action: PayloadAction<IMessagePackReceive>) => {
       const {sender_id: sendId, receiver_id: receiveId} = action.payload;
       const rooms = state.data;
@@ -236,7 +108,6 @@ export const chatSlice = createSlice({
           messages: [action.payload],
         };
         rooms.push(newRoom);
-        showToast(toastType.INFO, 'New Friend', 'You have a new friend!');
       }
     },
     // 更新消息发送状态为已发送
@@ -256,7 +127,15 @@ export const chatSlice = createSlice({
         if (targetMessage) {
           delete targetMessage.isSent;
         }
+
+        return;
       }
+
+      console.warn(
+        'updateMessageStatus: targetRoom should not be null when update message status',
+        'otherUserId:',
+        otherUserId,
+      );
     },
     // 添加新的聊天室
     appendNewChatRoom: (
@@ -331,7 +210,7 @@ export const chatSlice = createSlice({
 
 // 暴露 state selector
 // 使用 useSelector() 获得 state
-export const selectRooms = (state: RootState) => state.chat;
+export const selectChat = (state: RootState) => state.chat;
 // 暴露 action
 export const {reset, appendNewMessage, updateMessageStatus, appendNewChatRoom} =
   chatSlice.actions;

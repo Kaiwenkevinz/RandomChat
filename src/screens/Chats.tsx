@@ -5,7 +5,8 @@ import {ChatListComponent} from '../components/ChatListComponent';
 import {IChatRoom} from '../types/network/types';
 import {useChatWebSocket as useInitWebSocket} from '../hooks/useChatWebSocket';
 import {useAppSelector} from '../hooks/customReduxHooks';
-import {getChatsAsync, selectRooms} from '../store/chat/chatSlice';
+import {selectChat} from '../store/chat/chatSlice';
+import {getChatsAsync} from '../store/chat/thunks/getChatsAsyncThunk';
 import {store} from '../store/store';
 import {LoadingView} from '../components/LoadingView';
 import eventEmitter from '../services/event-emitter';
@@ -13,7 +14,7 @@ import {EVENT_SERVER_REFRESH_SCORE} from '../services/event-emitter/constants';
 import {WebSocketSingleton} from '../services/event-emitter/WebSocketSingleton';
 
 const Chats = () => {
-  const {data: rooms, chatStatus: status} = useAppSelector(selectRooms);
+  const {data: rooms, chatStatus: status} = useAppSelector(selectChat);
   const token = useAppSelector(state => state.user.token);
   useInitWebSocket(token);
 

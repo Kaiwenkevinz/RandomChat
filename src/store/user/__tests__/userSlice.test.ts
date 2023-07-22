@@ -1,13 +1,19 @@
+import {createAction} from '@reduxjs/toolkit';
 import server from '../../../services/jest/server';
 import {store} from '../../store';
 import {getProfileAsync, getScoreMemoAsync} from '../thunks';
-import {setupScoreHandlers} from './mock-data/scoreHandlers';
-import {setupUserProfileHandlers} from './mock-data/userProfileHandlers';
+import {setupScoreHandlers} from '../mock-data/scoreHandlers';
+import {setupUserProfileHandlers} from '../mock-data/userProfileHandlers';
 
 describe('Redux User slice', () => {
   // given
   beforeAll(() => server.listen());
   afterAll(() => server.close());
+  afterEach(() => {
+    // clean up store after each test
+    const resetAction = createAction('reset');
+    store.dispatch(resetAction());
+  });
 
   it('should transform the response to an object that uses user id as key and score as value', async () => {
     // given

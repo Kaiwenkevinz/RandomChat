@@ -1,17 +1,32 @@
-import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  combineReducers,
+  AnyAction,
+  Reducer,
+  CombinedState,
+} from '@reduxjs/toolkit';
 import chatReducer from './chat/chatSlice';
 import userReducer from './user/userSlice';
 
-export const store = configureStore({
-  // 所有的 reducer 都要在这里注册
-  reducer: {
-    chat: chatReducer,
-    user: userReducer,
-  },
+const rootReducer: Reducer = (state: RootState, action: AnyAction) => {
+  if (action.type === 'reset') {
+    state = {} as RootState;
+  }
+  return combinedReducer(state, action);
+};
+
+const combinedReducer = combineReducers({
+  chat: chatReducer,
+  user: userReducer,
 });
 
-// https://redux-toolkit.js.org/tutorials/typescript#define-typed-hooks
-export type RootState = ReturnType<typeof store.getState>;
+export const store = configureStore({
+  reducer: rootReducer,
+});
+
+export type RootState = CombinedState<ReturnType<typeof combinedReducer>>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,

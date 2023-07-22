@@ -7,7 +7,7 @@ import {
   getScoreThresholdAsync,
 } from './thunks';
 
-type UserState = {
+export type UserState = {
   user: IUser;
   token: string;
   scoreThreshold: number;

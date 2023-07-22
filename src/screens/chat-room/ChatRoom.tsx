@@ -13,9 +13,9 @@ import {
   IReadRoom,
   appendNewMessage,
   getMessageHistoryAsync,
-  operateReadRoomAsync,
-  selectRooms,
+  selectChat,
 } from '../../store/chat/chatSlice';
+import {operateReadRoomAsync} from '../../store/chat/thunks/operateReadRoomAsyncThunk';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../types/navigation/types';
 import {showToast} from '../../utils/toastUtil';
@@ -79,7 +79,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
   const [currentMessage, setCurrentMessage] = useState<string>('');
 
   // Select state from Redux store
-  const {data: rooms} = useAppSelector(selectRooms);
+  const {data: rooms} = useAppSelector(selectChat);
   const messages =
     rooms.find(room => room.otherUserId === otherUserId)?.messages || [];
 
