@@ -115,20 +115,20 @@ npm start
 2. 当进入一个未读的聊天室时，这意味着聊天室已读。然后，我们将房间ID和最新的消息ID添加到`readRooms`数组中。
 3. 当用户发送一条消息时，相应的聊天室已读，需要更新`readRooms`数组中聊天室的最新消息ID。当用户接收到一条消息时，如果用户在相应的聊天室中，聊天室保持已读状态，否则聊天室将变为未读状态。
 
-**刚打开 APP 时**
-fetch all chat message 获取所有聊天室和对应的聊天记录，移除 readRoom 中读取状态为未读的聊天室
+**刚打开 APP 时**  
+
+从后端拉取所有聊天室和其对应的聊天记录，通过比较最新的 message id，筛选出有新的离线信息的聊天室，在 `readRooms` 中移除这些聊天室，代表这些聊天室为未读聊天室。
 
 <img width="668" alt="image" src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/dfd5277c-dc8e-4114-9a21-a753eabe9759">
 
-**进入 APP 后发新消息时**
-
+**进入 APP 后发新消息时**  
 - 刚进入聊天室，会把该聊天室置为已读聊天室。
-- 发送消息时，会更新 readRooms 中对应的 message id 为刚刚发送的消息的 id。
+- 发送消息时，会更新 `readRooms` 中对应的 message id 为刚刚发送的消息的 id。
 
 <img width="545" alt="image" src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/c163de16-8515-4e09-a683-41979fd1ec00">
 
-进入 APP 后收到新消息时**
-当通过 WebSocket 接收到新信息时，如果此时用户在聊天室，则该聊天室应该保持已读状态。聊天室页面通过监听 event 来更新 readRooms。具体流程如下：
+**进入 APP 后收到新消息时**  
+当通过 WebSocket 接收到新信息时，如果此时用户在聊天室，则该聊天室应该保持已读状态。聊天室页面通过监听 event 来更新 `readRooms`。具体流程如下：
 
 <img width="368" alt="image" src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/4c2b1827-10d3-463a-bd86-3ebb3c5aec87">
 
