@@ -204,13 +204,13 @@ const generateMockFriend = (
     username,
     gender: 'male',
     age: 34,
-    hometown: 'Mars' + id,
-    major: 'Nutural Science' + id,
+    hometown: 'Mars District' + id,
+    major: 'Computer Science',
     telephone_number: '123456789',
     mail: id + '@email.com',
     birthday: '1996-01-01',
-    school: 'Mars University' + id,
-    mbti: 'INTJ' + id,
+    school: 'Mars University',
+    mbti: 'INTJ',
     avatar_url,
   };
 };
