@@ -2,9 +2,18 @@
 
 该项目以 React Native 为基本框架，实现了一个聊天交友 APP。系统根据个人资料为用户匹配陌生人并开启聊天，通过亲密度机制，陌生人可以变为永久好友，或者移除聊天室。该 APP 实现了滚动加载、单点聊天、注册登录等功能。
 
-# 项目展示
+# Demo
 
-编写中。。
+## 主要流程
+![CleanShot 2023-07-29 at 21 26 39](https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/918909f6-bdac-45ae-a227-e5c9a2d2a67c)
+
+## 核心功能
+
+### 聊天室
+<img width="705" alt="chat_chatroom" src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/a1d4def6-32d3-444c-8d35-7f2f989bf676">
+
+### 用户信息
+<img width="705" alt="profile_photo_wall" src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/848372a0-edc1-46c1-a93f-6048e80b6053">
 
 # 安装和运行
 
