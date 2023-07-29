@@ -5,7 +5,9 @@
 # Demo
 
 ## 主要流程
-![CleanShot 2023-07-29 at 21 26 39](https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/918909f6-bdac-45ae-a227-e5c9a2d2a67c)
+
+<img src="https://github.com/Kaiwenkevinz/RandomChat/assets/22761218/918909f6-bdac-45ae-a227-e5c9a2d2a67c" width="30%" height="30%"/>
+
 
 ## 核心功能
 
