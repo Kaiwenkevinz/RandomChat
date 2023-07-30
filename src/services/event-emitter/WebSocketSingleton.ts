@@ -26,6 +26,8 @@ export class WebSocketSingleton {
   }
 
   public static initWebsocket(url: string, token: string): WebSocketSingleton {
+    console.log('init websocket, url: ', url, 'token: ', token);
+
     if (!WebSocketSingleton.instance) {
       WebSocketSingleton.instance = new WebSocketSingleton(url, token);
     } else {

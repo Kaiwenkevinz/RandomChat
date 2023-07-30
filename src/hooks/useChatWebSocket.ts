@@ -18,14 +18,13 @@ import {KEYCHAIN_KEY_SECRET_KEY} from '../utils/constant';
 import {loadKeychainData} from '../utils/storageUtil';
 import {getScoreMemoAsync} from '../store/user/thunks';
 import {selectUser} from '../store/user/userSlice';
+import {isTurnOnMockAPI} from '../utils/configUtil';
 
 const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;
 
   let url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
-  const isDev = process.env.NODE_ENV === 'development';
-  const isMock = CONFIG.TURN_ON_MOCK_API === '1';
-  if (isDev && isMock) {
+  if (isTurnOnMockAPI()) {
     url = `ws://localhost:8080/chat/${userId}`;
   }
 
