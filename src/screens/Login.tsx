@@ -11,7 +11,6 @@ import {authService} from '../network/lib/auth';
 import {useNavigation} from '@react-navigation/native';
 import {saveStorageData} from '../utils/storageUtil';
 import {LOCAL_STORAGE_KEY_AUTH} from '../utils/constant';
-import {goToHomeTab} from '../navigation/NavigationService';
 import {globalLoading} from '../components/GlobalLoading';
 import {initConfigAndGoHome as initConfigAndGoHome} from '../utils/initConfig';
 

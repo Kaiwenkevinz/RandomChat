@@ -7,23 +7,19 @@ import {
 import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_CHAT_GPT,
-  API_GET_MESSAGE_HISTORY,
+  API_GET_MESSAGE_BY_PAGE,
 } from '../constant';
 import {api} from '../axios.config';
 
 /**
  * 分页获取聊天历史
  */
-function getMessageHistory(
-  otherUserId: number,
-  page: number,
-  pageSize: number,
-) {
+function getMessageByPage(otherUserId: number, page: number, pageSize: number) {
   return api.post<Result<IPagination<IMessagePackReceive[]>>>(
-    API_GET_MESSAGE_HISTORY,
+    API_GET_MESSAGE_BY_PAGE,
     {
-      otherUserId,
-      page,
+      friendId: otherUserId,
+      offset: page,
       pageSize,
     },
   );
@@ -42,6 +38,6 @@ function getChatGPT(type: string, content: string) {
 
 export const chatService = {
   getAllChatMessages,
-  getMessageHistory,
+  getMessageByPage,
   getChatGPT,
 };

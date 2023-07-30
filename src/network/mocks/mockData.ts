@@ -16,7 +16,7 @@ export const generateMockResponse = <T>(data: T | null = null) =>
 
 export const mockUser: IUser = {
   id: 1,
-  role: '美妆',
+  role: 'Gym; Cooking',
   username: 'Kevin',
   gender: 'male',
   age: 25,
@@ -145,8 +145,13 @@ export const mockAllFriendAllChatMessages = {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
       total: 30,
       messages: [
-        generateMockChatMessage('1a', 'Hello, my name is Novu', 200, 1),
-        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin!', 1, 200),
+        generateMockChatMessage(
+          '1a',
+          'Hi there, my name is Novu Hangouts!',
+          200,
+          1,
+        ),
+        generateMockChatMessage('1b', 'Hi Novu, my name is Kevin', 1, 200),
         generateMockChatMessage(
           '2a',
           'https://picsum.photos/200/300',
@@ -163,7 +168,7 @@ export const mockAllFriendAllChatMessages = {
         ),
         generateMockChatMessage(
           '4a',
-          '这是一很长条很长很长很长很长很长很长的消息',
+          'I just saw your profile pictures. I really liked them.',
           1,
           200,
         ),

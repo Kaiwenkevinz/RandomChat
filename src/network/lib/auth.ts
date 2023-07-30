@@ -54,7 +54,9 @@ function forgetPassword(username: string, email: string) {
 }
 
 function fetchSecretKey() {
-  return api.post<Result<string>>(API_GET_SECRET_KEY);
+  return 'SECRET_KEY';
+  // TODO: waiting for backend
+  // return api.post<Result<string>>(API_GET_SECRET_KEY);
 }
 
 export const authService = {

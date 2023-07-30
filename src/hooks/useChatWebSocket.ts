@@ -22,8 +22,12 @@ import {selectUser} from '../store/user/userSlice';
 const useChatWebSocket = (token: string) => {
   const {id: userId} = useAppSelector(selectUser).user;
 
-  // const url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
-  const url = `ws://localhost:8080/chat/${userId}`;
+  let url = `${CONFIG.BASE_WEB_SOCKET_URL}/chat/${userId}`;
+  const isDev = process.env.NODE_ENV === 'development';
+  const isMock = CONFIG.TURN_ON_MOCK_API === '1';
+  if (isDev && isMock) {
+    url = `ws://localhost:8080/chat/${userId}`;
+  }
 
   // init Websocket
   useEffect(() => {

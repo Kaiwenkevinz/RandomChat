@@ -1,9 +1,9 @@
 import {ISelectItem} from '../../components/MultiSelect';
 
 export const tagSelectItem = [
-  {label: '美妆', value: '美妆'},
-  {label: '旅游', value: '旅游'},
-  {label: '科技', value: '科技'},
+  {label: 'Gym', value: 'Gym'},
+  {label: 'Cooking', value: 'Cooking'},
+  {label: 'Technology', value: 'Technology'},
 ] as ISelectItem[];
 
 export const genderItems = [

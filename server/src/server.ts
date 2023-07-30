@@ -32,7 +32,7 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
   const messageFromOther = {
     type: 'text',
     id: 'server-message-' + Math.random().toString(),
-    content: 'Hello, 我是 server 转发来的其他人的消息',
+    content: 'Are you still there?',
     fromId: 200,
     sender_avatar_url:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
@@ -43,7 +43,7 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
   const messageFromOther2 = {
     type: 'text',
     id: 'server-message-' + Math.random().toString(),
-    content: 'Hello, 我是300',
+    content: 'Are you still there?',
     fromId: 300,
     sender_avatar_url:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-6fdvJtz4yfmwA5pVvP7Q-o-i-tSnp8lapNonInKuREA7eXL95wpwlh9kYx4dalUI5uQ&usqp=CAU',
@@ -51,10 +51,10 @@ webSocketServer.on('connection', (webSocket: WebSocket) => {
     toId: 1,
     isGroup: 0,
   };
-  // setInterval(() => {
-  //   console.log('Server 发送消息', messageFromOther);
-  //   webSocket.send(JSON.stringify(messageFromOther));
-  // }, 2000);
+  setInterval(() => {
+    console.log('Server 发送消息', messageFromOther);
+    webSocket.send(JSON.stringify(messageFromOther));
+  }, 4000);
   // setInterval(() => {
   //   console.log('Server 发送消息', messageFromOther2);
   //   webSocket.send(JSON.stringify(messageFromOther2));

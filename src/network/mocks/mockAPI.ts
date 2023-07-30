@@ -18,7 +18,7 @@ import {
   API_GET_ALL_FRIENDS_ALL_CHAT_MESSAGES,
   API_GET_CHAT_GPT,
   API_GET_FRIEND_LIST,
-  API_GET_MESSAGE_HISTORY,
+  API_GET_MESSAGE_BY_PAGE,
   API_GET_PHOTO_WALL,
   API_GET_RECOMMEND_LIST,
   API_GET_SCORES,
@@ -83,7 +83,7 @@ mock.onAny().reply(config => {
     return [200, mockScores.mockResponse];
   }
   // 分页获取聊天历史信息
-  if (config.method === 'post' && config.url === API_GET_MESSAGE_HISTORY) {
+  if (config.method === 'post' && config.url === API_GET_MESSAGE_BY_PAGE) {
     return [200, mockMessageHistory.mockResponse];
   }
   // 获取照片墙

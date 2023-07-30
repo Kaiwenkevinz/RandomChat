@@ -188,6 +188,7 @@ const ChatRoom = ({route}: ChatRoomProps) => {
       messagePackToSend.type,
     );
 
+    console.log('message pack to send: ', JSON.stringify(messagePackToSend));
     websocket.send(JSON.stringify(messagePackToSend));
 
     store.dispatch(appendNewMessage(messagePackToShow));

@@ -33,7 +33,11 @@ const Contacts = () => {
     });
   }, []);
 
-  if (friendList.length === 0 && !loading) {
+  if (loading) {
+    return <LoadingView />;
+  }
+
+  if (!friendList || friendList.length === 0) {
     return (
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyText}>You have no friends.</Text>
@@ -43,20 +47,14 @@ const Contacts = () => {
   }
 
   return (
-    <>
-      {loading ? (
-        <LoadingView />
-      ) : (
-        <FlatList
-          data={friendList}
-          renderItem={({item}) => (
-            <ContactListComponent user={item} fromRecommendation={true} />
-          )}
-          refreshing={loading}
-          onRefresh={getFriendList}
-        />
+    <FlatList
+      data={friendList}
+      renderItem={({item}) => (
+        <ContactListComponent user={item} fromRecommendation={true} />
       )}
-    </>
+      refreshing={loading}
+      onRefresh={getFriendList}
+    />
   );
 };
 

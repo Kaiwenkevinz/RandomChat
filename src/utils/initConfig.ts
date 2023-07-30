@@ -37,15 +37,17 @@ export const initConfigAndGoHome = async () => {
   store.dispatch(addToken(token));
 
   // preload data
-  const results = await Promise.all([
+  return Promise.all([
     authService.fetchSecretKey(),
     store.dispatch(operateReadRoomAsync({option: 'read', newData: null})),
     store.dispatch(getScoreThresholdAsync()),
     store.dispatch(getScoreMemoAsync()),
     store.dispatch(getProfileAsync()),
-  ]);
-
-  await saveKeychainData(KEYCHAIN_KEY_SECRET_KEY, results[0].data);
-
-  goToHomeTab();
+  ])
+    .then(results => {
+      saveKeychainData(KEYCHAIN_KEY_SECRET_KEY, results[0]);
+    })
+    .finally(() => {
+      goToHomeTab();
+    });
 };

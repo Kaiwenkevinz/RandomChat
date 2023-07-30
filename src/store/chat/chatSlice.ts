@@ -68,7 +68,7 @@ export const getMessageHistoryAsync = createAsyncThunk<
 >(
   'chat/getMessageHistoryAsync',
   async ({otherUserId, page, pageSize}: IGetMessageHistoryParams) => {
-    const response = await chatService.getMessageHistory(
+    const response = await chatService.getMessageByPage(
       otherUserId,
       page,
       pageSize,

@@ -83,9 +83,13 @@ const handleErrorCustomeCode = (status: string, msg: string) => {
   console.warn(`统一处理自定义错误码, status: ${status}, msg: ${msg}`);
   switch (msg) {
     case 'No such user!':
-      showToast(toastType.ERROR, 'Error', msg);
+      showToast(toastType.ERROR, 'No such user!', msg);
+      break;
+    case 'Wrong password':
+      showToast(toastType.ERROR, 'Wrong password!', msg);
       break;
     default:
+      showToast(toastType.ERROR, 'Unknown error', msg);
       console.warn('Unknown error: ', msg);
   }
 };

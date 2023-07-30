@@ -26,7 +26,7 @@ export const API_GET_SCORE_THRESHOLD = '/score/limit';
 // 获取所有好友亲密度
 export const API_GET_SCORES = '/score/getlist';
 // 分页获取和某个好友的聊天记录
-export const API_GET_MESSAGE_HISTORY = '/user/getMessageHistory';
+export const API_GET_MESSAGE_BY_PAGE = '/user/getFriendChatHistoryByPage';
 
 export const API_GET_SECRET_KEY = '/secretKey';
 export const API_GET_CHAT_GPT = '/chatgpt';
