@@ -9,6 +9,7 @@ import {
   API_REGISTER,
   API_SEND_EMAIL,
 } from '../constant';
+import {generateMockResponse} from '../mocks/mockData';
 
 function register(
   username: string,
@@ -54,7 +55,9 @@ function forgetPassword(username: string, email: string) {
 }
 
 function fetchSecretKey() {
-  return 'SECRET_KEY';
+  return new Promise(resolve => {
+    resolve(generateMockResponse('SECRET_KEY'));
+  });
   // TODO: waiting for backend
   // return api.post<Result<string>>(API_GET_SECRET_KEY);
 }

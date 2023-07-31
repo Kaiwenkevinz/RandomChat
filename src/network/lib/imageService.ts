@@ -1,3 +1,4 @@
+import {prettyPrint} from './../../utils/printUtil';
 import {CONFIG} from '../../config/index';
 import {ILoginResponse} from '../../types/network/types';
 import {
@@ -64,6 +65,10 @@ const uploadImage = async (
         },
       ],
     ).then(res => res.json());
+
+    if (!response.msg) {
+      throw Error(prettyPrint(response));
+    }
 
     const url = response.msg;
     console.log('上传图片成功, url: ', url);

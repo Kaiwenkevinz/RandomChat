@@ -4,6 +4,9 @@ import {IChatRoom} from '../../../types/network/types';
 import {store} from '../../store';
 import {IReadRoom} from '../chatSlice';
 import {operateReadRoomAsync} from './operateReadRoomAsyncThunk';
+import {KEYCHAIN_KEY_SECRET_KEY} from '../../../utils/constant';
+import {decrypt} from '../../../utils/encryptUtil';
+import {loadKeychainData} from '../../../utils/storageUtil';
 
 // TODO: maybe use RTK Query for caching?
 
@@ -26,6 +29,15 @@ export const getChatsAsync = createAsyncThunk<IChatRoom[], void>(
     const fetchedRooms = response.data;
     const readRooms: IReadRoom[] = store.getState().chat.readRooms;
     updateReadRooms(fetchedRooms, readRooms);
+
+    // decrypt messages
+    const secretKey = await loadKeychainData(KEYCHAIN_KEY_SECRET_KEY);
+    fetchedRooms.forEach(room => {
+      room.messages.reverse();
+      room.messages.forEach(messagePack => {
+        messagePack.content = decrypt(messagePack.content, secretKey);
+      });
+    });
 
     return response.data;
   },

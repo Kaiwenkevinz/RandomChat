@@ -9,6 +9,7 @@ import {
 import {RootState} from '../store';
 import {getChatsAsync} from './thunks/getChatsAsyncThunk';
 import {operateReadRoomAsync} from './thunks/operateReadRoomAsyncThunk';
+import {decryptMessages} from '../../utils/encryptUtil';
 
 export interface IReadRoom {
   roomId: number;
@@ -62,6 +63,8 @@ export interface IGetMessageHistoryParams {
   page: number;
   pageSize: number;
 }
+
+// TODO: extract to thunk folder
 export const getMessageHistoryAsync = createAsyncThunk<
   IGetMessageHistoryReturn,
   IGetMessageHistoryParams
@@ -73,6 +76,9 @@ export const getMessageHistoryAsync = createAsyncThunk<
       page,
       pageSize,
     );
+
+    // decrypt messages
+    decryptMessages(response.data.data);
 
     return {result: response, otherUserId} as IGetMessageHistoryReturn;
   },

@@ -45,7 +45,7 @@ export const initConfigAndGoHome = async () => {
     store.dispatch(getProfileAsync()),
   ])
     .then(results => {
-      saveKeychainData(KEYCHAIN_KEY_SECRET_KEY, results[0]);
+      saveKeychainData(KEYCHAIN_KEY_SECRET_KEY, results[0].data);
     })
     .finally(() => {
       goToHomeTab();
