@@ -1,15 +1,17 @@
-import {hashMd5} from './../../utils/encryptUtil';
+import {encrypt} from './../../utils/encryptUtil';
 import {ILoginResponse} from './../../types/network/types';
 import {Result, IUser} from '../../types/network/types';
 import {api} from '../axios.config';
 import {
   API_FORGET_PASSWORD,
-  API_GET_SECRET_KEY,
   API_LOGIN,
   API_REGISTER,
   API_SEND_EMAIL,
 } from '../constant';
 import {generateMockResponse} from '../mocks/mockData';
+
+// TODO: secure this
+const AES_KEY = '1234123412ABCDEF';
 
 function register(
   username: string,
@@ -21,7 +23,7 @@ function register(
     code,
     user: {
       username,
-      password: hashMd5(password),
+      password: encrypt(password, AES_KEY),
       mail: email,
     },
   });
@@ -37,7 +39,7 @@ function sendVerifyEmail(username: string, email: string) {
 function login(username: string, password: string) {
   return api.post<Result<ILoginResponse>>(API_LOGIN, {
     username,
-    password: hashMd5(password),
+    password: encrypt(password, AES_KEY),
   });
 }
 

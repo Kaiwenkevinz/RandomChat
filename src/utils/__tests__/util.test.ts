@@ -21,6 +21,14 @@ describe('test AES encryption', () => {
     console.log('Decrypted: ' + decrypted);
   });
 
+  it('AES decryption', () => {
+    var encrypted = AES.encrypt('123', 'my secretqq key').toString();
+    console.log('Encrypted: ' + encrypted);
+
+    var decrypted = AES.decrypt(encrypted, 'my secretqq key').toString(utf8);
+    console.log('Decrypted: ' + decrypted);
+  });
+
   it('encryption util', () => {
     interface IMessage {
       id: number;

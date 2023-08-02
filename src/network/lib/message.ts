@@ -33,7 +33,7 @@ function getAllChatMessages() {
 }
 
 function getChatGPT(type: string, content: string) {
-  return api.post<Result<string>>(API_GET_CHAT_GPT, {type, content});
+  return api.post<Result<string>>(API_GET_CHAT_GPT, {type, body: content});
 }
 
 export const chatService = {
